@@ -290,7 +290,7 @@ function RollingPrice({ value, className }: { value: number; className?: string 
       if (newC === ',') {
         const comma = document.createElement('span');
         comma.style.display = 'inline-block';
-        comma.style.width = '0.35em';
+        comma.style.width = '0.3em';
         comma.style.textAlign = 'center';
         comma.textContent = ',';
         el.appendChild(comma);
@@ -308,8 +308,9 @@ function RollingPrice({ value, className }: { value: number; className?: string 
       col.style.overflow = 'hidden';
       col.style.height = '1.2em';
       col.style.lineHeight = '1.2em';
-      col.style.width = '0.65em';
+      col.style.width = '0.62em';
       col.style.textAlign = 'center';
+      col.style.marginRight = '-0.03em';
 
       const strip = document.createElement('span');
       strip.style.display = 'flex';
