@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자주 묻는 질문 | 머니랩</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff; color: #1a1a1a;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 48px; height: 64px; background: #111; position: sticky;
+      top: 0; z-index: 100;
+    }
+    .navbar-logo {
+      font-size: 24px; font-weight: 900; color: #fff; text-decoration: none;
+      letter-spacing: 1px; justify-self: start;
+    }
+    .navbar-logo span { color: #FF4D00; }
+    .navbar-nav { display: flex; gap: 32px; align-items: center; justify-self: center; }
+    .navbar-link {
+      color: rgba(255,255,255,0.7); text-decoration: none; font-size: 15px;
+      font-weight: 500; transition: color 0.2s;
+    }
+    .navbar-link:hover, .navbar-link.active { color: #fff; }
+    .nav-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: #FF4D00; vertical-align: top; margin-left: 2px;
+    }
+    .navbar-right { display: flex; gap: 12px; align-items: center; justify-self: end; }
+    .navbar-profile {
+      display: flex; align-items: center; gap: 8px; padding: 8px 20px;
+      border-radius: 50px; background: rgba(255,255,255,0.1);
+      color: #fff; font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .navbar-profile:hover { background: rgba(255,255,255,0.2); }
+    .navbar-logout {
+      padding: 8px 20px; border-radius: 50px; background: #fff; color: #111;
+      font-size: 14px; font-weight: 600; border: none; cursor: pointer;
+    }
+    .navbar-cta {
+      padding: 8px 20px; border-radius: 50px; background: #FF4D00; color: #fff;
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .navbar-cta:hover { background: #e04400; }
+    .navbar-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      width: 36px; height: 36px; align-items: center; justify-content: center;
+      grid-column: 3; justify-self: end;
+    }
+    .navbar-hamburger svg { stroke: #fff; }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 150;
+      background: rgba(0,0,0,0.5);
+    }
+    .mobile-menu.active { display: block; }
+    .mobile-menu-panel {
+      position: absolute; top: 0; right: 0; width: 280px; height: 100%;
+      background: #111; padding: 24px;
+      animation: slideIn 0.25s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .mobile-menu-close {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+      margin-left: auto; margin-bottom: 24px;
+    }
+    .mobile-menu-close svg { stroke: #fff; }
+    .mobile-menu-nav {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .mobile-menu-link {
+      display: block; padding: 16px 0; font-size: 16px; font-weight: 600;
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: color 0.2s;
+    }
+    .mobile-menu-link:hover, .mobile-menu-link.active { color: #fff; }
+    .mobile-menu-actions {
+      display: flex; flex-direction: column; gap: 10px; margin-top: 24px;
+    }
+    .mobile-menu-actions a, .mobile-menu-actions button {
+      display: block; width: 100%; padding: 14px; border-radius: 12px;
+      text-align: center; font-size: 14px; font-weight: 600;
+      text-decoration: none; cursor: pointer;
+    }
+    .mobile-menu-profile {
+      background: rgba(255,255,255,0.1); color: #fff; border: none;
+    }
+    .mobile-menu-logout {
+      background: #fff; color: #111; border: none;
+    }
+    .mobile-menu-cta {
+      display: block; width: 100%; padding: 14px; border-radius: 12px;
+      text-align: center; font-size: 14px; font-weight: 600;
+      text-decoration: none; background: #FF4D00; color: #fff;
+    }
+
+    /* ===== FAQ (Running Today style) ===== */
+    .faq {
+      max-width: 1100px; margin: 0 auto; padding: 100px 48px;
+      display: flex; gap: 60px; align-items: flex-start;
+    }
+    .faq-left { flex: 1; }
+    .faq-right {
+      flex: 1; border-radius: 20px; overflow: hidden;
+      background: #f0f0f0; aspect-ratio: 4/5;
+      display: flex; align-items: center; justify-content: center;
+      position: sticky; top: 100px;
+    }
+    .faq-right-placeholder {
+      font-size: 14px; color: #bbb;
+    }
+    .faq-label {
+      font-size: 13px; color: #999; margin-bottom: 8px; letter-spacing: 0.5px;
+    }
+    .faq-title {
+      font-size: 32px; font-weight: 800; letter-spacing: -1px;
+      margin-bottom: 40px;
+    }
+    .faq-item {
+      border-top: 1px solid #eee;
+    }
+    .faq-item:last-child { border-bottom: 1px solid #eee; }
+    .faq-question {
+      display: flex; align-items: center; gap: 16px;
+      padding: 22px 0; cursor: pointer; font-size: 15px; font-weight: 600;
+      color: #1a1a1a; background: none; border: none; width: 100%;
+      text-align: left; font-family: inherit;
+    }
+    .faq-question:hover { color: #FF4D00; }
+    .faq-num {
+      font-size: 14px; color: #bbb; font-weight: 700; flex-shrink: 0;
+      width: 24px;
+    }
+    .faq-question-text { flex: 1; }
+    .faq-icon {
+      font-size: 18px; color: #ccc; transition: transform 0.3s; flex-shrink: 0;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); color: #FF4D00; }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+    }
+    .faq-answer-inner {
+      padding: 0 0 20px 40px; font-size: 14px; color: #777; line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; }
+
+    /* ===== DISCLAIMER ===== */
+    .disclaimer {
+      max-width: 800px; margin: 0 auto; padding: 0 24px 60px;
+    }
+    .disclaimer p {
+      font-size: 12px; color: #bbb; line-height: 1.8;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center; padding: 40px 24px;
+      border-top: 1px solid #f0f0f0; color: #bbb; font-size: 13px;
+    }
+    .footer a { color: #999; text-decoration: none; }
+
+    /* ===== LEGAL MODAL ===== */
+    .legal-modal-bg {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.5); align-items: flex-start; justify-content: center;
+      padding: 40px 20px; overflow-y: auto;
+    }
+    .legal-modal-bg.active { display: flex; }
+    .legal-modal {
+      background: #fff; border-radius: 16px; width: 100%; max-width: 680px;
+      overflow: hidden; position: relative; animation: fadeUp 0.25s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .legal-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; border-bottom: 1px solid #f0f0f0;
+    }
+    .legal-modal-header h3 {
+      font-size: 16px; font-weight: 700; color: #1a1a1a;
+    }
+    .legal-modal-close {
+      width: 32px; height: 32px; border-radius: 50%; border: none;
+      background: #f5f5f5; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; font-size: 16px; color: #999;
+    }
+    .legal-modal-close:hover { background: #eee; }
+    .legal-modal-banner {
+      background: #FF4D00; color: #fff; padding: 24px 32px;
+      font-size: 18px; font-weight: 700;
+    }
+    .legal-modal-body {
+      padding: 32px; max-height: 60vh; overflow-y: auto;
+    }
+    .legal-modal-body h4 {
+      font-size: 15px; font-weight: 700; color: #1a1a1a;
+      margin: 28px 0 12px;
+    }
+    .legal-modal-body h4:first-child { margin-top: 0; }
+    .legal-modal-body p {
+      font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 8px;
+    }
+    .legal-modal-body ul {
+      padding-left: 20px; margin: 8px 0 16px;
+    }
+    .legal-modal-body li {
+      font-size: 14px; color: #555; line-height: 1.8;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; grid-template-columns: 1fr auto; }
+      .navbar-nav { display: none; }
+      .navbar-right { display: none; }
+      .navbar-hamburger { display: flex; grid-column: 2; }
+      .faq { padding: 60px 20px; flex-direction: column; gap: 32px; }
+      .faq-right { position: static; aspect-ratio: 16/10; }
+      .faq-title { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">GGU</a>
+    <div class="navbar-nav">
+      <a href="plans.html" class="navbar-link">구독하기 <span class="nav-dot"></span></a>
+      <a href="review.html" class="navbar-link">후기</a>
+      <a href="faq.html" class="navbar-link active">자주 묻는 질문</a>
+    </div>
+    <div class="navbar-right" id="navbarRight"></div>
+    <button class="navbar-hamburger" onclick="openMobileMenu()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu" onclick="if(event.target===this)closeMobileMenu()">
+    <div class="mobile-menu-panel">
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <nav class="mobile-menu-nav">
+        <a href="plans.html" class="mobile-menu-link">구독하기 <span class="nav-dot"></span></a>
+        <a href="review.html" class="mobile-menu-link">후기</a>
+        <a href="faq.html" class="mobile-menu-link active">자주 묻는 질문</a>
+      </nav>
+      <div class="mobile-menu-actions" id="mobileMenuActions">
+        <a href="plans.html" class="mobile-menu-cta">지금 시작하기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ (Running Today style) -->
+  <section class="faq">
+    <div class="faq-left">
+      <div class="faq-label">FAQ</div>
+      <h2 class="faq-title">자주 묻는 질문</h2>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="faq-num">1</span>
+          <span class="faq-question-text">구독료가 얼마인가요?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">1개월·3개월·12개월 단위로 구독 가능하며, 장기 구독일수록 할인율이 높습니다. 자세한 요금은 구독하기 페이지에서 확인하실 수 있습니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="faq-num">2</span>
+          <span class="faq-question-text">어떤 결제 수단을 지원하나요?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">카카오페이, 신용카드, 계좌이체 등 다양한 결제 수단을 지원합니다. 결제 완료 후 즉시 서비스 이용이 가능합니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="faq-num">3</span>
+          <span class="faq-question-text">결제 후 바로 이용할 수 있나요?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">네, 결제 완료 즉시 마이페이지에서 텔레그램 입장하기 버튼을 통해 채널에 바로 입장하실 수 있습니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="faq-num">4</span>
+          <span class="faq-question-text">구독 후 환불이 가능한가요?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">구독 시작 후 7일 이내 요청 시 전액 환불이 가능합니다. 7일 이후에는 잔여 기간에 대한 부분 환불이 적용됩니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="faq-num">5</span>
+          <span class="faq-question-text">문의는 어디로 하면 되나요?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">카카오톡 채널 또는 이메일을 통해 문의해 주세요. 평일 기준 24시간 이내 답변드립니다.</div></div>
+      </div>
+    </div>
+    <div class="faq-right">
+      <span class="faq-right-placeholder">이미지 영역 (PNG)</span>
+    </div>
+  </section>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <p>* 머니랩은 투자 정보 제공 목적의 단방향 서비스이며, 개별 투자 자문 관련 1:1 대화는 엄격히 금지됩니다.</p>
+    <p>* 서비스 관련 개인의 투자 손익 및 손실에 대한 귀책은 신청자 본인에게 있음을 명시 드립니다.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div style="margin-bottom:12px">GGU</div>
+    <p style="font-size:12px; color:#888; line-height:1.8; margin-bottom:10px;">대표 : 김범준 ㅣ 사업자등록번호 : 703-12-02380<br>통신판매업신고번호 : 2024-서울서초-1718<br>개인정보처리책임자 : 김범준 ggu_official@naver.com ㅣ 010-7458-9925</p>
+    <p>&copy; 2025 GGU &middot; 머니랩 &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="openLegalModal('termsModal')">이용약관</a> &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="openLegalModal('privacyModal')"><strong>개인정보처리방침</strong></a></p>
+  </div>
+
+  <script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+
+    // ===== LOGIN STATE NAVBAR =====
+    function updateNavbar() {
+      var isLoggedIn = localStorage.getItem('moneylab_logged_in') === 'true';
+      var el = document.getElementById('navbarRight');
+      if (!el) return;
+      if (isLoggedIn) {
+        el.innerHTML = '<a href="profile.html" class="navbar-profile"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/></svg>내 구독정보</a><button class="navbar-logout" onclick="doLogout()">로그아웃</button>';
+      } else {
+        el.innerHTML = '<a href="plans.html" class="navbar-cta">지금 시작하기</a>';
+      }
+      var mobileActions = document.getElementById('mobileMenuActions');
+      if (mobileActions) {
+        if (isLoggedIn) {
+          mobileActions.innerHTML = '<a href="profile.html" style="background:#FF4D00;color:#fff;font-size:16px;font-weight:700;padding:16px;border-radius:14px;">내 구독정보</a><a href="#" onclick="event.preventDefault();doLogout();" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:14px;">로그아웃</a>';
+        } else {
+          mobileActions.innerHTML = '<a href="plans.html">지금 시작하기</a>';
+        }
+      }
+      updateSimToggle(isLoggedIn);
+    }
+    function doLogout() {
+      localStorage.removeItem('moneylab_logged_in');
+      location.href = 'index.html';
+    }
+    // ===== SIM TOGGLE =====
+    (function(){
+      var btn = document.createElement('button');
+      btn.id = 'simToggle';
+      btn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;padding:8px 16px;border-radius:50px;border:none;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.15);transition:all 0.2s;';
+      document.body.appendChild(btn);
+      btn.addEventListener('click', function(){
+        var isLoggedIn = localStorage.getItem('moneylab_logged_in') === 'true';
+        if (isLoggedIn) {
+          localStorage.removeItem('moneylab_logged_in');
+        } else {
+          localStorage.setItem('moneylab_logged_in', 'true');
+        }
+        location.reload();
+      });
+      updateNavbar();
+    })();
+    function updateSimToggle(isLoggedIn) {
+      var btn = document.getElementById('simToggle');
+      if (!btn) return;
+      if (isLoggedIn) {
+        btn.textContent = '🟢 로그인 상태 (클릭: 로그아웃)';
+        btn.style.background = '#111'; btn.style.color = '#fff';
+      } else {
+        btn.textContent = '⚪ 로그아웃 상태 (클릭: 로그인)';
+        btn.style.background = '#fff'; btn.style.color = '#333';
+      }
+    }
+
+    // Mobile menu
+    function openMobileMenu() {
+      document.getElementById('mobileMenu').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileMenu').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function openLegalModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLegalModal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.legal-modal-bg.active').forEach(m => {
+          m.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+  </script>
+
+  <!-- PRIVACY POLICY MODAL -->
+  <div class="legal-modal-bg" id="privacyModal" onclick="if(event.target===this)closeLegalModal('privacyModal')">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <h3>개인정보 처리방침</h3>
+        <button class="legal-modal-close" onclick="closeLegalModal('privacyModal')">✕</button>
+      </div>
+      <div class="legal-modal-banner">개인정보 처리방침</div>
+      <div class="legal-modal-body">
+        <p>GGU(지지유)(이하 '회사'라 한다)는 개인정보 보호법 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리지침을 수립·공개합니다.</p>
+        <h4>제1조(개인정보의 처리목적)</h4>
+        <p>회사는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않습니다.</p>
+        <ul>
+          <li>서비스 회원가입 및 관리</li>
+          <li>서비스 제공 및 요금 결제</li>
+          <li>고충처리 및 민원 대응</li>
+        </ul>
+        <h4>제2조(처리하는 개인정보의 항목)</h4>
+        <p>회사는 서비스 제공을 위해 다음의 개인정보를 처리합니다.</p>
+        <ul>
+          <li>필수항목 : 이름, 이메일, 연락처, 결제정보</li>
+          <li>자동수집항목 : 접속 IP, 접속일시, 서비스 이용기록</li>
+        </ul>
+        <h4>제3조(개인정보의 처리 및 보유 기간)</h4>
+        <p>회원 탈퇴 시까지 보유하며, 관련 법령에 따라 일정 기간 보관이 필요한 경우 해당 기간 동안 보유합니다.</p>
+        <ul>
+          <li>계약 또는 청약철회 등에 관한 기록 : 5년</li>
+          <li>대금결제 및 재화 등의 공급에 관한 기록 : 5년</li>
+          <li>소비자의 불만 또는 분쟁처리에 관한 기록 : 3년</li>
+        </ul>
+        <h4>제4조(개인정보의 제3자 제공)</h4>
+        <p>회사는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령의 규정에 의하거나 수사 목적으로 법령에 정해진 절차에 따라 요청이 있는 경우에는 예외로 합니다.</p>
+        <h4>제5조(개인정보의 파기)</h4>
+        <p>회사는 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.</p>
+        <h4>제6조(이용자의 권리·의무)</h4>
+        <p>이용자는 언제든지 자신의 개인정보를 조회하거나 수정할 수 있으며, 회원 탈퇴를 통해 개인정보의 처리 정지를 요구할 수 있습니다.</p>
+        <h4>제7조(개인정보 보호책임자)</h4>
+        <p>개인정보 보호책임자</p>
+        <ul>
+          <li>성명 : 김범준</li>
+          <li>직책 : 대표자</li>
+          <li>연락처 : ggu_official@naver.com</li>
+        </ul>
+        <h4>제8조(개인정보의 안전성 확보 조치)</h4>
+        <p>회사는 개인정보의 안전성 확보를 위해 접근 통제, 암호화, 접속기록 보관 등 기술적·관리적 보호조치를 취하고 있습니다.</p>
+        <h4>제9조(개인정보 자동 수집 장치의 설치·운영)</h4>
+        <p>회사는 서비스 운영을 위해 쿠키(Cookie)를 사용할 수 있으며, 이용자는 브라우저 설정을 통해 쿠키 저장을 거부할 수 있습니다.</p>
+        <h4>제10조(개인정보 처리방침 변경)</h4>
+        <p>이 개인정보 처리방침은 2025. 03. 24부터 적용됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMS OF SERVICE MODAL -->
+  <div class="legal-modal-bg" id="termsModal" onclick="if(event.target===this)closeLegalModal('termsModal')">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <h3>이용약관</h3>
+        <button class="legal-modal-close" onclick="closeLegalModal('termsModal')">✕</button>
+      </div>
+      <div class="legal-modal-banner">이용약관</div>
+      <div class="legal-modal-body">
+        <h4>제 1 조 (목적)</h4>
+        <p>이 약관은 지지유(GGU)(이하 '회사' 라고 한다)가 영위하는 정보 제공 서비스 머니랩(이하 '서비스'라 하며, 접속 가능한 유, 무선 단말기의 종류와 상관없이 이용 가능한 사이트가 제공하는 모든 서비스를 의미합니다.)를 이용함에 있어 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+        <h4>제 2 조 (정의)</h4>
+        <p>'사이트' 란 '회사'가 서비스를 회원에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 '서비스 등'을 거래할 수 있도록 설정한 가상의 영업장을 말하며, 사이버몰을 운영하는 사업자의 의미로도 사용합니다.</p>
+        <h4>제 3 조 (약관의 효력)</h4>
+        <p>이 약관은 서비스를 이용하고자 하는 모든 회원에게 적용됩니다. 회원이 서비스에 가입함과 동시에 이 약관에 동의한 것으로 간주합니다.</p>
+        <h4>제 4 조 (서비스의 제공)</h4>
+        <p>회사는 다음과 같은 서비스를 제공합니다.</p>
+        <ul>
+          <li>투자 정보 분석 및 제공</li>
+          <li>실시간 매매 현황 공유</li>
+          <li>투자 교육 콘텐츠 제공</li>
+          <li>커뮤니티 및 챌린지 운영</li>
+        </ul>
+        <h4>제 5 조 (회원가입)</h4>
+        <p>이용자는 회사가 정한 가입 양식에 따라 회원정보를 기입한 후 약관에 동의하여 회원가입을 신청합니다. 회사는 신청에 대해 승낙함으로써 회원가입이 완료됩니다.</p>
+        <h4>제 6 조 (회원 탈퇴 및 자격 상실)</h4>
+        <p>회원은 언제든지 회사에 탈퇴를 요청할 수 있으며, 회사는 즉시 회원 탈퇴를 처리합니다. 회원이 약관을 위반한 경우 회사는 서비스 이용을 제한하거나 회원 자격을 상실시킬 수 있습니다.</p>
+        <h4>제 7 조 (서비스 이용료)</h4>
+        <p>서비스 이용료는 회사가 정한 요금 정책에 따르며, 결제 시점에 안내된 금액이 적용됩니다. 요금 변경 시 사전에 회원에게 공지합니다.</p>
+        <h4>제 18 조 (구독비 등의 환불)</h4>
+        <p>회사는 회원의 환불요청 등에 의거 온라인 서비스 환불에 관한 규정을 다음과 같이 준용합니다.</p>
+        <ul>
+          <li>당월 머니랩 시작 전 : 잔여 개월 수 만큼의 구독비용 100% 환불 가능</li>
+          <li>당월 머니랩 시작 후 : 환불 불가</li>
+        </ul>
+        <h4>제 19 조 (면책조항)</h4>
+        <p>회사는 투자 정보 제공 목적의 단방향 서비스이며, 개별 투자 자문 관련 1:1 대화는 엄격히 금지됩니다. 서비스를 통해 제공되는 정보는 참고용이며, 투자 판단 및 그에 따른 손익은 전적으로 이용자 본인의 책임입니다.</p>
+        <h4>부칙</h4>
+        <p>이 약관은 2025년 03월 24일부터 시행합니다.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

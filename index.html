@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>머니랩 - Money Lab</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; color: #1a1a1a; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 48px; height: 72px;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .navbar-logo { font-size: 24px; font-weight: 800; color: #1a1a1a; letter-spacing: -0.5px; justify-self: start; }
+    .navbar-logo span { color: #FF4D00; }
+    .navbar-menu { display: flex; gap: 36px; justify-self: center; }
+    .navbar-menu a { font-size: 15px; font-weight: 500; color: #555; transition: color 0.2s; }
+    .navbar-menu a:hover { color: #1a1a1a; }
+    .nav-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: #FF4D00; vertical-align: top; margin-left: 2px;
+    }
+    .navbar-right { display: flex; gap: 12px; align-items: center; justify-self: end; }
+    .navbar-cta {
+      padding: 10px 24px; border-radius: 50px; background: #FF4D00; color: #fff;
+      font-size: 14px; font-weight: 600; transition: background 0.2s; cursor: pointer; border: none; text-decoration: none;
+    }
+    .navbar-cta:hover { background: #e04400; }
+    .navbar-sub {
+      padding: 8px 16px; border-radius: 50px; background: #FF4D00; color: #fff;
+      font-size: 13px; font-weight: 600; text-decoration: none; transition: background 0.2s;
+    }
+    .navbar-sub:hover { background: #E64500; }
+    .navbar-logout {
+      padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: 500;
+      color: #999; background: none; border: 1px solid #ddd; cursor: pointer; transition: all 0.2s;
+    }
+    .navbar-logout:hover { background: #f5f5f5; }
+    .navbar-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      width: 36px; height: 36px; align-items: center; justify-content: center;
+      grid-column: 3; justify-self: end;
+    }
+    .navbar-hamburger svg { stroke: #333; }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 1100;
+      background: rgba(0,0,0,0.5);
+    }
+    .mobile-menu.active { display: block; }
+    .mobile-menu-panel {
+      position: absolute; top: 0; right: 0; width: 280px; height: 100%;
+      background: #111; padding: 24px;
+      animation: slideIn 0.25s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .mobile-menu-close {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+      margin-left: auto; margin-bottom: 24px;
+    }
+    .mobile-menu-close svg { stroke: #fff; }
+    .mobile-menu-nav { display: flex; flex-direction: column; }
+    .mobile-menu-link {
+      display: block; padding: 16px 0; font-size: 16px; font-weight: 600;
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.08); transition: color 0.2s;
+    }
+    .mobile-menu-link:hover { color: #fff; }
+    .mobile-menu-actions {
+      display: flex; flex-direction: column; gap: 10px; margin-top: 24px;
+    }
+    .mobile-menu-actions a {
+      display: block; width: 100%; padding: 14px; border-radius: 12px;
+      text-align: center; font-size: 14px; font-weight: 600;
+      text-decoration: none; background: #FF4D00; color: #fff;
+    }
+
+    /* ===== SECTION 1: HERO ===== */
+    .hero {
+      position: relative;
+      padding: 140px 48px 100px; min-height: 100vh;
+      background: linear-gradient(150deg, #FF4D00 0%, #FF6B2C 40%, #FF8C42 70%, #FFa85c 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -30%; left: -20%; width: 140%; height: 140%;
+      background: radial-gradient(circle at 25% 35%, rgba(255,255,255,0.12) 0%, transparent 45%),
+                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.06) 0%, transparent 40%);
+      animation: heroShimmer 8s ease-in-out infinite alternate;
+    }
+    @keyframes heroShimmer {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(20px, -15px) scale(1.03); }
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 50px;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; font-size: 14px; font-weight: 600;
+      margin-bottom: 28px; position: relative; z-index: 2;
+      animation: heroFadeUp 0.8s ease both;
+    }
+    .hero-badge .pulse-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #fff;
+      animation: heroPulse 2s ease-in-out infinite;
+    }
+    @keyframes heroPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,255,255,0.5); }
+      50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(255,255,255,0); }
+    }
+    .hero-subtitle {
+      font-size: 17px; color: rgba(255,255,255,0.8); margin-bottom: 20px;
+      font-weight: 400; letter-spacing: 0.3px; position: relative; z-index: 2;
+      animation: heroFadeUp 0.8s ease 0.1s both;
+    }
+    .hero-title {
+      font-size: clamp(44px, 8vw, 88px); font-weight: 800; color: #fff;
+      line-height: 1.08; letter-spacing: -3px; position: relative; z-index: 2;
+      margin-bottom: 16px;
+      animation: heroFadeUp 0.8s ease 0.2s both;
+    }
+    .hero-title-sub {
+      font-size: clamp(16px, 2.5vw, 22px); font-weight: 500; color: rgba(255,255,255,0.7);
+      position: relative; z-index: 2; margin-bottom: 40px; line-height: 1.6;
+      animation: heroFadeUp 0.8s ease 0.3s both;
+    }
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-cta-wrap {
+      display: flex; flex-direction: column; gap: 14px; align-items: center;
+      position: relative; z-index: 2;
+      animation: heroFadeUp 0.8s ease 0.4s both;
+    }
+    .hero-btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 18px 44px; border-radius: 50px;
+      border: none; background: #fff; color: #FF4D00;
+      font-size: 17px; font-weight: 700; cursor: pointer;
+      transition: all 0.3s; text-decoration: none;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+    .hero-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); }
+    .hero-btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 18px 32px; border-radius: 50px;
+      border: 2px solid rgba(255,255,255,0.4); background: transparent;
+      color: #fff; font-size: 16px; font-weight: 600; cursor: pointer;
+      transition: all 0.3s; text-decoration: none;
+    }
+    .hero-btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+    .hero-stats {
+      display: flex; gap: 40px; margin-top: 56px;
+      position: relative; z-index: 2;
+      animation: heroFadeUp 0.8s ease 0.5s both;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-num {
+      font-size: 32px; font-weight: 900; color: #fff; letter-spacing: -1px;
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 6px; font-weight: 500;
+    }
+    .hero-scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      animation: heroFadeUp 0.8s ease 0.7s both;
+    }
+    .hero-scroll-hint span {
+      font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 500; letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .hero-scroll-arrow {
+      width: 12px; height: 12px; border-right: 2px solid rgba(255,255,255,0.4);
+      border-bottom: 2px solid rgba(255,255,255,0.4);
+      transform: rotate(45deg);
+      animation: scrollBounce 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.3; }
+      50% { transform: rotate(45deg) translate(3px, 3px); opacity: 0.8; }
+    }
+
+    /* ===== SECTION 2: PORTFOLIO ===== */
+    .portfolio {
+      padding: 120px 0 100px; background: #f8f8f8; text-align: center;
+    }
+    .section-label {
+      font-size: 14px; font-weight: 700; color: #FF4D00; letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: 1.3;
+      letter-spacing: -1px; margin-bottom: 48px; color: #1a1a1a;
+    }
+    .portfolio-slider {
+      position: relative; max-width: 1200px; margin: 0 auto; overflow: hidden; padding: 0 48px;
+    }
+    .portfolio-track {
+      display: flex; gap: 24px; transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .portfolio-card {
+      min-width: 270px; background: #fff; border-radius: 20px; padding: 32px 28px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06); flex-shrink: 0; text-align: center;
+    }
+    .card-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 24px; }
+    .card-logo {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #FF8C00, #FF4D00);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-logo svg { width: 18px; height: 18px; }
+    .card-company { font-size: 16px; font-weight: 700; }
+    .card-prices { margin-bottom: 8px; }
+    .card-price-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px; }
+    .card-price { font-size: 18px; font-weight: 700; }
+    .card-label { font-size: 13px; color: #888; }
+    .card-dot-red { width: 8px; height: 8px; border-radius: 50%; background: #DD3C44; }
+    .card-dot-blue { width: 8px; height: 8px; border-radius: 50%; background: #2B7FFF; }
+    .card-arrow { color: #888; font-size: 14px; margin-left: 4px; }
+    .card-date { font-size: 12px; color: #bbb; text-align: center; margin: 16px 0; }
+    .card-result { text-align: center; border-top: 1px solid #f0f0f0; padding-top: 20px; }
+    .card-result-label { font-size: 13px; color: #DD3C44; font-weight: 600; margin-bottom: 4px; }
+    .card-result-value { font-size: 36px; font-weight: 900; color: #DD3C44; }
+    .card-result-period { font-size: 12px; color: #bbb; margin-top: 8px; }
+    .portfolio-note {
+      font-size: 11px; color: #999; margin-top: 40px; padding: 0 48px; white-space: nowrap;
+    }
+    .slider-nav {
+      display: flex; justify-content: center; gap: 12px; margin-top: 32px;
+    }
+    .slider-btn {
+      width: 44px; height: 44px; border-radius: 50%; border: 1px solid #ddd;
+      background: #fff; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; transition: all 0.2s; font-size: 18px; color: #666;
+    }
+    .slider-btn:hover { border-color: #FF4D00; color: #FF4D00; }
+
+    /* ===== SECTION 3: SERVICE INTRO (채널톡 스타일) ===== */
+    .service {
+      padding: 120px 48px; background: #fff;
+    }
+    .service-header {
+      text-align: center; margin-bottom: 60px;
+    }
+    .service-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .service-card {
+      border-radius: 28px; padding: 56px; display: flex; align-items: center;
+      gap: 48px; min-height: 400px; overflow: hidden; position: relative;
+    }
+    .service-card-content { flex: 1; z-index: 1; text-align: left; }
+    .service-card-tag {
+      display: inline-block; padding: 8px 20px; border-radius: 50px;
+      font-size: 13px; font-weight: 700; margin-bottom: 24px;
+      background: rgba(255,255,255,0.7); color: #333;
+      text-align: left;
+    }
+    .service-card-title {
+      font-size: 36px; font-weight: 900; line-height: 1.3; margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .service-card-desc { font-size: 15px; color: rgba(0,0,0,0.5); line-height: 1.7; }
+    .service-card-visual {
+      flex: 1; display: flex; align-items: center; justify-content: center; z-index: 1;
+    }
+    .service-card-1 {
+      background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 40%, #FFCC80 100%);
+    }
+    .service-card-row { display: flex; gap: 24px; }
+    .service-card-half {
+      flex: 1; border-radius: 28px; padding: 48px; min-height: 420px;
+      display: flex; flex-direction: column; text-align: left;
+    }
+    .service-card-half .service-card-tag {
+      margin-bottom: 16px; align-self: flex-start;
+    }
+    .service-card-half .service-card-title {
+      font-size: 36px; font-weight: 900; line-height: 1.3; letter-spacing: -0.5px;
+    }
+    .service-card-3 {
+      background: linear-gradient(180deg, #F3E5F5 0%, #E1BEE7 50%, #FFD6E0 100%);
+    }
+    .service-card-4 {
+      background: linear-gradient(180deg, #FFCCBC 0%, #FFAB91 50%, #FF8A65 100%);
+    }
+    .service-visual-mockup {
+      width: 240px; height: 400px; background: #fff; border-radius: 28px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.12); display: flex; align-items: center;
+      justify-content: center; padding: 24px;
+    }
+    .mockup-content {
+      width: 100%; text-align: center; color: #666; font-size: 13px;
+    }
+    .service-card-half .mockup-inner {
+      margin-top: auto; background: #fff; border-radius: 20px;
+      padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    }
+
+    /* ===== SECTION 4: CEO ===== */
+    .ceo {
+      padding: 120px 48px; background: #1a1a1a; color: #fff;
+    }
+    .ceo-inner {
+      max-width: 1000px; margin: 0 auto; text-align: center;
+    }
+    .ceo-badge {
+      display: inline-block; padding: 8px 20px; border-radius: 50px;
+      background: rgba(255,77,0,0.15); color: #FF4D00; font-size: 13px;
+      font-weight: 600; margin-bottom: 20px;
+    }
+    .ceo-title {
+      font-size: clamp(28px, 4vw, 40px); font-weight: 800; line-height: 1.3;
+      margin-bottom: 60px; letter-spacing: -0.5px;
+    }
+    .ceo-profile {
+      text-align: center;
+    }
+    .ceo-photo {
+      width: 160px; height: 160px; border-radius: 50%; background: #333;
+      margin: 0 auto 32px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ceo-photo-placeholder { font-size: 64px; }
+    .ceo-info { }
+    .ceo-name {
+      font-size: 24px; font-weight: 800; margin-bottom: 36px; text-align: center;
+    }
+    .ceo-role { display: none; }
+    .ceo-credentials {
+      list-style: none; padding: 0; display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 10px;
+    }
+    .ceo-credentials li {
+      font-size: 14px; color: #ccc; padding: 10px 20px;
+      line-height: 1.4; background: rgba(255,255,255,0.06);
+      border-radius: 50px; border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ===== SECTION 5: REVIEWS ===== */
+    .reviews {
+      padding: 120px 0; background: #fff; text-align: center;
+    }
+    .reviews-slider { position: relative; overflow: hidden; padding: 0 48px; }
+    .reviews-track {
+      display: flex; gap: 16px; transition: transform 0.5s ease;
+    }
+    .review-item {
+      min-width: 140px; flex-shrink: 0; cursor: pointer;
+    }
+    .review-photo {
+      width: 140px; height: 180px; border-radius: 16px; background: #eee;
+      overflow: hidden; position: relative;
+    }
+    .review-info {
+      margin-top: 10px; text-align: center;
+    }
+    .review-info-title {
+      font-size: 12px; font-weight: 600; color: #1a1a1a; line-height: 1.4;
+    }
+    .review-info-desc {
+      font-size: 11px; color: #999; margin-top: 2px;
+    }
+    .review-photo-placeholder {
+      width: 100%; height: 100%; display: flex; align-items: center;
+      justify-content: center; font-size: 40px; background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    }
+    .review-photo-placeholder img {
+      width: 100%; height: 100%; object-fit: cover; border-radius: 16px;
+    }
+    /* Hover overlay */
+    .review-photo .review-hover-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s; z-index: 2;
+    }
+    .review-item:hover .review-hover-overlay { opacity: 1; }
+    .review-hover-btn {
+      padding: 10px 20px; border-radius: 50px; background: #FF4D00; color: #fff;
+      font-size: 13px; font-weight: 700; border: none; cursor: pointer;
+      transition: transform 0.2s; white-space: nowrap;
+    }
+    .review-hover-btn:hover { transform: scale(1.05); }
+    /* Review Popup Modal */
+    .review-modal-bg {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); z-index: 9999;
+      align-items: center; justify-content: center; backdrop-filter: blur(4px);
+    }
+    .review-modal-bg.active { display: flex; }
+    .review-modal {
+      width: 90vw; max-width: 900px; aspect-ratio: 16/9;
+      background: #fff; border-radius: 20px; overflow: hidden;
+      display: flex; box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .review-modal-photo {
+      flex-shrink: 0; width: auto; aspect-ratio: 9/16; height: 100%;
+      background: #f0f0f0; display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .review-modal-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .review-modal-photo .modal-photo-placeholder {
+      width: 100%; height: 100%; display: block;
+    }
+    .review-modal-photo .modal-photo-placeholder img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .review-modal-content {
+      flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center;
+      overflow-y: auto;
+    }
+    .review-modal-name { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: #1a1a1a; }
+    .review-modal-date { font-size: 13px; color: #999; margin-bottom: 24px; }
+    .review-modal-text { font-size: 15px; line-height: 1.8; color: #444; }
+    .review-modal-close {
+      position: absolute; top: 16px; right: 16px; width: 36px; height: 36px;
+      border-radius: 50%; border: none; background: rgba(0,0,0,0.1);
+      font-size: 18px; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; color: #333; transition: background 0.2s;
+    }
+    .review-modal-close:hover { background: rgba(0,0,0,0.2); }
+    .reviews-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 32px; padding: 12px 28px; border-radius: 50px;
+      border: 1px solid #ddd; background: #fff; font-size: 14px;
+      font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .reviews-cta:hover { border-color: #FF4D00; color: #FF4D00; }
+
+    /* ===== SECTION 6: PARTNERS ===== */
+    .partners {
+      padding: 80px 48px; background: #f8f8f8; text-align: center;
+    }
+    .partners-label { font-size: 14px; color: #FF4D00; font-weight: 600; margin-bottom: 8px; }
+    .partners-title {
+      font-size: clamp(24px, 3vw, 36px); font-weight: 800; margin-bottom: 48px;
+      letter-spacing: -0.5px;
+    }
+    .partners-logos {
+      display: flex; align-items: center; justify-content: center;
+      gap: 56px; flex-wrap: wrap; max-width: 1000px; margin: 0 auto;
+    }
+    .partner-logo {
+      height: 28px; filter: grayscale(100%); opacity: 0.45; transition: all 0.3s;
+    }
+    .partner-logo:hover { opacity: 0.8; filter: grayscale(0%); }
+    .partner-logo:hover { opacity: 1; }
+
+    /* ===== SECTION 7: COMMUNITY ===== */
+    .community {
+      padding: 120px 48px; background: #fff;
+    }
+    .community-inner { max-width: 1100px; margin: 0 auto; }
+    .community-header { margin-bottom: 48px; }
+    .community-badge {
+      display: inline-block; padding: 6px 16px; border-radius: 50px;
+      background: #FFF0E6; color: #FF4D00; font-size: 13px; font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .community-title {
+      font-size: clamp(28px, 4vw, 40px); font-weight: 800; line-height: 1.3;
+      letter-spacing: -0.5px;
+    }
+    .community-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: 240px 240px; gap: 12px;
+    }
+    .community-photo {
+      border-radius: 16px; background: #eee; overflow: hidden;
+    }
+    .community-photo-placeholder {
+      width: 100%; height: 100%; display: flex; align-items: center;
+      justify-content: center; font-size: 32px;
+      background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+    }
+    /* Top: wide left (4), narrow right (2) */
+    .community-photo:nth-child(1) { grid-column: 1 / 5; grid-row: 1; }
+    .community-photo:nth-child(2) { grid-column: 5 / 7; grid-row: 1; }
+    /* Bottom: narrow left (2), wide right (4) */
+    .community-photo:nth-child(3) { grid-column: 1 / 3; grid-row: 2; }
+    .community-photo:nth-child(4) { grid-column: 3 / 7; grid-row: 2; }
+    @media (max-width: 768px) {
+      .community-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 180px 180px;
+        gap: 8px;
+      }
+      .community-photo:nth-child(1) { grid-column: 1 / 2; grid-row: 1; }
+      .community-photo:nth-child(2) { grid-column: 2 / 3; grid-row: 1; }
+      .community-photo:nth-child(3) { grid-column: 1 / 2; grid-row: 2; }
+      .community-photo:nth-child(4) { grid-column: 2 / 3; grid-row: 2; }
+    }
+
+    /* ===== SECTION 8: ABOUT / STATS ===== */
+    .about {
+      padding: 100px 48px; background: #f8f8f8; text-align: center;
+    }
+    .about-label {
+      font-size: 20px; font-weight: 700; color: #FF4D00; margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .about-title {
+      font-size: clamp(36px, 5vw, 48px); font-weight: 800; line-height: 1.25;
+      letter-spacing: -1.5px; margin-bottom: 56px; color: #1a1a1a;
+    }
+    .about-stats {
+      display: flex; justify-content: center; gap: 20px; max-width: 1100px; margin: 0 auto;
+    }
+    .about-stat {
+      flex: 1; padding: 36px 32px; background: #fff; border-radius: 16px;
+      text-align: left; box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+    .about-stat-label {
+      font-size: 16px; font-weight: 700; color: #555; margin-bottom: 2px;
+      letter-spacing: -0.3px;
+    }
+    .about-stat-sub {
+      font-size: 16px; font-weight: 700; color: #555; margin-bottom: 20px;
+      letter-spacing: -0.3px;
+    }
+    .about-stat-value {
+      font-size: clamp(40px, 5vw, 52px); font-weight: 600; color: #1a1a1a;
+      letter-spacing: -1.5px;
+    }
+
+    /* ===== SECTION 9: CTA ===== */
+    .cta {
+      padding: 100px 48px;
+      background: #111; color: #fff; position: relative; overflow: hidden;
+    }
+    .cta-inner {
+      max-width: 1100px; margin: 0 auto; display: flex; align-items: center;
+      gap: 60px; position: relative; z-index: 1;
+    }
+    .cta-text { flex: 1; text-align: left; }
+    .cta-sub { font-size: 15px; opacity: 0.6; margin-bottom: 12px; }
+    .cta-title {
+      font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: 1.3;
+      margin-bottom: 40px; letter-spacing: -1px;
+    }
+    .cta-buttons {
+      display: flex; gap: 16px;
+    }
+    @media (max-width: 768px) {
+      .cta { padding: 80px 24px; }
+      .cta-inner { flex-direction: column; gap: 32px; }
+      .cta-image { width: 100%; height: auto; aspect-ratio: 1; }
+    }
+    .cta-btn-primary {
+      padding: 16px 36px; border-radius: 50px; background: #FF4D00; color: #fff;
+      font-size: 16px; font-weight: 700; border: none; cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .cta-btn-primary:hover { transform: scale(1.05); }
+    .cta-btn-secondary {
+      padding: 16px 36px; border-radius: 50px; background: #333;
+      border: none; color: #fff;
+      font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .cta-btn-secondary:hover { background: #444; }
+    .cta-image {
+      flex-shrink: 0; width: 360px; height: 360px; border-radius: 24px;
+      background: rgba(255,255,255,0.15); display: flex; align-items: center;
+      justify-content: center; backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+    .cta-image img { width: 100%; height: 100%; object-fit: contain; }
+    .cta-image-placeholder { font-size: 14px; color: rgba(255,255,255,0.6); }
+
+    /* ===== SECTION 10: FOOTER ===== */
+    .footer {
+      padding: 60px 48px 40px; background: #fff; border-top: 1px solid #eee;
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-logo { font-size: 28px; font-weight: 900; margin-bottom: 20px; letter-spacing: 1px; color: #888; }
+    .footer-info { font-size: 13px; color: #aaa; line-height: 2; margin-bottom: 20px; }
+    .footer-links { display: flex; gap: 16px; margin-bottom: 20px; }
+    .footer-link {
+      font-size: 13px; color: #888; text-decoration: none;
+    }
+    .footer-link.bold { font-weight: 700; }
+    .footer-social { display: flex; gap: 12px; margin-top: 16px; }
+    .footer-social-icon {
+      width: 36px; height: 36px; border-radius: 50%; background: #333;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 14px; transition: background 0.2s;
+      text-decoration: none;
+    }
+    .footer-social-icon svg { width: 18px; height: 18px; fill: #fff; }
+    .footer-social-icon:hover { background: #FF4D00; }
+    .footer-disclaimer {
+      margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee;
+    }
+    .footer-disclaimer p {
+      font-size: 12px; color: #aaa; line-height: 1.8; margin: 0;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== LEGAL MODAL ===== */
+    .legal-modal-bg {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.5); align-items: flex-start; justify-content: center;
+      padding: 40px 20px; overflow-y: auto;
+    }
+    .legal-modal-bg.active { display: flex; }
+    .legal-modal {
+      background: #fff; border-radius: 16px; width: 100%; max-width: 680px;
+      overflow: hidden; position: relative; animation: fadeUp 0.25s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .legal-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; border-bottom: 1px solid #f0f0f0;
+    }
+    .legal-modal-header h3 {
+      font-size: 16px; font-weight: 700; color: #1a1a1a;
+    }
+    .legal-modal-close {
+      width: 32px; height: 32px; border-radius: 50%; border: none;
+      background: #f5f5f5; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; font-size: 16px; color: #999;
+    }
+    .legal-modal-close:hover { background: #eee; }
+    .legal-modal-banner {
+      background: #FF4D00; color: #fff; padding: 24px 32px;
+      font-size: 18px; font-weight: 700;
+    }
+    .legal-modal-body {
+      padding: 32px; max-height: 60vh; overflow-y: auto;
+    }
+    .legal-modal-body h4 {
+      font-size: 15px; font-weight: 700; color: #1a1a1a;
+      margin: 28px 0 12px;
+    }
+    .legal-modal-body h4:first-child { margin-top: 0; }
+    .legal-modal-body p {
+      font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 8px;
+    }
+    .legal-modal-body ul {
+      padding-left: 20px; margin: 8px 0 16px;
+    }
+    .legal-modal-body li {
+      font-size: 14px; color: #555; line-height: 1.8;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; grid-template-columns: 1fr auto; }
+      .navbar-menu { display: none; }
+      .navbar-right { display: none; }
+      .navbar-hamburger { display: flex; grid-column: 2; }
+      .hero { padding: 120px 24px 80px; }
+      .hero-title { font-size: 42px; letter-spacing: -1.5px; }
+      .hero-title-sub { font-size: 15px; }
+      .hero-cta-wrap { flex-direction: column; width: 100%; }
+      .hero-btn-primary, .hero-btn-secondary { width: 100%; justify-content: center; }
+      .hero-stats { gap: 24px; margin-top: 40px; }
+      .hero-stat-num { font-size: 26px; }
+      .hero-scroll-hint { display: none; }
+      .portfolio-slider { padding: 0 20px; }
+      .service { padding: 80px 20px; }
+      .service-card { flex-direction: column; padding: 32px; }
+      .service-card-row { flex-direction: column; }
+      .ceo { padding: 80px 20px; }
+      .ceo-profile { flex-direction: column; align-items: center; text-align: center; }
+      /* community-grid mobile handled above */
+      .about-stats { flex-direction: column; }
+      .cta { padding: 80px 20px; }
+      .footer { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo" style="text-decoration:none">G<span>G</span>U</a>
+    <div class="navbar-menu">
+      <a href="plans.html">구독하기 <span class="nav-dot"></span></a>
+      <a href="review.html">후기</a>
+      <a href="faq.html">자주 묻는 질문</a>
+    </div>
+    <div class="navbar-right" id="navbarRight"></div>
+    <button class="navbar-hamburger" onclick="openMobileMenu()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" onclick="if(event.target===this)closeMobileMenu()">
+    <div class="mobile-menu-panel">
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <nav class="mobile-menu-nav">
+        <a href="plans.html" class="mobile-menu-link">구독하기 <span class="nav-dot"></span></a>
+        <a href="review.html" class="mobile-menu-link">후기</a>
+        <a href="faq.html" class="mobile-menu-link">자주 묻는 질문</a>
+      </nav>
+      <div class="mobile-menu-actions" id="mobileMenuActions">
+        <a href="plans.html">지금 시작하기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: HERO -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      무료 체험 모집중
+    </div>
+    <p class="hero-subtitle">새로운 투자의 시작, 머니랩</p>
+    <h1 class="hero-title">Money Lab<br>That's Perfect<br>For You</h1>
+    <p class="hero-title-sub">2,400명이 선택한 투자 구독 서비스<br>전문가의 시선으로 매일 투자 인사이트를 제공합니다</p>
+    <div class="hero-cta-wrap">
+      <a href="plans.html" class="hero-btn-primary">무료로 시작하기 →</a>
+      <a href="review.html" class="hero-btn-secondary">후기 보기</a>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="hero-scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: PORTFOLIO -->
+  <section class="portfolio">
+    <p class="section-label">PORTFOLIO</p>
+    <h2 class="section-title">머니랩에서는 매주 새로운 성과가<br>쏟아지고 있습니다.</h2>
+    <div class="portfolio-slider">
+      <div class="portfolio-track" id="portfolioTrack">
+        <!-- Cards will repeat -->
+        <div class="portfolio-card">
+          <div class="card-header">
+            <div class="card-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+            </div>
+            <span class="card-company">한화솔루션</span>
+          </div>
+          <div class="card-prices">
+            <div class="card-price-row">
+              <span class="card-price">31,000원</span>
+              <span class="card-label">분석시점</span>
+              <span class="card-dot-red"></span>
+            </div>
+            <div style="text-align:center; color:#ccc; font-size:18px;">↓</div>
+            <div class="card-price-row">
+              <span class="card-price">36,000원</span>
+              <span class="card-label">현재가</span>
+              <span class="card-dot-blue"></span>
+            </div>
+          </div>
+          <div class="card-date">제공일 26.03.20</div>
+          <div class="card-result">
+            <div class="card-result-label">전략 성과</div>
+            <div class="card-result-value">+36.3%</div>
+            <div class="card-result-period">보유기간 : 40일</div>
+          </div>
+        </div>
+        <div class="portfolio-card">
+          <div class="card-header">
+            <div class="card-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+            </div>
+            <span class="card-company">삼성전자</span>
+          </div>
+          <div class="card-prices">
+            <div class="card-price-row">
+              <span class="card-price">55,000원</span>
+              <span class="card-label">분석시점</span>
+              <span class="card-dot-red"></span>
+            </div>
+            <div style="text-align:center; color:#ccc; font-size:18px;">↓</div>
+            <div class="card-price-row">
+              <span class="card-price">72,000원</span>
+              <span class="card-label">현재가</span>
+              <span class="card-dot-blue"></span>
+            </div>
+          </div>
+          <div class="card-date">제공일 26.02.15</div>
+          <div class="card-result">
+            <div class="card-result-label">전략 성과</div>
+            <div class="card-result-value">+30.9%</div>
+            <div class="card-result-period">보유기간 : 36일</div>
+          </div>
+        </div>
+        <div class="portfolio-card">
+          <div class="card-header">
+            <div class="card-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+            </div>
+            <span class="card-company">카카오</span>
+          </div>
+          <div class="card-prices">
+            <div class="card-price-row">
+              <span class="card-price">42,000원</span>
+              <span class="card-label">분석시점</span>
+              <span class="card-dot-red"></span>
+            </div>
+            <div style="text-align:center; color:#ccc; font-size:18px;">↓</div>
+            <div class="card-price-row">
+              <span class="card-price">53,500원</span>
+              <span class="card-label">현재가</span>
+              <span class="card-dot-blue"></span>
+            </div>
+          </div>
+          <div class="card-date">제공일 26.01.28</div>
+          <div class="card-result">
+            <div class="card-result-label">전략 성과</div>
+            <div class="card-result-value">+27.4%</div>
+            <div class="card-result-period">보유기간 : 54일</div>
+          </div>
+        </div>
+        <div class="portfolio-card">
+          <div class="card-header">
+            <div class="card-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+            </div>
+            <span class="card-company">네이버</span>
+          </div>
+          <div class="card-prices">
+            <div class="card-price-row">
+              <span class="card-price">180,000원</span>
+              <span class="card-label">분석시점</span>
+              <span class="card-dot-red"></span>
+            </div>
+            <div style="text-align:center; color:#ccc; font-size:18px;">↓</div>
+            <div class="card-price-row">
+              <span class="card-price">225,000원</span>
+              <span class="card-label">현재가</span>
+              <span class="card-dot-blue"></span>
+            </div>
+          </div>
+          <div class="card-date">제공일 26.02.05</div>
+          <div class="card-result">
+            <div class="card-result-label">전략 성과</div>
+            <div class="card-result-value">+25.0%</div>
+            <div class="card-result-period">보유기간 : 46일</div>
+          </div>
+        </div>
+        <div class="portfolio-card">
+          <div class="card-header">
+            <div class="card-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+            </div>
+            <span class="card-company">SK하이닉스</span>
+          </div>
+          <div class="card-prices">
+            <div class="card-price-row">
+              <span class="card-price">120,000원</span>
+              <span class="card-label">분석시점</span>
+              <span class="card-dot-red"></span>
+            </div>
+            <div style="text-align:center; color:#ccc; font-size:18px;">↓</div>
+            <div class="card-price-row">
+              <span class="card-price">162,000원</span>
+              <span class="card-label">현재가</span>
+              <span class="card-dot-blue"></span>
+            </div>
+          </div>
+          <div class="card-date">제공일 26.03.01</div>
+          <div class="card-result">
+            <div class="card-result-label">전략 성과</div>
+            <div class="card-result-value">+35.0%</div>
+            <div class="card-result-period">보유기간 : 22일</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-nav">
+      <button class="slider-btn" onclick="slidePortfolio(-1)">←</button>
+      <button class="slider-btn" onclick="slidePortfolio(1)">→</button>
+    </div>
+    <p class="portfolio-note">*해당 수익률은 과장없이 실제 분석 시점 기준으로 명시되어 있습니다.</p>
+  </section>
+
+  <!-- SECTION 3: SERVICE INTRO (채널톡 스타일) -->
+  <section class="service">
+    <div class="service-header">
+      <p class="section-label">OUR SERVICE</p>
+      <h2 class="section-title">다짐해도 시작하기 어렵던<br>투자 공부가 자연로 습관화 됩니다.</h2>
+    </div>
+    <div class="service-grid">
+      <!-- 큰 카드 1개 (ALF 태스크 스타일) -->
+      <div class="service-card service-card-1 fade-in">
+        <div class="service-card-content">
+          <span class="service-card-tag">CONTENT</span>
+          <h3 class="service-card-title">아무것도 몰라도<br>투자 정보가<br>쏟아짐</h3>
+        </div>
+        <div class="service-card-visual">
+          <div class="service-visual-mockup">
+            <div class="mockup-content">
+              <div style="font-size:28px; margin-bottom:16px;">📊</div>
+              <div style="font-weight:700; color:#333; margin-bottom:8px; font-size:15px;">오늘의 투자 리포트</div>
+              <div style="font-size:12px; color:#999; line-height:1.6;">실시간 시장 분석<br>AI 추천 종목<br>수익률 트래킹</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 2열 카드 (ALF 지식 / ALF 규칙 스타일) -->
+      <div class="service-card-row">
+        <div class="service-card-half service-card-3 fade-in">
+          <span class="service-card-tag">KNOWLEDGE</span>
+          <h3 class="service-card-title">더욱 풍부하고<br>정확해진 지식</h3>
+          <div class="mockup-inner" style="margin-top:auto; background:#fff; border-radius:20px; padding:24px; box-shadow:0 8px 32px rgba(0,0,0,0.08);">
+            <div style="font-size:13px; color:#999; margin-bottom:8px;">투자 지식 라이브러리</div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <span style="padding:6px 12px; background:#f5f5f5; border-radius:8px; font-size:12px;">📄 기본 분석</span>
+              <span style="padding:6px 12px; background:#f5f5f5; border-radius:8px; font-size:12px;">📈 차트 분석</span>
+              <span style="padding:6px 12px; background:#f5f5f5; border-radius:8px; font-size:12px;">🌐 글로벌</span>
+            </div>
+          </div>
+        </div>
+        <div class="service-card-half service-card-4 fade-in">
+          <span class="service-card-tag">AI STRATEGY</span>
+          <h3 class="service-card-title">5분만에 세팅하는<br>투자전략 AI</h3>
+          <div class="mockup-inner" style="margin-top:auto; background:#fff; border-radius:20px; padding:24px; box-shadow:0 8px 32px rgba(0,0,0,0.08);">
+            <div style="font-size:13px; color:#999; margin-bottom:8px;">AI 전략 설정</div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="flex:1; height:8px; background:#FFE0B2; border-radius:4px;">
+                <div style="width:75%; height:100%; background:#FF6D00; border-radius:4px;"></div>
+              </div>
+              <span style="font-size:12px; font-weight:700; color:#FF6D00;">75%</span>
+            </div>
+            <div style="font-size:11px; color:#aaa; margin-top:8px;">전략 최적화 진행 중...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: CEO -->
+  <section class="ceo fade-in">
+    <div class="ceo-inner">
+      <span class="ceo-badge">월 260 직장인 시작으로, 6억 투자 순익 실현</span>
+      <h2 class="ceo-title">바쁜 현대인의<br>성장의 동반자로 함께합니다.</h2>
+      <div class="ceo-profile">
+        <div class="ceo-photo">
+          <img src="img/investor/beomjun.png" alt="김범준 대표이사" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div class="ceo-info">
+          <h3 class="ceo-name">김범준 대표이사</h3>
+          <p class="ceo-role">GGU 대표 / 투자 전략가</p>
+          <ul class="ceo-credentials">
+            <li>증권 투자권유대행인</li>
+            <li>금융컨설턴트</li>
+            <li>경제심리학 전문가</li>
+            <li>KBS1 더 보다 다큐멘터리 출연</li>
+            <li>직장인 출신 투자 교육 전문가 (7년차)</li>
+            <li>클래스101 전문 강사 수강생 10,000+</li>
+            <li>투자 콘텐츠 조회수 120만+</li>
+            <li>2026 포브스 코리아 사회공헌부문 대상</li>
+            <li>2026 대한민국 비전 리더 대상</li>
+            <li>2025 대한민국 혁신 기업 대상</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: REVIEWS -->
+  <section class="reviews">
+    <p class="section-label">User Reviews</p>
+    <h2 class="section-title">사람들이 말하는<br>머니랩 투자 인사이트</h2>
+    <div class="reviews-slider">
+      <div class="reviews-track" id="reviewsTrack">
+        <div class="review-item" onclick="openReviewModal(0)">
+          <div class="review-photo">
+            <div class="review-photo-placeholder"><img src="img/subscriber/20대 여성.jpg" alt="권지윤님"></div>
+            <div class="review-hover-overlay"><button class="review-hover-btn">후기 보기</button></div>
+          </div>
+          <div class="review-info">
+            <div class="review-info-title">쓰레드 글만 보고 투자하시던</div>
+            <div class="review-info-desc">20대 권지윤님</div>
+          </div>
+        </div>
+        <div class="review-item" onclick="openReviewModal(1)">
+          <div class="review-photo">
+            <div class="review-photo-placeholder"><img src="img/subscriber/20대 여성_옆모습.jpg" alt="강나린님"></div>
+            <div class="review-hover-overlay"><button class="review-hover-btn">후기 보기</button></div>
+          </div>
+          <div class="review-info">
+            <div class="review-info-title">투자가 처음이시던</div>
+            <div class="review-info-desc">부산 직장인 강나린님</div>
+          </div>
+        </div>
+        <div class="review-item" onclick="openReviewModal(2)">
+          <div class="review-photo">
+            <div class="review-photo-placeholder"><img src="img/subscriber/20대 여성_옆모습2.jpg" alt="이채진님"></div>
+            <div class="review-hover-overlay"><button class="review-hover-btn">후기 보기</button></div>
+          </div>
+          <div class="review-info">
+            <div class="review-info-title">감으로만 투자하시던</div>
+            <div class="review-info-desc">30대 육아맘 이채진님</div>
+          </div>
+        </div>
+        <div class="review-item" onclick="openReviewModal(3)">
+          <div class="review-photo">
+            <div class="review-photo-placeholder"><img src="img/subscriber/20대 직장인2.jpg" alt="박준혁님"></div>
+            <div class="review-hover-overlay"><button class="review-hover-btn">후기 보기</button></div>
+          </div>
+          <div class="review-info">
+            <div class="review-info-title">유튜브만 보고 매매하시던</div>
+            <div class="review-info-desc">30대 개발자 박준혁님</div>
+          </div>
+        </div>
+        <div class="review-item" onclick="openReviewModal(4)">
+          <div class="review-photo">
+            <div class="review-photo-placeholder"><img src="img/subscriber/20대 대학생.jpg" alt="김서연님"></div>
+            <div class="review-hover-overlay"><button class="review-hover-btn">후기 보기</button></div>
+          </div>
+          <div class="review-info">
+            <div class="review-info-title">코인에서 큰 손실 보셨던</div>
+            <div class="review-info-desc">20대 대학원생 김서연님</div>
+          </div>
+        </div>
+        <div class="review-item" onclick="openReviewModal(5)">
+          <div class="review-photo">
+            <div class="review-photo-placeholder"><img src="img/subscriber/20대 일반인.jpg" alt="조민수님"></div>
+            <div class="review-hover-overlay"><button class="review-hover-btn">후기 보기</button></div>
+          </div>
+          <div class="review-info">
+            <div class="review-info-title">시드가 적어서 고민하시던</div>
+            <div class="review-info-desc">대전 사회초년생 조민수님</div>
+          </div>
+        </div>
+        <div class="review-item" onclick="openReviewModal(6)">
+          <div class="review-photo">
+            <div class="review-photo-placeholder"><img src="img/subscriber/30대 자영업.jpg" alt="한소희님"></div>
+            <div class="review-hover-overlay"><button class="review-hover-btn">후기 보기</button></div>
+          </div>
+          <div class="review-info">
+            <div class="review-info-title">투자 정보 판별이 어려우셨던</div>
+            <div class="review-info-desc">40대 자영업 한소희님</div>
+          </div>
+        </div>
+        <div class="review-item" onclick="openReviewModal(7)">
+          <div class="review-photo">
+            <div class="review-photo-placeholder"><img src="img/subscriber/20대 직장인3.jpg" alt="정태영님"></div>
+            <div class="review-hover-overlay"><button class="review-hover-btn">후기 보기</button></div>
+          </div>
+          <div class="review-info">
+            <div class="review-info-title">바빠서 투자 못하시던</div>
+            <div class="review-info-desc">30대 요리사 정태영님</div>
+          </div>
+        </div>
+        <div class="review-item" onclick="openReviewModal(8)">
+          <div class="review-photo">
+            <div class="review-photo-placeholder"><img src="img/subscriber/20대 여성_뒷모습.jpg" alt="윤하은님"></div>
+            <div class="review-hover-overlay"><button class="review-hover-btn">후기 보기</button></div>
+          </div>
+          <div class="review-info">
+            <div class="review-info-title">경제 뉴스 이해가 어려우셨던</div>
+            <div class="review-info-desc">20대 간호사 윤하은님</div>
+          </div>
+        </div>
+        <div class="review-item" onclick="openReviewModal(9)">
+          <div class="review-photo">
+            <div class="review-photo-placeholder"><img src="img/subscriber/20대 직장인4.jpg" alt="최동훈님"></div>
+            <div class="review-hover-overlay"><button class="review-hover-btn">후기 보기</button></div>
+          </div>
+          <div class="review-info">
+            <div class="review-info-title">물타기만 반복하시던</div>
+            <div class="review-info-desc">40대 회사원 최동훈님</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-nav">
+      <button class="slider-btn" onclick="slideReviews(-1)">←</button>
+      <button class="slider-btn" onclick="slideReviews(1)">→</button>
+    </div>
+    <a href="review.html" class="reviews-cta" style="text-decoration:none">후기 더보기 →</a>
+  </section>
+
+  <!-- Review Modal -->
+  <div class="review-modal-bg" id="reviewModal" onclick="closeReviewModal(event)">
+    <div class="review-modal">
+      <button class="review-modal-close" onclick="closeReviewModal(event, true)">&times;</button>
+      <div class="review-modal-photo">
+        <span class="modal-photo-placeholder" id="modalPhoto"><img src="img/subscriber/20대 여성.jpg" alt="구독자" style="width:100%;height:100%;object-fit:cover;"></span>
+      </div>
+      <div class="review-modal-content">
+        <p class="review-modal-name" id="modalName">구독자 A</p>
+        <p class="review-modal-date" id="modalDate">2026.03.15</p>
+        <p class="review-modal-text" id="modalText">머니랩 덕분에 투자에 대한 자신감이 생겼습니다. 매일 업데이트되는 콘텐츠를 통해 자연스럽게 투자 공부를 하게 되었고, 실제 수익도 나고 있어요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: PARTNERS -->
+  <section class="partners fade-in">
+    <p class="partners-label">News Analysis</p>
+    <h2 class="partners-title">매일 실시간 경제 상황이<br>모니터링 되고 있습니다.</h2>
+    <div class="partners-logos">
+      <img class="partner-logo" src="logo-bloomberg.svg" alt="Bloomberg">
+      <img class="partner-logo" src="logo-hankyung.svg" alt="한국경제">
+      <img class="partner-logo" src="logo-investing.svg" alt="Investing.com">
+      <img class="partner-logo" src="logo-finviz.svg" alt="Finviz">
+      <img class="partner-logo" src="logo-coinmarketcap.svg" alt="CoinMarketCap">
+    </div>
+  </section>
+
+  <!-- SECTION 7: COMMUNITY -->
+  <section class="community fade-in">
+    <div class="community-inner">
+      <div class="community-header">
+        <span class="community-badge">자유롭게 모이는 모임</span>
+        <h2 class="community-title">동기부여가 필요하다면<br>모임도 오실 수 있어요.</h2>
+      </div>
+      <div class="community-grid">
+        <!-- Row 1: large left (2/3), narrow right (1/3) -->
+        <div class="community-photo"><div class="community-photo-placeholder">📸</div></div>
+        <div class="community-photo"><div class="community-photo-placeholder">📸</div></div>
+        <!-- Row 2: narrow left (1/3), large right (2/3) -->
+        <div class="community-photo"><div class="community-photo-placeholder">📸</div></div>
+        <div class="community-photo"><div class="community-photo-placeholder">📸</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: ABOUT / STATS -->
+  <section class="about fade-in">
+    <p class="about-label">About</p>
+    <h2 class="about-title">TEXT TEXT<br>시작할 준비가 됐나요?</h2>
+    <div class="about-stats">
+      <div class="about-stat">
+        <p class="about-stat-label">머니랩과 함께한</p>
+        <p class="about-stat-sub">구독 시작 유저</p>
+        <p class="about-stat-value"><span class="count-up" data-target="8.2" data-decimal="true">0</span>천+</p>
+      </div>
+      <div class="about-stat">
+        <p class="about-stat-label">머니랩의</p>
+        <p class="about-stat-sub">누적 콘텐츠 조회수/팔로워수</p>
+        <p class="about-stat-value"><span class="count-up" data-target="41284" data-suffix="">0</span>+</p>
+      </div>
+      <div class="about-stat">
+        <p class="about-stat-label">머니랩의</p>
+        <p class="about-stat-sub">후기 만족도</p>
+        <p class="about-stat-value"><span class="count-up" data-target="4.9" data-suffix="" data-decimal="true">0</span>/5.0</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 9: CTA -->
+  <section class="cta">
+    <div class="cta-inner">
+      <div class="cta-text">
+        <p class="cta-sub">지금부터 진짜 성장할 수 있어요.</p>
+        <h2 class="cta-title">투자 시장의 변화를<br>쉽고 간편하게, 받아보세요</h2>
+        <div class="cta-buttons">
+          <a href="plans.html" class="cta-btn-primary" style="text-decoration:none">지금 시작하기 →</a>
+          <a href="faq.html" class="cta-btn-secondary" style="text-decoration:none">FAQ 보기</a>
+        </div>
+      </div>
+      <div class="cta-image">
+        <span class="cta-image-placeholder">이미지 영역 (PNG)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 10: FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">GGU</div>
+      <div class="footer-info">
+        대표 : 김범준 ㅣ 주소 : 경기도 화성시 꽃내음1길 11<br>
+        사업자등록번호 : 703-12-02380 ㅣ 통신판매업신고번호 : 2024-서울서초-1718<br>
+        개인정보처리책임자 : 김범준 ggu_official@naver.com ㅣ 010-7458-9925<br>
+      </div>
+      <div class="footer-links">
+        <a href="javascript:void(0)" class="footer-link" onclick="openLegalModal('termsModal')">이용약관</a>
+        <a href="javascript:void(0)" class="footer-link bold" onclick="openLegalModal('privacyModal')">개인정보처리방침</a>
+        <a href="#" class="footer-link">사업자 정보 확인</a>
+      </div>
+      <div class="footer-social">
+        <!-- 인스타그램 -->
+        <a href="#" class="footer-social-icon" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.97.24 2.43.403a4.088 4.088 0 011.47.957c.453.453.787.91.957 1.47.163.46.35 1.26.403 2.43.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.97-.403 2.43a4.088 4.088 0 01-.957 1.47 4.088 4.088 0 01-1.47.957c-.46.163-1.26.35-2.43.403-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.97-.24-2.43-.403a4.088 4.088 0 01-1.47-.957 4.088 4.088 0 01-.957-1.47c-.163-.46-.35-1.26-.403-2.43C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.054-1.17.24-1.97.403-2.43a4.088 4.088 0 01.957-1.47A4.088 4.088 0 015.063 2.293c.46-.163 1.26-.35 2.43-.403C8.759 1.832 9.139 1.82 12 1.82V2.163zM12 0C8.741 0 8.333.014 7.053.072 5.775.131 4.902.333 4.14.63a5.882 5.882 0 00-2.126 1.384A5.882 5.882 0 00.63 4.14C.333 4.902.131 5.775.072 7.053.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.059 1.278.261 2.15.558 2.913a5.882 5.882 0 001.384 2.126 5.882 5.882 0 002.126 1.384c.763.297 1.635.5 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.278-.059 2.15-.261 2.913-.558a5.882 5.882 0 002.126-1.384 5.882 5.882 0 001.384-2.126c.297-.763.5-1.635.558-2.913.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.059-1.278-.261-2.15-.558-2.913a5.882 5.882 0 00-1.384-2.126A5.882 5.882 0 0019.86.63C19.097.333 18.225.131 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <!-- 쓰레드 -->
+        <a href="#" class="footer-social-icon" aria-label="Threads">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.186 24h-.007C5.965 24 2.615 20.114 2.615 14.592V9.408C2.615 3.886 5.965 0 12.186 0h.007c3.724 0 6.563 1.376 8.436 4.092l-2.87 2.006C16.502 4.252 14.61 3.29 12.193 3.29c-4.012 0-6.157 2.764-6.157 6.118v5.184c0 3.354 2.145 6.118 6.157 6.118 2.418 0 4.31-.962 5.567-2.808l2.87 2.006C18.756 22.624 15.917 24 12.186 24zm3.44-8.655c-.554-.258-1.176-.43-1.853-.508-.16-.018-.325-.03-.495-.035a3.052 3.052 0 00-.548.003c-.964.082-1.79.477-2.318 1.108-.478.571-.7 1.29-.625 2.02.14 1.355 1.258 2.382 2.6 2.382h.03c1.072-.012 2.002-.588 2.558-1.583.46-.822.614-1.847.396-2.814a.856.856 0 00-.03-.1l.285-.473zm-1.228-4.87c-1.677-.777-3.705-.517-5.1.658-1.175 1.99-1.3 2.452-1.243 3.37l2.63-4.028z"/></svg>
+        </a>
+        <!-- 유튜브 -->
+        <a href="#" class="footer-social-icon" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.546 12 3.546 12 3.546s-7.505 0-9.377.504A3.016 3.016 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.504 9.376.504 9.376.504s7.505 0 9.377-.504a3.016 3.016 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <!-- 블로그 (네이버 블로그 B 아이콘) -->
+        <a href="#" class="footer-social-icon" aria-label="Blog">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.273 12.845c0 3.632-2.268 5.655-6.182 5.655H4.727V5.5h4.91c3.459 0 5.636 1.818 5.636 4.773v.004c0 1.546-.773 2.727-2.046 3.364 1.637.545 3.046 1.863 3.046 3.204zm-3.682-2.477c0-1.41-1-2.318-2.636-2.318H7.818v4.727h2.091c1.682 0 2.682-.954 2.682-2.409zm.591 5.132c0-1.5-1.045-2.454-2.818-2.454H7.818V18h2.636c1.727 0 2.728-.955 2.728-2.5zM19.273 5.5h-1.091v13h1.09c.603 0 1.092-.489 1.092-1.091V6.59c0-.602-.49-1.091-1.091-1.091z"/></svg>
+        </a>
+      </div>
+      <div class="footer-disclaimer">
+        <p>*서비스 관련 개인의 투자 손익 및 손실에 대한 귀책은 신청자 본인에게 있음을 명시 드립니다.</p>
+        <p>**머니랩은 투자 정보 제공 목적의 단방향 서비스이며, 개별 투자 자문 관련 1:1대화는 엄격히 금지됩니다.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== LOGIN STATE NAVBAR =====
+    function updateNavbar() {
+      var isLoggedIn = localStorage.getItem('moneylab_logged_in') === 'true';
+      var el = document.getElementById('navbarRight');
+      if (el) {
+        if (isLoggedIn) {
+          el.innerHTML = '<a href="profile.html" class="navbar-sub">내 구독정보</a><button class="navbar-logout" onclick="doLogout()">로그아웃</button>';
+        } else {
+          el.innerHTML = '<a href="plans.html" class="navbar-cta">지금 시작하기</a>';
+        }
+      }
+      var mobileActions = document.getElementById('mobileMenuActions');
+      if (mobileActions) {
+        if (isLoggedIn) {
+          mobileActions.innerHTML = '<a href="profile.html" style="background:#FF4D00;color:#fff;font-size:16px;font-weight:700;padding:16px;border-radius:14px;">내 구독정보</a><a href="#" onclick="event.preventDefault();doLogout();" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:14px;">로그아웃</a>';
+        } else {
+          mobileActions.innerHTML = '<a href="plans.html">지금 시작하기</a>';
+        }
+      }
+      updateSimToggle(isLoggedIn);
+    }
+    function doLogout() {
+      localStorage.removeItem('moneylab_logged_in');
+      location.reload();
+    }
+    // ===== SIM TOGGLE =====
+    (function(){
+      var btn = document.createElement('button');
+      btn.id = 'simToggle';
+      btn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;padding:8px 16px;border-radius:50px;border:none;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.15);transition:all 0.2s;';
+      document.body.appendChild(btn);
+      btn.addEventListener('click', function(){
+        var isLoggedIn = localStorage.getItem('moneylab_logged_in') === 'true';
+        if (isLoggedIn) {
+          localStorage.removeItem('moneylab_logged_in');
+        } else {
+          localStorage.setItem('moneylab_logged_in', 'true');
+        }
+        location.reload();
+      });
+      updateNavbar();
+    })();
+    function updateSimToggle(isLoggedIn) {
+      var btn = document.getElementById('simToggle');
+      if (!btn) return;
+      if (isLoggedIn) {
+        btn.textContent = '🟢 로그인 상태 (클릭: 로그아웃)';
+        btn.style.background = '#111'; btn.style.color = '#fff';
+      } else {
+        btn.textContent = '⚪ 로그아웃 상태 (클릭: 로그인)';
+        btn.style.background = '#fff'; btn.style.color = '#333';
+      }
+    }
+
+    // ===== MOBILE MENU =====
+    function openMobileMenu() {
+      document.getElementById('mobileMenu').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileMenu').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // ===== PORTFOLIO INFINITE SLIDER =====
+    const portfolioTrack = document.getElementById('portfolioTrack');
+    const portfolioCards = Array.from(portfolioTrack.children);
+    // Clone all cards for seamless infinite loop
+    portfolioCards.forEach(card => {
+      const clone = card.cloneNode(true);
+      portfolioTrack.appendChild(clone);
+    });
+    let portfolioPos = 0;
+    const portfolioCardWidth = () => portfolioTrack.children[0].offsetWidth + 24;
+    const portfolioOriginalWidth = () => portfolioCards.length * portfolioCardWidth();
+
+    function slidePortfolio(dir) {
+      portfolioPos += dir * portfolioCardWidth();
+      // Seamless wrap
+      if (portfolioPos >= portfolioOriginalWidth()) {
+        portfolioTrack.style.transition = 'none';
+        portfolioPos = 0;
+        portfolioTrack.style.transform = `translateX(-${portfolioPos}px)`;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            portfolioTrack.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+            portfolioPos += portfolioCardWidth();
+            portfolioTrack.style.transform = `translateX(-${portfolioPos}px)`;
+          });
+        });
+        return;
+      }
+      if (portfolioPos < 0) {
+        portfolioTrack.style.transition = 'none';
+        portfolioPos = portfolioOriginalWidth() - portfolioCardWidth();
+        portfolioTrack.style.transform = `translateX(-${portfolioPos}px)`;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            portfolioTrack.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+            portfolioPos -= portfolioCardWidth();
+            portfolioTrack.style.transform = `translateX(-${portfolioPos}px)`;
+          });
+        });
+        return;
+      }
+      portfolioTrack.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+      portfolioTrack.style.transform = `translateX(-${portfolioPos}px)`;
+    }
+
+    // ===== REVIEWS INFINITE SLIDER =====
+    const reviewsTrack = document.getElementById('reviewsTrack');
+    const reviewItems = Array.from(reviewsTrack.children);
+    reviewItems.forEach(item => {
+      const clone = item.cloneNode(true);
+      // Re-bind onclick for cloned items
+      const idx = clone.getAttribute('onclick')?.match(/\d+/)?.[0];
+      if (idx !== null) clone.setAttribute('onclick', `openReviewModal(${idx})`);
+      reviewsTrack.appendChild(clone);
+    });
+    let reviewsPos = 0;
+    const reviewItemWidth = () => reviewsTrack.children[0].offsetWidth + 16;
+    const reviewsOriginalWidth = () => reviewItems.length * reviewItemWidth();
+
+    function slideReviews(dir) {
+      reviewsPos += dir * reviewItemWidth();
+      if (reviewsPos >= reviewsOriginalWidth()) {
+        reviewsTrack.style.transition = 'none';
+        reviewsPos = 0;
+        reviewsTrack.style.transform = `translateX(-${reviewsPos}px)`;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            reviewsTrack.style.transition = 'transform 0.5s ease';
+            reviewsPos += reviewItemWidth();
+            reviewsTrack.style.transform = `translateX(-${reviewsPos}px)`;
+          });
+        });
+        return;
+      }
+      if (reviewsPos < 0) {
+        reviewsTrack.style.transition = 'none';
+        reviewsPos = reviewsOriginalWidth() - reviewItemWidth();
+        reviewsTrack.style.transform = `translateX(-${reviewsPos}px)`;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            reviewsTrack.style.transition = 'transform 0.5s ease';
+            reviewsPos -= reviewItemWidth();
+            reviewsTrack.style.transform = `translateX(-${reviewsPos}px)`;
+          });
+        });
+        return;
+      }
+      reviewsTrack.style.transition = 'transform 0.5s ease';
+      reviewsTrack.style.transform = `translateX(-${reviewsPos}px)`;
+    }
+
+    // ===== REVIEW MODAL =====
+    const reviewData = [
+      { name: '구독자 A', date: '2026.03.15', img: 'img/subscriber/20대 여성.jpg', text: '머니랩 덕분에 투자에 대한 자신감이 생겼습니다. 매일 업데이트되는 콘텐츠를 통해 자연스럽게 투자 공부를 하게 되었고, 실제 수익도 나고 있어요.' },
+      { name: '구독자 B', date: '2026.03.10', img: 'img/subscriber/20대 여성_옆모습.jpg', text: '직장인으로서 시간이 없었는데 머니랩이 알아서 분석해주니 너무 편해요. 덕분에 투자 습관이 생겼습니다.' },
+      { name: '구독자 C', date: '2026.03.05', img: 'img/subscriber/20대 여성_옆모습2.jpg', text: '처음에는 반신반의했는데, 3개월째 구독 중이고 꾸준히 수익을 내고 있습니다. 분석 리포트가 정말 유용해요.' },
+      { name: '구독자 D', date: '2026.02.28', img: 'img/subscriber/20대 직장인2.jpg', text: 'AI 전략 추천이 정말 신기해요. 제 투자 성향에 맞춤형으로 알려주니까 실패할 확률이 줄었습니다.' },
+      { name: '구독자 E', date: '2026.02.20', img: 'img/subscriber/20대 대학생.jpg', text: '투자 초보인데도 어렵지 않게 따라갈 수 있어서 좋아요. 커뮤니티도 활발해서 동기부여가 됩니다.' },
+      { name: '구독자 F', date: '2026.02.15', img: 'img/subscriber/20대 일반인.jpg', text: '학생 때부터 투자 공부를 시작했는데, 머니랩이 가장 체계적이에요. 강추합니다.' },
+      { name: '구독자 G', date: '2026.02.10', img: 'img/subscriber/30대 자영업.jpg', text: '매주 나오는 포트폴리오 분석이 정말 도움됩니다. 어떤 종목을 사야 할지 고민이 줄었어요.' },
+      { name: '구독자 H', date: '2026.02.05', img: 'img/subscriber/20대 직장인3.jpg', text: '투자에 대한 두려움이 있었는데, 머니랩 콘텐츠를 보면서 점점 자신감이 생겼습니다.' },
+      { name: '구독자 I', date: '2026.01.28', img: 'img/subscriber/20대 여성_뒷모습.jpg', text: '바쁜 일상 속에서도 5분만 투자하면 되니까 정말 편해요. 습관화가 저절로 됩니다.' },
+      { name: '구독자 J', date: '2026.01.20', img: 'img/subscriber/20대 직장인4.jpg', text: '여러 투자 서비스를 써봤지만 머니랩이 가성비 최고입니다. 콘텐츠 질이 다릅니다.' },
+    ];
+    function openReviewModal(idx) {
+      const data = reviewData[idx % reviewData.length];
+      document.getElementById('modalPhoto').innerHTML = '<img src="' + data.img + '" alt="' + data.name + '" style="width:100%;height:100%;object-fit:cover;">';
+      document.getElementById('modalName').textContent = data.name;
+      document.getElementById('modalDate').textContent = data.date;
+      document.getElementById('modalText').textContent = data.text;
+      document.getElementById('reviewModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeReviewModal(e, force) {
+      if (force || !e || e.target === document.getElementById('reviewModal')) {
+        document.getElementById('reviewModal').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeReviewModal(null, true);
+    });
+
+    // ===== COUNT UP ANIMATION =====
+    function animateCountUp(el) {
+      const target = parseFloat(el.dataset.target);
+      const isDecimal = el.dataset.decimal === 'true';
+      const duration = 2000;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = target * eased;
+
+        if (isDecimal) {
+          el.textContent = current.toFixed(1);
+        } else {
+          el.textContent = Math.floor(current).toLocaleString();
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+      requestAnimationFrame(update);
+    }
+
+    // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+
+          // Trigger count-up for stat values
+          const countUps = entry.target.querySelectorAll('.count-up');
+          countUps.forEach(el => {
+            if (!el.dataset.animated) {
+              el.dataset.animated = 'true';
+              animateCountUp(el);
+            }
+          });
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Also observe the about section specifically for count-up
+    const aboutSection = document.querySelector('.about');
+    if (aboutSection) observer.observe(aboutSection);
+
+    // ===== AUTO SLIDE FOR PORTFOLIO (infinite) =====
+    let autoSlideInterval = setInterval(() => slidePortfolio(1), 4000);
+    portfolioTrack.parentElement.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+    portfolioTrack.parentElement.addEventListener('mouseleave', () => {
+      autoSlideInterval = setInterval(() => slidePortfolio(1), 4000);
+    });
+
+    // ===== AUTO SLIDE FOR REVIEWS (infinite) =====
+    let reviewAutoSlide = setInterval(() => slideReviews(1), 3500);
+    reviewsTrack.parentElement.addEventListener('mouseenter', () => clearInterval(reviewAutoSlide));
+    reviewsTrack.parentElement.addEventListener('mouseleave', () => {
+      reviewAutoSlide = setInterval(() => slideReviews(1), 3500);
+    });
+
+    function openLegalModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLegalModal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.legal-modal-bg.active').forEach(m => {
+          m.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+  </script>
+
+  <!-- PRIVACY POLICY MODAL -->
+  <div class="legal-modal-bg" id="privacyModal" onclick="if(event.target===this)closeLegalModal('privacyModal')">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <h3>개인정보 처리방침</h3>
+        <button class="legal-modal-close" onclick="closeLegalModal('privacyModal')">✕</button>
+      </div>
+      <div class="legal-modal-banner">개인정보 처리방침</div>
+      <div class="legal-modal-body">
+        <p>GGU(지지유)(이하 '회사'라 한다)는 개인정보 보호법 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리지침을 수립·공개합니다.</p>
+        <h4>제1조(개인정보의 처리목적)</h4>
+        <p>회사는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않습니다.</p>
+        <ul>
+          <li>서비스 회원가입 및 관리</li>
+          <li>서비스 제공 및 요금 결제</li>
+          <li>고충처리 및 민원 대응</li>
+        </ul>
+        <h4>제2조(처리하는 개인정보의 항목)</h4>
+        <p>회사는 서비스 제공을 위해 다음의 개인정보를 처리합니다.</p>
+        <ul>
+          <li>필수항목 : 이름, 이메일, 연락처, 결제정보</li>
+          <li>자동수집항목 : 접속 IP, 접속일시, 서비스 이용기록</li>
+        </ul>
+        <h4>제3조(개인정보의 처리 및 보유 기간)</h4>
+        <p>회원 탈퇴 시까지 보유하며, 관련 법령에 따라 일정 기간 보관이 필요한 경우 해당 기간 동안 보유합니다.</p>
+        <ul>
+          <li>계약 또는 청약철회 등에 관한 기록 : 5년</li>
+          <li>대금결제 및 재화 등의 공급에 관한 기록 : 5년</li>
+          <li>소비자의 불만 또는 분쟁처리에 관한 기록 : 3년</li>
+        </ul>
+        <h4>제4조(개인정보의 제3자 제공)</h4>
+        <p>회사는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령의 규정에 의하거나 수사 목적으로 법령에 정해진 절차에 따라 요청이 있는 경우에는 예외로 합니다.</p>
+        <h4>제5조(개인정보의 파기)</h4>
+        <p>회사는 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.</p>
+        <h4>제6조(이용자의 권리·의무)</h4>
+        <p>이용자는 언제든지 자신의 개인정보를 조회하거나 수정할 수 있으며, 회원 탈퇴를 통해 개인정보의 처리 정지를 요구할 수 있습니다.</p>
+        <h4>제7조(개인정보 보호책임자)</h4>
+        <p>개인정보 보호책임자</p>
+        <ul>
+          <li>성명 : 김범준</li>
+          <li>직책 : 대표자</li>
+          <li>연락처 : ggu_official@naver.com</li>
+        </ul>
+        <h4>제8조(개인정보의 안전성 확보 조치)</h4>
+        <p>회사는 개인정보의 안전성 확보를 위해 접근 통제, 암호화, 접속기록 보관 등 기술적·관리적 보호조치를 취하고 있습니다.</p>
+        <h4>제9조(개인정보 자동 수집 장치의 설치·운영)</h4>
+        <p>회사는 서비스 운영을 위해 쿠키(Cookie)를 사용할 수 있으며, 이용자는 브라우저 설정을 통해 쿠키 저장을 거부할 수 있습니다.</p>
+        <h4>제10조(개인정보 처리방침 변경)</h4>
+        <p>이 개인정보 처리방침은 2025. 03. 24부터 적용됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMS OF SERVICE MODAL -->
+  <div class="legal-modal-bg" id="termsModal" onclick="if(event.target===this)closeLegalModal('termsModal')">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <h3>이용약관</h3>
+        <button class="legal-modal-close" onclick="closeLegalModal('termsModal')">✕</button>
+      </div>
+      <div class="legal-modal-banner">이용약관</div>
+      <div class="legal-modal-body">
+        <h4>제 1 조 (목적)</h4>
+        <p>이 약관은 지지유(GGU)(이하 '회사' 라고 한다)가 영위하는 정보 제공 서비스 머니랩(이하 '서비스'라 하며, 접속 가능한 유, 무선 단말기의 종류와 상관없이 이용 가능한 사이트가 제공하는 모든 서비스를 의미합니다.)를 이용함에 있어 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+        <h4>제 2 조 (정의)</h4>
+        <p>'사이트' 란 '회사'가 서비스를 회원에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 '서비스 등'을 거래할 수 있도록 설정한 가상의 영업장을 말하며, 사이버몰을 운영하는 사업자의 의미로도 사용합니다.</p>
+        <h4>제 3 조 (약관의 효력)</h4>
+        <p>이 약관은 서비스를 이용하고자 하는 모든 회원에게 적용됩니다. 회원이 서비스에 가입함과 동시에 이 약관에 동의한 것으로 간주합니다.</p>
+        <h4>제 4 조 (서비스의 제공)</h4>
+        <p>회사는 다음과 같은 서비스를 제공합니다.</p>
+        <ul>
+          <li>투자 정보 분석 및 제공</li>
+          <li>실시간 매매 현황 공유</li>
+          <li>투자 교육 콘텐츠 제공</li>
+          <li>커뮤니티 및 챌린지 운영</li>
+        </ul>
+        <h4>제 5 조 (회원가입)</h4>
+        <p>이용자는 회사가 정한 가입 양식에 따라 회원정보를 기입한 후 약관에 동의하여 회원가입을 신청합니다. 회사는 신청에 대해 승낙함으로써 회원가입이 완료됩니다.</p>
+        <h4>제 6 조 (회원 탈퇴 및 자격 상실)</h4>
+        <p>회원은 언제든지 회사에 탈퇴를 요청할 수 있으며, 회사는 즉시 회원 탈퇴를 처리합니다. 회원이 약관을 위반한 경우 회사는 서비스 이용을 제한하거나 회원 자격을 상실시킬 수 있습니다.</p>
+        <h4>제 7 조 (서비스 이용료)</h4>
+        <p>서비스 이용료는 회사가 정한 요금 정책에 따르며, 결제 시점에 안내된 금액이 적용됩니다. 요금 변경 시 사전에 회원에게 공지합니다.</p>
+        <h4>제 18 조 (구독비 등의 환불)</h4>
+        <p>회사는 회원의 환불요청 등에 의거 온라인 서비스 환불에 관한 규정을 다음과 같이 준용합니다.</p>
+        <ul>
+          <li>당월 머니랩 시작 전 : 잔여 개월 수 만큼의 구독비용 100% 환불 가능</li>
+          <li>당월 머니랩 시작 후 : 환불 불가</li>
+        </ul>
+        <h4>제 19 조 (면책조항)</h4>
+        <p>회사는 투자 정보 제공 목적의 단방향 서비스이며, 개별 투자 자문 관련 1:1 대화는 엄격히 금지됩니다. 서비스를 통해 제공되는 정보는 참고용이며, 투자 판단 및 그에 따른 손익은 전적으로 이용자 본인의 책임입니다.</p>
+        <h4>부칙</h4>
+        <p>이 약관은 2025년 03월 24일부터 시행합니다.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>구독자 후기 | 머니랩</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f5f5; color: #1a1a1a;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 48px; height: 64px; background: #111; position: sticky;
+      top: 0; z-index: 100;
+    }
+    .navbar-logo {
+      font-size: 24px; font-weight: 900; color: #fff; text-decoration: none;
+      letter-spacing: 1px; justify-self: start;
+    }
+    .navbar-logo span { color: #FF4D00; }
+    .navbar-nav { display: flex; gap: 32px; align-items: center; justify-self: center; }
+    .navbar-link {
+      color: rgba(255,255,255,0.7); text-decoration: none; font-size: 15px;
+      font-weight: 500; transition: color 0.2s;
+    }
+    .navbar-link:hover, .navbar-link.active { color: #fff; }
+    .nav-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: #FF4D00; vertical-align: top; margin-left: 2px;
+    }
+    .navbar-right { display: flex; gap: 12px; align-items: center; justify-self: end; }
+    .navbar-profile {
+      display: flex; align-items: center; gap: 8px; padding: 8px 20px;
+      border-radius: 50px; background: rgba(255,255,255,0.1);
+      color: #fff; font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .navbar-profile:hover { background: rgba(255,255,255,0.2); }
+    .navbar-logout {
+      padding: 8px 20px; border-radius: 50px; background: #fff; color: #111;
+      font-size: 14px; font-weight: 600; border: none; cursor: pointer;
+    }
+    .navbar-cta {
+      padding: 8px 20px; border-radius: 50px; background: #FF4D00; color: #fff;
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .navbar-cta:hover { background: #e04400; }
+    .navbar-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      width: 36px; height: 36px; align-items: center; justify-content: center;
+      grid-column: 3; justify-self: end;
+    }
+    .navbar-hamburger svg { stroke: #fff; }
+    /* Mobile menu */
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 150;
+      background: rgba(0,0,0,0.5);
+    }
+    .mobile-menu.active { display: block; }
+    .mobile-menu-panel {
+      position: absolute; top: 0; right: 0; width: 280px; height: 100%;
+      background: #111; padding: 24px;
+      animation: slideIn 0.25s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .mobile-menu-close {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+      margin-left: auto; margin-bottom: 24px;
+    }
+    .mobile-menu-close svg { stroke: #fff; }
+    .mobile-menu-nav {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .mobile-menu-link {
+      display: block; padding: 16px 0; font-size: 16px; font-weight: 600;
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: color 0.2s;
+    }
+    .mobile-menu-link:hover, .mobile-menu-link.active { color: #fff; }
+    .mobile-menu-actions {
+      display: flex; flex-direction: column; gap: 10px; margin-top: 24px;
+    }
+    .mobile-menu-actions a, .mobile-menu-actions button {
+      display: block; width: 100%; padding: 14px; border-radius: 12px;
+      text-align: center; font-size: 14px; font-weight: 600;
+      text-decoration: none; cursor: pointer;
+    }
+    .mobile-menu-profile {
+      background: rgba(255,255,255,0.1); color: #fff; border: none;
+    }
+    .mobile-menu-logout {
+      background: #fff; color: #111; border: none;
+    }
+    .mobile-menu-cta {
+      display: block; width: 100%; padding: 14px; border-radius: 12px;
+      text-align: center; font-size: 14px; font-weight: 600;
+      text-decoration: none; background: #FF4D00; color: #fff;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      text-align: center; padding: 72px 24px 48px;
+      background: #111; color: #fff; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,200,83,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 50px;
+      background: rgba(0,200,83,0.12); color: #00C853;
+      font-size: 13px; font-weight: 600; margin-bottom: 20px;
+      position: relative;
+    }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #00C853;
+      box-shadow: 0 0 6px 2px rgba(0,200,83,0.5);
+      animation: livePulse 2s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%, 100% { box-shadow: 0 0 6px 2px rgba(0,200,83,0.4); opacity: 1; }
+      50% { box-shadow: 0 0 12px 4px rgba(0,200,83,0.7); opacity: 0.85; }
+    }
+    .hero-title {
+      font-size: clamp(28px, 4.5vw, 42px); font-weight: 600;
+      letter-spacing: -1px; line-height: 1.45; margin-bottom: 16px;
+      position: relative;
+    }
+    .hero-title em {
+      font-style: normal; color: #00C853;
+    }
+    .hero-subtitle {
+      font-size: 16px; color: rgba(255,255,255,0.5); line-height: 1.6;
+      position: relative;
+    }
+
+    /* ===== TOOLBAR ===== */
+    .toolbar {
+      max-width: 800px; margin: 0 auto; padding: 24px 24px 0;
+      display: flex; justify-content: flex-end; align-items: center;
+    }
+    .btn-write {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 8px;
+      background: transparent; border: 1px solid #ddd;
+      font-size: 13px; font-weight: 500; color: #999;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-write:hover { border-color: #bbb; color: #666; }
+
+    .load-more-wrap {
+      max-width: 800px; margin: 0 auto; padding: 0 24px 60px; text-align: center;
+    }
+    .btn-load-more {
+      padding: 14px 40px; border-radius: 12px; background: #f5f5f5;
+      border: none; font-size: 14px; font-weight: 600; color: #666;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-load-more:hover { background: #eee; }
+
+    /* ===== REVIEW CARDS ===== */
+    .reviews {
+      max-width: 800px; margin: 0 auto; padding: 20px 24px 30px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .review-card {
+      background: #fff; border-radius: 20px;
+      overflow: hidden; border: 1px solid #eee;
+    }
+
+    /* Card header */
+    .review-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 20px 24px 0;
+    }
+    .review-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #f0f0f0; display: flex; align-items: center;
+      justify-content: center; font-size: 14px; color: #bbb; flex-shrink: 0;
+    }
+    .review-user-info { flex: 1; }
+    .review-username {
+      font-size: 14px; font-weight: 700; color: #1a1a1a;
+    }
+    .review-date {
+      font-size: 12px; color: #bbb; margin-top: 1px;
+    }
+    .review-tags {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      padding: 12px 24px 0;
+    }
+    .review-tag {
+      padding: 4px 10px; border-radius: 6px;
+      background: #f5f5f5; font-size: 11px; font-weight: 600; color: #999;
+    }
+
+    /* Amounts */
+    .review-amounts {
+      display: flex; gap: 16px; padding: 16px 24px;
+      align-items: center;
+    }
+    .review-amount-item {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .review-amount-label {
+      font-size: 12px; color: #999; white-space: nowrap;
+    }
+    .review-amount-value {
+      font-size: 15px; font-weight: 800; letter-spacing: -0.3px;
+    }
+    .review-amount-value.negative { color: #3182f6; }
+    .review-amount-value.positive { color: #f04452; }
+    .review-amount-pct {
+      font-size: 13px; font-weight: 700; color: #f04452;
+      background: #ffeaed; padding: 2px 8px; border-radius: 4px;
+    }
+
+    /* Proof image */
+    .review-proof {
+      margin: 0 24px; border-radius: 12px; overflow: hidden;
+      width: 180px; height: 180px; background: #111;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .review-proof:hover { opacity: 0.85; }
+    .review-proof img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .review-proof-placeholder {
+      font-size: 13px; color: rgba(255,255,255,0.3);
+    }
+
+    /* Summary */
+    .review-summary {
+      padding: 20px 24px 0;
+    }
+    .review-summary-inner {
+      background: #EEF1FF; border-radius: 14px; padding: 18px 20px;
+    }
+    .review-summary-title {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700; color: #4A5AE8;
+      margin-bottom: 12px;
+    }
+    .review-summary-list {
+      list-style: none; display: flex; flex-direction: column; gap: 8px;
+    }
+    .review-summary-list li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; color: #555; line-height: 1.5;
+    }
+
+    /* Body */
+    .review-body {
+      padding: 16px 24px 0;
+    }
+    .review-text {
+      font-size: 14px; color: #555; line-height: 1.7;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .review-text.expanded {
+      -webkit-line-clamp: unset;
+    }
+    .review-more {
+      background: none; border: none; cursor: pointer;
+      font-size: 13px; color: #bbb; padding: 8px 0; font-weight: 500;
+    }
+    .review-more:hover { color: #888; }
+
+    /* CTA */
+    .review-cta {
+      padding: 12px 24px 20px; text-align: right;
+    }
+    .review-cta a {
+      font-size: 14px; font-weight: 700; color: #FF4D00;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .review-cta a:hover { opacity: 0.7; }
+
+    /* ===== IMAGE LIGHTBOX ===== */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.85);
+      align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 90vw; max-height: 90vh; border-radius: 12px;
+      object-fit: contain; cursor: default;
+    }
+    .lightbox-close {
+      position: absolute; top: 20px; right: 24px;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.15); border: none;
+      color: #fff; font-size: 20px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.3); }
+
+    /* ===== BOTTOM CTA ===== */
+    .bottom-cta {
+      text-align: center; padding: 60px 24px 80px;
+      background: #111; color: #fff;
+    }
+    .bottom-cta-title {
+      font-size: 22px; font-weight: 600; margin-bottom: 12px;
+      letter-spacing: -0.5px; color: #fff;
+    }
+    .bottom-cta-desc {
+      font-size: 15px; color: rgba(255,255,255,0.5); margin-bottom: 28px;
+    }
+    .bottom-cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 16px 40px; border-radius: 14px;
+      background: #FF4D00; color: #fff;
+      font-size: 16px; font-weight: 700; border: none;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .bottom-cta-btn:hover {
+      background: #e04400; transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255,77,0,0.25);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center; padding: 40px 24px;
+      border-top: 1px solid #eee; color: #bbb; font-size: 13px;
+      background: #fff;
+    }
+    .footer a { color: #999; text-decoration: none; }
+
+    /* ===== WRITE MODAL ===== */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.5); justify-content: center; align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: #fff; border-radius: 24px; width: 90%; max-width: 520px;
+      max-height: 90vh; overflow-y: auto; position: relative;
+      animation: modalIn 0.25s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 28px 0;
+    }
+    .modal-title {
+      font-size: 20px; font-weight: 800;
+    }
+    .modal-close {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: none; background: #f5f5f5; cursor: pointer;
+      font-size: 18px; color: #999; display: flex; align-items: center;
+      justify-content: center; transition: background 0.2s;
+    }
+    .modal-close:hover { background: #eee; }
+
+    .modal-user-info {
+      padding: 12px 28px 0;
+      font-size: 12px; color: #bbb;
+    }
+
+    .modal-body { padding: 20px 28px 28px; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block; font-size: 13px; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+    .form-label .required { color: #FF4D00; margin-left: 2px; }
+    .form-hint {
+      font-size: 11px; color: #bbb; font-weight: 400; margin-left: 4px;
+    }
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .form-row-4 {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .form-select {
+      width: 100%; padding: 12px 16px; border: 1.5px solid #e8e8e8;
+      border-radius: 12px; font-size: 14px; font-family: inherit;
+      transition: border-color 0.2s; outline: none; background: #fff;
+      color: #1a1a1a; cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center;
+    }
+    .form-select:focus { border-color: #FF4D00; }
+    .form-select option[value=""] { color: #ccc; }
+    .form-input {
+      width: 100%; padding: 12px 16px; border: 1.5px solid #e8e8e8;
+      border-radius: 12px; font-size: 14px; font-family: inherit;
+      transition: border-color 0.2s; outline: none; background: #fff;
+    }
+    .form-input:focus { border-color: #FF4D00; }
+    .form-input::placeholder { color: #ccc; }
+    textarea.form-input { resize: none; line-height: 1.6; }
+
+    /* Auto-calculated gain */
+    .form-gain {
+      display: none; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 10px; background: #f8f8f8;
+      margin-top: 8px;
+    }
+    .form-gain.visible { display: flex; }
+    .form-gain-label { font-size: 12px; color: #999; }
+    .form-gain-value { font-size: 14px; font-weight: 800; }
+    .form-gain-value.positive { color: #f04452; }
+    .form-gain-value.negative { color: #3182f6; }
+
+    /* Image upload */
+    /* Profile image upload */
+    .profile-upload-wrap {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .profile-upload-wrap input[type="file"] { display: none; }
+    .profile-upload {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 2px dashed #e0e0e0; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; background: #fafafa;
+      transition: all 0.2s; flex-shrink: 0; overflow: hidden;
+    }
+    .profile-upload:hover { border-color: #ccc; background: #f5f5f5; }
+    .profile-upload.has-image { border-style: solid; border-color: #e8e8e8; padding: 0; }
+    .profile-upload.has-image img {
+      width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+    }
+    .profile-upload-info { display: flex; flex-direction: column; gap: 4px; }
+    .profile-upload-label { font-size: 13px; color: #666; font-weight: 500; }
+    .profile-upload-hint { font-size: 11px; color: #bbb; }
+
+    .image-upload-area {
+      width: 100%; aspect-ratio: 1/1; border: 2px dashed #e0e0e0;
+      border-radius: 16px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; cursor: pointer;
+      transition: all 0.2s; position: relative; overflow: hidden;
+      background: #fafafa;
+    }
+    .image-upload-area:hover { border-color: #ccc; background: #f5f5f5; }
+    .image-upload-area.has-image { border-style: solid; border-color: #e8e8e8; }
+    .upload-icon { font-size: 32px; color: #ddd; margin-bottom: 8px; }
+    .upload-text { font-size: 13px; color: #bbb; }
+    .upload-hint { font-size: 11px; color: #ddd; margin-top: 4px; }
+    .image-upload-area input[type="file"] { display: none; }
+
+    /* Image preview & crop */
+    .crop-container {
+      display: none; width: 100%; aspect-ratio: 1/1;
+      position: relative; overflow: hidden; border-radius: 16px;
+      background: #111; cursor: grab;
+    }
+    .crop-container.active { display: block; }
+    .crop-container:active { cursor: grabbing; }
+    .crop-container img {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%; min-height: 100%;
+      user-select: none; -webkit-user-drag: none;
+    }
+    .crop-controls {
+      display: none; align-items: center; gap: 12px; margin-top: 10px;
+    }
+    .crop-controls.active { display: flex; }
+    .crop-controls label {
+      font-size: 12px; color: #999; white-space: nowrap;
+    }
+    .crop-slider {
+      flex: 1; accent-color: #FF4D00; height: 4px;
+    }
+    .crop-reset {
+      font-size: 12px; color: #999; background: none; border: none;
+      cursor: pointer; text-decoration: underline;
+    }
+
+    /* Summary inputs */
+    .summary-inputs {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .summary-row {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .summary-num {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #FFF0E6; color: #FF4D00; font-size: 11px;
+      font-weight: 700; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
+    }
+
+    /* Char counter */
+    .char-counter {
+      text-align: right; font-size: 11px; color: #ccc; margin-top: 4px;
+    }
+    .char-counter.warn { color: #FF4D00; }
+
+    /* Submit */
+    .form-submit {
+      width: 100%; padding: 16px; border-radius: 14px;
+      background: #1a1a1a; color: #fff; font-size: 16px;
+      font-weight: 700; border: none; cursor: pointer;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .form-submit:hover { background: #333; }
+    .form-submit:disabled {
+      background: #e8e8e8; color: #bbb; cursor: not-allowed;
+    }
+
+    /* ===== LEGAL MODAL ===== */
+    .legal-modal-bg {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.5); align-items: flex-start; justify-content: center;
+      padding: 40px 20px; overflow-y: auto;
+    }
+    .legal-modal-bg.active { display: flex; }
+    .legal-modal {
+      background: #fff; border-radius: 16px; width: 100%; max-width: 680px;
+      overflow: hidden; position: relative; animation: fadeUp 0.25s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .legal-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; border-bottom: 1px solid #f0f0f0;
+    }
+    .legal-modal-header h3 {
+      font-size: 16px; font-weight: 700; color: #1a1a1a;
+    }
+    .legal-modal-close {
+      width: 32px; height: 32px; border-radius: 50%; border: none;
+      background: #f5f5f5; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; font-size: 16px; color: #999;
+    }
+    .legal-modal-close:hover { background: #eee; }
+    .legal-modal-banner {
+      background: #FF4D00; color: #fff; padding: 24px 32px;
+      font-size: 18px; font-weight: 700;
+    }
+    .legal-modal-body {
+      padding: 32px; max-height: 60vh; overflow-y: auto;
+    }
+    .legal-modal-body h4 {
+      font-size: 15px; font-weight: 700; color: #1a1a1a;
+      margin: 28px 0 12px;
+    }
+    .legal-modal-body h4:first-child { margin-top: 0; }
+    .legal-modal-body p {
+      font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 8px;
+    }
+    .legal-modal-body ul {
+      padding-left: 20px; margin: 8px 0 16px;
+    }
+    .legal-modal-body li {
+      font-size: 14px; color: #555; line-height: 1.8;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; grid-template-columns: 1fr auto; }
+      .navbar-nav { display: none; }
+      .navbar-right { display: none; }
+      .navbar-hamburger { display: flex; grid-column: 2; }
+      .hero { padding: 52px 20px 32px; }
+      .stats-bar { gap: 24px; padding: 20px; }
+      .stat-value { font-size: 20px; }
+      .toolbar { padding: 20px 20px 0; }
+      .reviews { padding: 16px 20px 60px; }
+      .review-header { padding: 16px 20px 0; }
+      .review-tags { padding: 10px 20px 0; }
+      .review-amounts { padding: 14px 20px; flex-wrap: wrap; gap: 8px; }
+      .review-proof { margin: 0 20px; }
+      .review-summary { padding: 16px 20px 0; }
+      .review-body { padding: 14px 20px 0; }
+      .review-cta { padding: 10px 20px 16px; }
+      .modal { width: 100%; max-width: 100%; border-radius: 20px 20px 0 0;
+        position: fixed; bottom: 0; max-height: 95vh;
+      }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">GGU</a>
+    <div class="navbar-nav">
+      <a href="plans.html" class="navbar-link">구독하기 <span class="nav-dot"></span></a>
+      <a href="review.html" class="navbar-link active">후기</a>
+      <a href="faq.html" class="navbar-link">자주 묻는 질문</a>
+    </div>
+    <div class="navbar-right" id="navbarRight"></div>
+    <button class="navbar-hamburger" onclick="openMobileMenu()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" onclick="if(event.target===this)closeMobileMenu()">
+    <div class="mobile-menu-panel">
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <nav class="mobile-menu-nav">
+        <a href="plans.html" class="mobile-menu-link">구독하기 <span class="nav-dot"></span></a>
+        <a href="review.html" class="mobile-menu-link active">후기</a>
+        <a href="faq.html" class="mobile-menu-link">자주 묻는 질문</a>
+      </nav>
+      <div class="mobile-menu-actions" id="mobileMenuActions">
+        <a href="plans.html" class="mobile-menu-cta">지금 시작하기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge"><span class="live-dot"></span> 실제 구독자 인증 후기</div>
+    <h1 class="hero-title">구독 전과 후,<br><em>숫자</em>가 증명합니다</h1>
+    <p class="hero-subtitle">머니랩 구독자들의 실제 투자 성과를 확인하세요</p>
+  </section>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <button class="btn-write" onclick="openModal()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      후기 작성
+    </button>
+  </div>
+
+  <!-- REVIEW CARDS -->
+  <div class="reviews">
+
+    <!-- Review 1 -->
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">
+          <svg width="16" height="16" fill="#ccc" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4"/></svg>
+        </div>
+        <div class="review-user-info">
+          <div class="review-username">kdy2***</div>
+          <div class="review-date">2026.02.08</div>
+        </div>
+      </div>
+      <div class="review-tags">
+        <span class="review-tag">🐥 투자 초보</span>
+        <span class="review-tag">💰 시드 500 이하</span>
+        <span class="review-tag">👤 30대 직장인</span>
+      </div>
+      <div class="review-amounts">
+        <div class="review-amount-item">
+          <span class="review-amount-label">구독 전</span>
+          <span class="review-amount-value negative">-430만원</span>
+        </div>
+        <span style="color:#ddd">→</span>
+        <div class="review-amount-item">
+          <span class="review-amount-label">구독 후</span>
+          <span class="review-amount-value positive">+870만원</span>
+        </div>
+        <span class="review-amount-pct">+302%</span>
+      </div>
+      <div class="review-proof" onclick="openLightbox(this)">
+        <span class="review-proof-placeholder">인증 이미지</span>
+      </div>
+      <div class="review-summary">
+        <div class="review-summary-inner">
+          <div class="review-summary-title">✨ 구독자 후기 요약</div>
+          <ul class="review-summary-list">
+            <li>📊 차근차근 공부되는 쉬운 거시경제 설명</li>
+            <li>🔔 실시간 매수 알림 편함</li>
+            <li>🧠 가짜뉴스를 판별하는 방법을 알게 됨</li>
+          </ul>
+        </div>
+      </div>
+      <div class="review-body">
+        <p class="review-text">사실 경제 하나도 몰라서 투자를 언제부터 시작할까 고민만 했었습니다. 머니랩 구독하고 나서 매일 올라오는 분석 덕분에 경제 흐름이 보이기 시작했어요. 특히 실시간 시그널이 진짜 도움 많이 됐습니다.</p>
+        <button class="review-more" onclick="toggleReview(this)">더보기</button>
+      </div>
+      <div class="review-cta">
+        <a href="plans.html">나도 시작하기 →</a>
+      </div>
+    </div>
+
+    <!-- Review 2 -->
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">
+          <svg width="16" height="16" fill="#ccc" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4"/></svg>
+        </div>
+        <div class="review-user-info">
+          <div class="review-username">inves***</div>
+          <div class="review-date">2026.01.22</div>
+        </div>
+      </div>
+      <div class="review-tags">
+        <span class="review-tag">🏆 투자 고수</span>
+        <span class="review-tag">💰 시드 2000 이상</span>
+        <span class="review-tag">👤 40대 사업가</span>
+      </div>
+      <div class="review-amounts">
+        <div class="review-amount-item">
+          <span class="review-amount-label">구독 전</span>
+          <span class="review-amount-value positive">+200만원</span>
+        </div>
+        <span style="color:#ddd">→</span>
+        <div class="review-amount-item">
+          <span class="review-amount-label">구독 후</span>
+          <span class="review-amount-value positive">+1,580만원</span>
+        </div>
+        <span class="review-amount-pct">+690%</span>
+      </div>
+      <div class="review-proof" onclick="openLightbox(this)">
+        <span class="review-proof-placeholder">인증 이미지</span>
+      </div>
+      <div class="review-summary">
+        <div class="review-summary-inner">
+          <div class="review-summary-title">✨ 구독자 후기 요약</div>
+          <ul class="review-summary-list">
+            <li>📈 명확한 매매 시그널로 타이밍 잡기가 쉬워짐</li>
+            <li>📋 체계적인 포트폴리오 관리 방법을 배움</li>
+            <li>📊 월간 리포트의 섹터 분석 퀄리티가 높음</li>
+          </ul>
+        </div>
+      </div>
+      <div class="review-body">
+        <p class="review-text">주식 5년째 했지만 항상 제자리였는데, 머니랩 구독 후 체계적으로 투자하는 법을 배웠습니다. 특히 월간 TOP3 섹터 리포트가 정말 좋아요. 시장 흐름을 미리 파악할 수 있어서 선제적으로 움직일 수 있게 됐습니다.</p>
+        <button class="review-more" onclick="toggleReview(this)">더보기</button>
+      </div>
+      <div class="review-cta">
+        <a href="plans.html">나도 시작하기 →</a>
+      </div>
+    </div>
+
+    <!-- Review 3 -->
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">
+          <svg width="16" height="16" fill="#ccc" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4"/></svg>
+        </div>
+        <div class="review-user-info">
+          <div class="review-username">crypt***</div>
+          <div class="review-date">2026.03.02</div>
+        </div>
+      </div>
+      <div class="review-tags">
+        <span class="review-tag">📈 투자 중수</span>
+        <span class="review-tag">💰 시드 2000 이하</span>
+        <span class="review-tag">👤 20대 프리랜서</span>
+      </div>
+      <div class="review-amounts">
+        <div class="review-amount-item">
+          <span class="review-amount-label">구독 전</span>
+          <span class="review-amount-value negative">-150만원</span>
+        </div>
+        <span style="color:#ddd">→</span>
+        <div class="review-amount-item">
+          <span class="review-amount-label">구독 후</span>
+          <span class="review-amount-value positive">+420만원</span>
+        </div>
+        <span class="review-amount-pct">+380%</span>
+      </div>
+      <div class="review-proof" onclick="openLightbox(this)">
+        <span class="review-proof-placeholder">인증 이미지</span>
+      </div>
+      <div class="review-summary">
+        <div class="review-summary-inner">
+          <div class="review-summary-title">✨ 구독자 후기 요약</div>
+          <ul class="review-summary-list">
+            <li>🎯 코인 시장 분석이 정확해서 신뢰가 감</li>
+            <li>⏰ 손절 타이밍을 알려줘서 손실을 줄일 수 있었음</li>
+            <li>💪 심리 관리까지 도움받아 멘탈이 단단해짐</li>
+          </ul>
+        </div>
+      </div>
+      <div class="review-body">
+        <p class="review-text">코인 투자하면서 매번 물타기만 하다가 결국 큰 손실을 봤었는데, 머니랩 덕분에 손절 타이밍과 진입 시점을 배웠어요. 이제는 감이 아니라 데이터로 투자합니다.</p>
+        <button class="review-more" onclick="toggleReview(this)">더보기</button>
+      </div>
+      <div class="review-cta">
+        <a href="plans.html">나도 시작하기 →</a>
+      </div>
+    </div>
+
+    <!-- Review 4 -->
+    <div class="review-card" style="display:none">
+      <div class="review-header">
+        <div class="review-avatar">
+          <svg width="16" height="16" fill="#ccc" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4"/></svg>
+        </div>
+        <div class="review-user-info">
+          <div class="review-username">stock***</div>
+          <div class="review-date">2025.12.20</div>
+        </div>
+      </div>
+      <div class="review-tags">
+        <span class="review-tag">🐥 투자 초보</span>
+        <span class="review-tag">💰 시드 500 이하</span>
+        <span class="review-tag">👤 30대 직장인</span>
+      </div>
+      <div class="review-amounts">
+        <div class="review-amount-item">
+          <span class="review-amount-label">구독 전</span>
+          <span class="review-amount-value positive">+50만원</span>
+        </div>
+        <span style="color:#ddd">→</span>
+        <div class="review-amount-item">
+          <span class="review-amount-label">구독 후</span>
+          <span class="review-amount-value positive">+890만원</span>
+        </div>
+        <span class="review-amount-pct">+1,680%</span>
+      </div>
+      <div class="review-proof" onclick="openLightbox(this)">
+        <span class="review-proof-placeholder">인증 이미지</span>
+      </div>
+      <div class="review-summary">
+        <div class="review-summary-inner">
+          <div class="review-summary-title">✨ 구독자 후기 요약</div>
+          <ul class="review-summary-list">
+            <li>🏃 직장인도 따라할 수 있는 현실적인 투자 루틴</li>
+            <li>📰 경제 뉴스 해석이 쉬워서 출퇴근 길에 공부</li>
+            <li>🔥 챌린지가 꾸준한 투자 습관을 만들어줌</li>
+          </ul>
+        </div>
+      </div>
+      <div class="review-body">
+        <p class="review-text">육아하면서 투자 공부할 시간이 없었는데, 머니랩에서 매일 핵심만 정리해줘서 출퇴근 시간에 읽기 딱 좋아요. 챌린지 참여하면서 꾸준히 투자하는 습관도 생겼고, 수익도 자연스럽게 따라왔습니다.</p>
+        <button class="review-more" onclick="toggleReview(this)">더보기</button>
+      </div>
+      <div class="review-cta">
+        <a href="plans.html">나도 시작하기 →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LOAD MORE -->
+  <div class="load-more-wrap" id="loadMoreWrap">
+    <button class="btn-load-more" onclick="loadMoreReviews()">후기 더보기</button>
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <section class="bottom-cta">
+    <h2 class="bottom-cta-title">다음 후기의 주인공은 당신입니다</h2>
+    <p class="bottom-cta-desc">지금 시작하면 오늘부터 투자 루틴이 달라집니다</p>
+    <a href="plans.html" class="bottom-cta-btn">구독 시작하기 →</a>
+  </section>
+
+  <!-- IMAGE LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+    <img id="lightboxImg" src="" alt="인증 이미지">
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div style="margin-bottom:12px">GGU</div>
+    <p style="font-size:12px; color:#888; line-height:1.8; margin-bottom:10px;">대표 : 김범준 ㅣ 사업자등록번호 : 703-12-02380<br>통신판매업신고번호 : 2024-서울서초-1718<br>개인정보처리책임자 : 김범준 ggu_official@naver.com ㅣ 010-7458-9925</p>
+    <p>&copy; 2025 GGU &middot; 머니랩 &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="openLegalModal('termsModal')">이용약관</a> &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="openLegalModal('privacyModal')"><strong>개인정보처리방침</strong></a></p>
+  </div>
+
+  <!-- WRITE REVIEW MODAL -->
+  <div class="modal-overlay" id="writeModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">후기 작성</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- 프로필 태그 드롭박스 -->
+        <div class="form-group">
+          <label class="form-label">프로필 태그 <span class="required">*</span></label>
+          <div class="form-row-4">
+            <select class="form-select" id="selectInvest">
+              <option value="" disabled selected>🐥 투자 경험</option>
+              <option value="초보">🐥 투자 초보</option>
+              <option value="중수">📈 투자 중수</option>
+              <option value="고수">🏆 투자 고수</option>
+            </select>
+            <select class="form-select" id="selectSeed">
+              <option value="" disabled selected>💰 시드 규모</option>
+              <option value="500 이하">💰 시드 500 이하</option>
+              <option value="2000 이하">💰 시드 2000 이하</option>
+              <option value="2000 이상">💰 시드 2000 이상</option>
+            </select>
+            <select class="form-select" id="selectAge">
+              <option value="" disabled selected>👤 나이대</option>
+              <option value="20대">👤 20대</option>
+              <option value="30대">👤 30대</option>
+              <option value="40대">👤 40대</option>
+              <option value="50대">👤 50대</option>
+              <option value="60대">👤 60대</option>
+              <option value="70대">👤 70대</option>
+            </select>
+            <select class="form-select" id="selectJob">
+              <option value="" disabled selected>💼 직업</option>
+              <option value="직장인">💼 직장인</option>
+              <option value="프리랜서">💼 프리랜서</option>
+              <option value="사업가">💼 사업가</option>
+              <option value="전업 투자">💼 전업 투자</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 금액 입력 -->
+        <div class="form-group">
+          <label class="form-label">투자 성과 <span class="required">*</span></label>
+          <div class="form-row">
+            <div>
+              <input type="text" class="form-input" id="amountBefore" placeholder="구독 전 금액" oninput="calcGain()">
+              <div style="font-size:11px; color:#ccc; margin-top:4px; padding-left:4px;">예: -430만원, +200만원</div>
+            </div>
+            <div>
+              <input type="text" class="form-input" id="amountAfter" placeholder="구독 후 금액" oninput="calcGain()">
+              <div style="font-size:11px; color:#ccc; margin-top:4px; padding-left:4px;">예: +870만원</div>
+            </div>
+          </div>
+          <div class="form-gain" id="formGain">
+            <span class="form-gain-label">수익 변화</span>
+            <span class="form-gain-value" id="formGainValue"></span>
+          </div>
+        </div>
+
+        <!-- 인증 사진 -->
+        <div class="form-group">
+          <label class="form-label">인증 사진 <span class="required">*</span> <span class="form-hint">1:1 비율로 크롭됩니다</span></label>
+          <div class="image-upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">📷</div>
+            <div class="upload-text">클릭하여 사진을 첨부하세요</div>
+            <div class="upload-hint">JPG, PNG (최대 10MB)</div>
+            <input type="file" id="fileInput" accept="image/*" onchange="handleImageUpload(event)">
+          </div>
+          <div class="crop-container" id="cropContainer">
+            <img id="cropImage" draggable="false">
+          </div>
+          <div class="crop-controls" id="cropControls">
+            <label>확대</label>
+            <input type="range" class="crop-slider" id="cropSlider" min="100" max="300" value="100" oninput="handleZoom(this.value)">
+            <button class="crop-reset" onclick="resetImage()">다시 선택</button>
+          </div>
+        </div>
+
+        <!-- 후기 3줄 요약 -->
+        <div class="form-group">
+          <label class="form-label">후기 3줄 요약 <span class="required">*</span></label>
+          <div class="summary-inputs">
+            <div class="summary-row">
+              <span class="summary-num">1</span>
+              <input type="text" class="form-input" placeholder="첫 번째 요약 포인트" maxlength="30">
+            </div>
+            <div class="summary-row">
+              <span class="summary-num">2</span>
+              <input type="text" class="form-input" placeholder="두 번째 요약 포인트" maxlength="30">
+            </div>
+            <div class="summary-row">
+              <span class="summary-num">3</span>
+              <input type="text" class="form-input" placeholder="세 번째 요약 포인트" maxlength="30">
+            </div>
+          </div>
+        </div>
+
+        <!-- 후기 내용 -->
+        <div class="form-group">
+          <label class="form-label">후기 내용 <span class="required">*</span> <span class="form-hint">공백 포함 200자 이내</span></label>
+          <textarea class="form-input" id="reviewContent" rows="4" maxlength="200" placeholder="머니랩을 구독한 후 달라진 점을 자유롭게 적어주세요" oninput="updateCharCount()"></textarea>
+          <div class="char-counter" id="charCounter">0 / 200</div>
+        </div>
+
+        <!-- 제출 -->
+        <button class="form-submit" onclick="submitReview()">후기 등록하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === Mobile Menu ===
+    // === Lightbox ===
+    function openLightbox(el) {
+      const img = el.querySelector('img');
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightboxImg');
+      if (img) {
+        lbImg.src = img.src;
+      } else {
+        // placeholder - no real image yet
+        lbImg.src = '';
+        lbImg.alt = '인증 이미지 (이미지 미등록)';
+      }
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(e) {
+      if (e.target.tagName === 'IMG') return;
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const lb = document.getElementById('lightbox');
+        if (lb.classList.contains('active')) closeLightbox(e);
+        const modal = document.getElementById('writeModal');
+        if (modal && modal.classList.contains('active')) closeModal();
+        document.querySelectorAll('.legal-modal-bg.active').forEach(m => {
+          m.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+
+    // ===== LOGIN STATE NAVBAR =====
+    function updateNavbar() {
+      var isLoggedIn = localStorage.getItem('moneylab_logged_in') === 'true';
+      var el = document.getElementById('navbarRight');
+      if (!el) return;
+      if (isLoggedIn) {
+        el.innerHTML = '<a href="profile.html" class="navbar-profile"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/></svg>내 구독정보</a><button class="navbar-logout" onclick="doLogout()">로그아웃</button>';
+      } else {
+        el.innerHTML = '<a href="plans.html" class="navbar-cta">지금 시작하기</a>';
+      }
+      var mobileActions = document.getElementById('mobileMenuActions');
+      if (mobileActions) {
+        if (isLoggedIn) {
+          mobileActions.innerHTML = '<a href="profile.html" style="background:#FF4D00;color:#fff;font-size:16px;font-weight:700;padding:16px;border-radius:14px;">내 구독정보</a><a href="#" onclick="event.preventDefault();doLogout();" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:14px;">로그아웃</a>';
+        } else {
+          mobileActions.innerHTML = '<a href="plans.html">지금 시작하기</a>';
+        }
+      }
+      updateSimToggle(isLoggedIn);
+    }
+    function doLogout() {
+      localStorage.removeItem('moneylab_logged_in');
+      location.href = 'index.html';
+    }
+    // ===== SIM TOGGLE =====
+    (function(){
+      var btn = document.createElement('button');
+      btn.id = 'simToggle';
+      btn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;padding:8px 16px;border-radius:50px;border:none;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.15);transition:all 0.2s;';
+      document.body.appendChild(btn);
+      btn.addEventListener('click', function(){
+        var isLoggedIn = localStorage.getItem('moneylab_logged_in') === 'true';
+        if (isLoggedIn) {
+          localStorage.removeItem('moneylab_logged_in');
+        } else {
+          localStorage.setItem('moneylab_logged_in', 'true');
+        }
+        location.reload();
+      });
+      updateNavbar();
+    })();
+    function updateSimToggle(isLoggedIn) {
+      var btn = document.getElementById('simToggle');
+      if (!btn) return;
+      if (isLoggedIn) {
+        btn.textContent = '🟢 로그인 상태 (클릭: 로그아웃)';
+        btn.style.background = '#111'; btn.style.color = '#fff';
+      } else {
+        btn.textContent = '⚪ 로그아웃 상태 (클릭: 로그인)';
+        btn.style.background = '#fff'; btn.style.color = '#333';
+      }
+    }
+
+    function openMobileMenu() {
+      document.getElementById('mobileMenu').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileMenu').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // === Load More Reviews ===
+    function loadMoreReviews() {
+      const cards = document.querySelectorAll('.review-card[style*="display:none"], .review-card[style*="display: none"]');
+      let shown = 0;
+      cards.forEach(card => {
+        if (shown < 3) { card.style.display = ''; shown++; }
+      });
+      // hide button if no more hidden cards
+      const remaining = document.querySelectorAll('.review-card[style*="display:none"], .review-card[style*="display: none"]');
+      if (remaining.length === 0) {
+        document.getElementById('loadMoreWrap').style.display = 'none';
+      }
+    }
+
+    // === Modal ===
+    function openModal() {
+      document.getElementById('writeModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.getElementById('writeModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('writeModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // === Gain calculation ===
+    function parseAmount(str) {
+      if (!str) return null;
+      const cleaned = str.replace(/[^\d\-+.]/g, '');
+      if (!cleaned) return null;
+      return parseFloat(cleaned);
+    }
+    function calcGain() {
+      const before = parseAmount(document.getElementById('amountBefore').value);
+      const after = parseAmount(document.getElementById('amountAfter').value);
+      const gainEl = document.getElementById('formGain');
+      const gainVal = document.getElementById('formGainValue');
+
+      if (before !== null && after !== null && before !== 0) {
+        const change = after - before;
+        const pct = ((change / Math.abs(before)) * 100).toFixed(1);
+        const sign = change >= 0 ? '+' : '';
+        gainVal.textContent = sign + change + '만원 (' + sign + pct + '%)';
+        gainVal.className = 'form-gain-value ' + (change >= 0 ? 'positive' : 'negative');
+        gainEl.classList.add('visible');
+      } else {
+        gainEl.classList.remove('visible');
+      }
+    }
+
+    // === Image upload & crop ===
+    let cropImg = null;
+    let imgX = 0, imgY = 0, isDragging = false, startX, startY;
+    let zoomLevel = 100;
+
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const img = document.getElementById('cropImage');
+        img.src = ev.target.result;
+
+        document.getElementById('uploadArea').style.display = 'none';
+        document.getElementById('cropContainer').classList.add('active');
+        document.getElementById('cropControls').classList.add('active');
+
+        // Reset
+        imgX = 0; imgY = 0; zoomLevel = 100;
+        document.getElementById('cropSlider').value = 100;
+        img.style.transform = 'translate(calc(-50% + 0px), calc(-50% + 0px)) scale(1)';
+
+        // Drag handlers
+        const container = document.getElementById('cropContainer');
+        container.onmousedown = container.ontouchstart = dragStart;
+        document.onmousemove = document.ontouchmove = dragMove;
+        document.onmouseup = document.ontouchend = dragEnd;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function dragStart(e) {
+      isDragging = true;
+      const pos = e.touches ? e.touches[0] : e;
+      startX = pos.clientX - imgX;
+      startY = pos.clientY - imgY;
+      e.preventDefault();
+    }
+    function dragMove(e) {
+      if (!isDragging) return;
+      const pos = e.touches ? e.touches[0] : e;
+      imgX = pos.clientX - startX;
+      imgY = pos.clientY - startY;
+      updateImageTransform();
+    }
+    function dragEnd() { isDragging = false; }
+
+    function handleZoom(val) {
+      zoomLevel = val;
+      updateImageTransform();
+    }
+
+    function updateImageTransform() {
+      const scale = zoomLevel / 100;
+      document.getElementById('cropImage').style.transform =
+        'translate(calc(-50% + ' + imgX + 'px), calc(-50% + ' + imgY + 'px)) scale(' + scale + ')';
+    }
+
+    function resetImage() {
+      document.getElementById('uploadArea').style.display = '';
+      document.getElementById('cropContainer').classList.remove('active');
+      document.getElementById('cropControls').classList.remove('active');
+      document.getElementById('fileInput').value = '';
+      imgX = 0; imgY = 0; zoomLevel = 100;
+    }
+
+    // === Char counter ===
+    function updateCharCount() {
+      const ta = document.getElementById('reviewContent');
+      const counter = document.getElementById('charCounter');
+      const len = ta.value.length;
+      counter.textContent = len + ' / 200';
+      counter.className = 'char-counter' + (len >= 180 ? ' warn' : '');
+    }
+
+    // === Toggle review text ===
+    function toggleReview(btn) {
+      const text = btn.previousElementSibling;
+      const expanded = text.classList.toggle('expanded');
+      btn.textContent = expanded ? '접기' : '더보기';
+    }
+
+    // === Submit ===
+    function submitReview() {
+      alert('후기가 등록 요청되었습니다.\n관리자 승인 후 게시됩니다.');
+      closeModal();
+    }
+
+    function openLegalModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLegalModal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  </script>
+
+  <!-- PRIVACY POLICY MODAL -->
+  <div class="legal-modal-bg" id="privacyModal" onclick="if(event.target===this)closeLegalModal('privacyModal')">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <h3>개인정보 처리방침</h3>
+        <button class="legal-modal-close" onclick="closeLegalModal('privacyModal')">✕</button>
+      </div>
+      <div class="legal-modal-banner">개인정보 처리방침</div>
+      <div class="legal-modal-body">
+        <p>GGU(지지유)(이하 '회사'라 한다)는 개인정보 보호법 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리지침을 수립·공개합니다.</p>
+        <h4>제1조(개인정보의 처리목적)</h4>
+        <p>회사는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않습니다.</p>
+        <ul>
+          <li>서비스 회원가입 및 관리</li>
+          <li>서비스 제공 및 요금 결제</li>
+          <li>고충처리 및 민원 대응</li>
+        </ul>
+        <h4>제2조(처리하는 개인정보의 항목)</h4>
+        <p>회사는 서비스 제공을 위해 다음의 개인정보를 처리합니다.</p>
+        <ul>
+          <li>필수항목 : 이름, 이메일, 연락처, 결제정보</li>
+          <li>자동수집항목 : 접속 IP, 접속일시, 서비스 이용기록</li>
+        </ul>
+        <h4>제3조(개인정보의 처리 및 보유 기간)</h4>
+        <p>회원 탈퇴 시까지 보유하며, 관련 법령에 따라 일정 기간 보관이 필요한 경우 해당 기간 동안 보유합니다.</p>
+        <ul>
+          <li>계약 또는 청약철회 등에 관한 기록 : 5년</li>
+          <li>대금결제 및 재화 등의 공급에 관한 기록 : 5년</li>
+          <li>소비자의 불만 또는 분쟁처리에 관한 기록 : 3년</li>
+        </ul>
+        <h4>제4조(개인정보의 제3자 제공)</h4>
+        <p>회사는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령의 규정에 의하거나 수사 목적으로 법령에 정해진 절차에 따라 요청이 있는 경우에는 예외로 합니다.</p>
+        <h4>제5조(개인정보의 파기)</h4>
+        <p>회사는 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.</p>
+        <h4>제6조(이용자의 권리·의무)</h4>
+        <p>이용자는 언제든지 자신의 개인정보를 조회하거나 수정할 수 있으며, 회원 탈퇴를 통해 개인정보의 처리 정지를 요구할 수 있습니다.</p>
+        <h4>제7조(개인정보 보호책임자)</h4>
+        <p>개인정보 보호책임자</p>
+        <ul>
+          <li>성명 : 김범준</li>
+          <li>직책 : 대표자</li>
+          <li>연락처 : ggu_official@naver.com</li>
+        </ul>
+        <h4>제8조(개인정보의 안전성 확보 조치)</h4>
+        <p>회사는 개인정보의 안전성 확보를 위해 접근 통제, 암호화, 접속기록 보관 등 기술적·관리적 보호조치를 취하고 있습니다.</p>
+        <h4>제9조(개인정보 자동 수집 장치의 설치·운영)</h4>
+        <p>회사는 서비스 운영을 위해 쿠키(Cookie)를 사용할 수 있으며, 이용자는 브라우저 설정을 통해 쿠키 저장을 거부할 수 있습니다.</p>
+        <h4>제10조(개인정보 처리방침 변경)</h4>
+        <p>이 개인정보 처리방침은 2025. 03. 24부터 적용됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMS OF SERVICE MODAL -->
+  <div class="legal-modal-bg" id="termsModal" onclick="if(event.target===this)closeLegalModal('termsModal')">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <h3>이용약관</h3>
+        <button class="legal-modal-close" onclick="closeLegalModal('termsModal')">✕</button>
+      </div>
+      <div class="legal-modal-banner">이용약관</div>
+      <div class="legal-modal-body">
+        <h4>제 1 조 (목적)</h4>
+        <p>이 약관은 지지유(GGU)(이하 '회사' 라고 한다)가 영위하는 정보 제공 서비스 머니랩(이하 '서비스'라 하며, 접속 가능한 유, 무선 단말기의 종류와 상관없이 이용 가능한 사이트가 제공하는 모든 서비스를 의미합니다.)를 이용함에 있어 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+        <h4>제 2 조 (정의)</h4>
+        <p>'사이트' 란 '회사'가 서비스를 회원에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 '서비스 등'을 거래할 수 있도록 설정한 가상의 영업장을 말하며, 사이버몰을 운영하는 사업자의 의미로도 사용합니다.</p>
+        <h4>제 3 조 (약관의 효력)</h4>
+        <p>이 약관은 서비스를 이용하고자 하는 모든 회원에게 적용됩니다. 회원이 서비스에 가입함과 동시에 이 약관에 동의한 것으로 간주합니다.</p>
+        <h4>제 4 조 (서비스의 제공)</h4>
+        <p>회사는 다음과 같은 서비스를 제공합니다.</p>
+        <ul>
+          <li>투자 정보 분석 및 제공</li>
+          <li>실시간 매매 현황 공유</li>
+          <li>투자 교육 콘텐츠 제공</li>
+          <li>커뮤니티 및 챌린지 운영</li>
+        </ul>
+        <h4>제 5 조 (회원가입)</h4>
+        <p>이용자는 회사가 정한 가입 양식에 따라 회원정보를 기입한 후 약관에 동의하여 회원가입을 신청합니다. 회사는 신청에 대해 승낙함으로써 회원가입이 완료됩니다.</p>
+        <h4>제 6 조 (회원 탈퇴 및 자격 상실)</h4>
+        <p>회원은 언제든지 회사에 탈퇴를 요청할 수 있으며, 회사는 즉시 회원 탈퇴를 처리합니다. 회원이 약관을 위반한 경우 회사는 서비스 이용을 제한하거나 회원 자격을 상실시킬 수 있습니다.</p>
+        <h4>제 7 조 (서비스 이용료)</h4>
+        <p>서비스 이용료는 회사가 정한 요금 정책에 따르며, 결제 시점에 안내된 금액이 적용됩니다. 요금 변경 시 사전에 회원에게 공지합니다.</p>
+        <h4>제 18 조 (구독비 등의 환불)</h4>
+        <p>회사는 회원의 환불요청 등에 의거 온라인 서비스 환불에 관한 규정을 다음과 같이 준용합니다.</p>
+        <ul>
+          <li>당월 머니랩 시작 전 : 잔여 개월 수 만큼의 구독비용 100% 환불 가능</li>
+          <li>당월 머니랩 시작 후 : 환불 불가</li>
+        </ul>
+        <h4>제 19 조 (면책조항)</h4>
+        <p>회사는 투자 정보 제공 목적의 단방향 서비스이며, 개별 투자 자문 관련 1:1 대화는 엄격히 금지됩니다. 서비스를 통해 제공되는 정보는 참고용이며, 투자 판단 및 그에 따른 손익은 전적으로 이용자 본인의 책임입니다.</p>
+        <h4>부칙</h4>
+        <p>이 약관은 2025년 03월 24일부터 시행합니다.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

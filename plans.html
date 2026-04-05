@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>구독 안내 | 머니랩</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff; color: #1a1a1a;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 48px; height: 64px; background: #111; position: sticky;
+      top: 0; z-index: 100;
+    }
+    .navbar-logo {
+      font-size: 24px; font-weight: 900; color: #fff; text-decoration: none;
+      letter-spacing: 1px; justify-self: start;
+    }
+    .navbar-logo span { color: #FF4D00; }
+    .navbar-nav { display: flex; gap: 32px; align-items: center; justify-self: center; }
+    .navbar-link {
+      color: rgba(255,255,255,0.7); text-decoration: none; font-size: 15px;
+      font-weight: 500; transition: color 0.2s;
+    }
+    .navbar-link:hover, .navbar-link.active { color: #fff; }
+    .nav-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: #FF4D00; vertical-align: top; margin-left: 2px;
+    }
+    .navbar-right { display: flex; gap: 12px; align-items: center; justify-self: end; }
+    .navbar-profile {
+      display: flex; align-items: center; gap: 8px; padding: 8px 20px;
+      border-radius: 50px; background: rgba(255,255,255,0.1);
+      color: #fff; font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .navbar-profile:hover { background: rgba(255,255,255,0.2); }
+    .navbar-logout {
+      padding: 8px 20px; border-radius: 50px; background: #fff; color: #111;
+      font-size: 14px; font-weight: 600; border: none; cursor: pointer;
+    }
+    .navbar-cta {
+      padding: 8px 20px; border-radius: 50px; background: #FF4D00; color: #fff;
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .navbar-cta:hover { background: #e04400; }
+
+    .navbar-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      width: 36px; height: 36px; align-items: center; justify-content: center;
+      grid-column: 3; justify-self: end;
+    }
+    .navbar-hamburger svg { stroke: #fff; }
+    /* Mobile menu */
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 150;
+      background: rgba(0,0,0,0.5);
+    }
+    .mobile-menu.active { display: block; }
+    .mobile-menu-panel {
+      position: absolute; top: 0; right: 0; width: 280px; height: 100%;
+      background: #111; padding: 24px;
+      animation: slideIn 0.25s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .mobile-menu-close {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+      margin-left: auto; margin-bottom: 24px;
+    }
+    .mobile-menu-close svg { stroke: #fff; }
+    .mobile-menu-nav {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .mobile-menu-link {
+      display: block; padding: 16px 0; font-size: 16px; font-weight: 600;
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: color 0.2s;
+    }
+    .mobile-menu-link:hover, .mobile-menu-link.active { color: #fff; }
+    .mobile-menu-actions {
+      display: flex; flex-direction: column; gap: 10px; margin-top: 24px;
+    }
+    .mobile-menu-actions a, .mobile-menu-actions button {
+      display: block; width: 100%; padding: 14px; border-radius: 12px;
+      text-align: center; font-size: 14px; font-weight: 600;
+      text-decoration: none; cursor: pointer;
+    }
+    .mobile-menu-profile {
+      background: rgba(255,255,255,0.1); color: #fff; border: none;
+    }
+    .mobile-menu-logout {
+      background: #fff; color: #111; border: none;
+    }
+    .mobile-menu-cta {
+      display: block; width: 100%; padding: 14px; border-radius: 12px;
+      text-align: center; font-size: 14px; font-weight: 600;
+      text-decoration: none; background: #FF4D00; color: #fff;
+    }
+
+    /* ===== PLAN HERO (Grok style) ===== */
+    .plan-hero {
+      text-align: center; padding: 32px 24px 4px;
+    }
+    .plan-hero-logo {
+      height: 32px; margin-bottom: 20px;
+    }
+
+    /* ===== CATEGORY TABS ===== */
+    .tabs {
+      display: flex; justify-content: center; gap: 0;
+      margin: 0 auto 20px; background: #f0f0f0; border-radius: 50px;
+      padding: 4px; width: fit-content;
+    }
+    .tab {
+      padding: 10px 28px; border-radius: 50px; font-size: 14px; font-weight: 600;
+      color: #999; background: transparent; border: none; cursor: pointer;
+      transition: all 0.2s; position: relative;
+    }
+    .tab:hover { color: #555; }
+    .tab.active {
+      background: #1a1a1a; color: #fff; box-shadow: none;
+    }
+    .tab-popular {
+      position: absolute; top: -10px; right: -4px;
+      font-size: 10px; font-weight: 700; color: #FF4D00;
+      background: #FFF0E6; padding: 2px 6px; border-radius: 4px;
+    }
+
+    /* ===== PRICING CARDS ===== */
+    /* ===== BILLING TOGGLE ===== */
+    .billing-toggle-wrap {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin: 0 auto 48px; padding: 0 24px;
+    }
+    .billing-toggle-text {
+      font-size: 15px; font-weight: 500; color: #888;
+    }
+    .billing-toggle {
+      position: relative; width: 52px; height: 28px; border-radius: 14px;
+      background: #e0e0e0; border: none; cursor: pointer; transition: background 0.3s;
+      padding: 0;
+    }
+    .billing-toggle.on { background: #FF4D00; }
+    .billing-toggle-knob {
+      position: absolute; top: 3px; left: 3px; width: 22px; height: 22px;
+      border-radius: 50%; background: #fff; transition: transform 0.3s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+    .billing-toggle.on .billing-toggle-knob { transform: translateX(24px); }
+
+    .pricing {
+      max-width: 800px; margin: 0 auto; padding: 0 24px 32px;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+      align-items: start;
+    }
+    .plan {
+      border-radius: 16px; overflow: hidden;
+      border: 1.5px solid #e8e8e8; transition: transform 0.2s, box-shadow 0.2s;
+      background: #fff;
+    }
+    .plan:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .plan.featured {
+      border: 2px solid #FF4D00; position: relative;
+      box-shadow: 0 4px 20px rgba(255,77,0,0.10);
+    }
+    .plan-popular-tag {
+      position: absolute; top: 16px; right: 16px;
+      background: #FF4D00; color: #fff; font-size: 11px; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px;
+    }
+
+    /* Plan header */
+    .plan-header {
+      padding: 24px 24px 0; text-align: left;
+    }
+    .plan.featured .plan-header { padding-top: 24px; }
+    .plan-name {
+      font-size: 16px; font-weight: 800; color: #1a1a1a; margin-bottom: 0;
+      text-transform: none; letter-spacing: -0.3px;
+    }
+    .plan-tier { display: none; }
+    .plan-desc {
+      font-size: 13px; color: #999; line-height: 1.5;
+    }
+
+    /* Pricing */
+    .plan-pricing {
+      padding: 0 24px 12px; text-align: left; min-height: auto;
+    }
+    .plan-original {
+      font-size: 13px; color: #bbb; text-decoration: line-through; margin-bottom: 0;
+      min-height: 0;
+    }
+    .plan-price-row {
+      display: flex; align-items: baseline; justify-content: flex-start; gap: 2px;
+    }
+    .plan-price-prefix {
+      display: none;
+    }
+    .plan-price {
+      font-size: clamp(32px, 5vw, 40px); font-weight: 600; color: #1a1a1a;
+      letter-spacing: -1px;
+    }
+    .plan.featured .plan-price { color: #FF4D00; }
+    .plan-price-suffix {
+      font-size: 14px; font-weight: 500; color: #888; margin-left: 4px;
+    }
+    .plan-discount {
+      display: none;
+    }
+    .plan-daily {
+      font-size: 13px; color: #888; margin-top: 4px; font-weight: 500;
+    }
+
+    /* CTA button */
+    .plan-cta {
+      padding: 4px 24px 16px;
+    }
+    .plan-btn {
+      display: block; width: 100%; padding: 14px; border-radius: 50px;
+      text-align: center; font-size: 15px; font-weight: 700;
+      text-decoration: none; transition: all 0.2s; border: none; cursor: pointer;
+      background: #f0f0f0; color: #555;
+    }
+    .plan-btn:hover { background: #e5e5e5; }
+    /* secondary button style */
+    .plan-btn.btn-secondary {
+      background: #fff; color: #FF4D00; border: 2px solid #FF4D00;
+    }
+    .plan-btn.btn-secondary:hover {
+      background: #FFF0E6;
+    }
+    .plan.featured .plan-btn {
+      background: #FF4D00; color: #fff;
+    }
+    .plan.featured .plan-btn:hover {
+      background: #e04400;
+    }
+
+    /* Features list */
+    .plan-features {
+      padding: 0 24px 20px; list-style: none;
+    }
+    .plan-features::before {
+      content: ''; display: block; height: 1px;
+      background: #f0f0f0; margin-bottom: 12px;
+    }
+    .plan-features-hint {
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+      font-size: 11px; color: #bbb; font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .plan-features-hint svg { width: 14px; height: 14px; stroke: #bbb; flex-shrink: 0; }
+    .plan-features li.hint-pulse {
+      animation: hintPulse 2s ease-in-out 1s 2;
+    }
+    @keyframes hintPulse {
+      0%, 100% { background: transparent; }
+      50% { background: #FFF5EE; }
+    }
+    .plan-features li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; color: #555; line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .plan-features li:last-child { margin-bottom: 0; }
+    .plan-features li::before {
+      content: '✓'; flex-shrink: 0; width: 18px; height: 18px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; font-size: 11px; font-weight: 700;
+      background: #f0f0f0; color: #999;
+    }
+    .plan.featured .plan-features li::before {
+      background: #FFF0E6; color: #FF4D00;
+    }
+    .plan-includes {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 10px;
+      background: #FFF0E6; margin-bottom: 10px;
+      font-size: 12px; font-weight: 700; color: #FF4D00;
+      border: 1.5px solid rgba(255,77,0,0.15);
+    }
+    .plan-includes svg {
+      width: 16px; height: 16px; flex-shrink: 0; stroke: #FF4D00;
+    }
+
+    /* Feature tooltip */
+    .plan-features li {
+      cursor: pointer; position: relative; transition: color 0.2s;
+      border-radius: 6px; padding: 4px 0; margin-bottom: 4px;
+    }
+    .plan-features li:hover { color: #FF4D00; }
+    .feature-tooltip {
+      display: none; position: fixed; z-index: 300;
+      width: 320px; background: #1a1a1a; color: #fff;
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+      animation: tooltipIn 0.2s ease;
+    }
+    .feature-tooltip.active { display: block; }
+    @keyframes tooltipIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .feature-tooltip-img {
+      width: 100%; aspect-ratio: 16/10; background: #222;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .feature-tooltip-img span {
+      font-size: 12px; color: rgba(255,255,255,0.3);
+    }
+    .feature-tooltip-body { padding: 20px; }
+    .feature-tooltip-title {
+      font-size: 15px; font-weight: 700; margin-bottom: 8px; line-height: 1.3;
+    }
+    .feature-tooltip-desc {
+      font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6;
+    }
+
+
+    /* Mobile tooltip = bottom sheet */
+    @media (max-width: 768px) {
+      .feature-tooltip {
+        position: fixed; bottom: 0; left: 0; right: 0;
+        width: 100%; border-radius: 20px 20px 0 0;
+        max-height: 70vh; overflow-y: auto;
+        animation: sheetUp 0.3s ease;
+      }
+      @keyframes sheetUp {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+      }
+    }
+    .tooltip-overlay {
+      display: none; position: fixed; inset: 0; z-index: 299;
+    }
+    .tooltip-overlay.active { display: block; }
+
+    /* ===== SHOWCASE (TradingView style) ===== */
+    .showcase {
+      background: #111; color: #fff; padding: 100px 48px; overflow: hidden;
+    }
+    .showcase-inner {
+      max-width: 1100px; margin: 0 auto; display: flex;
+      align-items: center; gap: 60px;
+    }
+    .showcase-text { flex: 1; }
+    .showcase-title {
+      font-size: clamp(28px, 4vw, 40px); font-weight: 800;
+      line-height: 1.3; letter-spacing: -1px; margin-bottom: 20px;
+    }
+    .showcase-desc {
+      font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .showcase-slider { flex: 1; position: relative; }
+    .showcase-badge {
+      display: inline-block; padding: 6px 16px; border-radius: 8px;
+      background: #FF4D00; color: #fff; font-size: 13px; font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .showcase-slide {
+      width: 100%; aspect-ratio: 16/10; border-radius: 16px;
+      background: #222; display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .showcase-slide-placeholder {
+      font-size: 14px; color: rgba(255,255,255,0.3);
+    }
+    .showcase-nav {
+      display: flex; align-items: center; gap: 16px; margin-top: 20px;
+    }
+    .showcase-nav-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2); background: transparent;
+      color: #fff; font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .showcase-nav-btn:hover {
+      border-color: #fff; background: rgba(255,255,255,0.1);
+    }
+    .showcase-nav-count {
+      font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 600;
+    }
+
+    /* ===== FAQ (Running Today style) ===== */
+    .faq {
+      max-width: 1100px; margin: 0 auto; padding: 100px 48px;
+      display: flex; gap: 60px; align-items: flex-start;
+    }
+    .faq-left { flex: 1; }
+    .faq-right {
+      flex: 1; border-radius: 20px; overflow: hidden;
+      background: #f0f0f0; aspect-ratio: 4/5;
+      display: flex; align-items: center; justify-content: center;
+      position: sticky; top: 100px;
+    }
+    .faq-right-placeholder {
+      font-size: 14px; color: #bbb;
+    }
+    .faq-label {
+      font-size: 13px; color: #999; margin-bottom: 8px; letter-spacing: 0.5px;
+    }
+    .faq-title {
+      font-size: 32px; font-weight: 800; letter-spacing: -1px;
+      margin-bottom: 40px;
+    }
+    .faq-item {
+      border-top: 1px solid #eee;
+    }
+    .faq-item:last-child { border-bottom: 1px solid #eee; }
+    .faq-question {
+      display: flex; align-items: center; gap: 16px;
+      padding: 22px 0; cursor: pointer; font-size: 15px; font-weight: 600;
+      color: #1a1a1a; background: none; border: none; width: 100%;
+      text-align: left;
+    }
+    .faq-question:hover { color: #FF4D00; }
+    .faq-num {
+      font-size: 14px; color: #bbb; font-weight: 700; flex-shrink: 0;
+      width: 24px;
+    }
+    .faq-question-text { flex: 1; }
+    .faq-icon {
+      font-size: 18px; color: #ccc; transition: transform 0.3s; flex-shrink: 0;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); color: #FF4D00; }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+    }
+    .faq-answer-inner {
+      padding: 0 0 20px 40px; font-size: 14px; color: #777; line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; }
+
+    /* ===== DISCLAIMER ===== */
+    .disclaimer {
+      max-width: 800px; margin: 0 auto; padding: 0 24px 60px;
+    }
+    .disclaimer p {
+      font-size: 12px; color: #bbb; line-height: 1.8;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center; padding: 40px 24px;
+      border-top: 1px solid #f0f0f0; color: #bbb; font-size: 13px;
+    }
+    .footer a { color: #999; text-decoration: none; }
+
+    /* ===== CHECKOUT MODAL ===== */
+    .checkout-overlay {
+      display: none; position: fixed; inset: 0; z-index: 400;
+      background: rgba(0,0,0,0.55); align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .checkout-overlay.active { display: flex; }
+    .checkout-modal {
+      background: #fff; border-radius: 20px; width: 100%; max-width: 440px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2); overflow: hidden;
+    }
+    .checkout-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 24px; border-bottom: 1px solid #f0f0f0;
+    }
+    .checkout-header h3 { font-size: 17px; font-weight: 700; color: #1a1a1a; margin: 0; }
+    .checkout-close {
+      width: 32px; height: 32px; border-radius: 50%; border: none;
+      background: transparent; font-size: 20px; color: #999; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+    }
+    .checkout-close:hover { background: #f5f5f5; }
+    .checkout-body { padding: 24px; }
+    .checkout-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 0; border-bottom: 1px solid #f5f5f5;
+    }
+    .checkout-row:last-of-type { border-bottom: none; }
+    .checkout-label { font-size: 14px; color: #888; }
+    .checkout-value { font-size: 14px; font-weight: 600; color: #1a1a1a; text-align: right; }
+    .checkout-value.discount { color: #FF4D00; }
+    .checkout-total {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0 0; border-top: 1px solid #eee; margin-top: 4px;
+    }
+    .checkout-total-label { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+    .checkout-total-price { font-size: 28px; font-weight: 800; color: #1a1a1a; }
+    .checkout-total-price span { font-size: 16px; font-weight: 600; }
+
+    .checkout-autopay-discount {
+      display: none; justify-content: space-between; align-items: center;
+      padding: 12px 0 0; margin-top: 8px;
+      animation: fadeIn 0.3s ease;
+    }
+    .checkout-autopay-discount.show { display: flex; }
+    .checkout-final {
+      display: none; justify-content: space-between; align-items: center;
+      padding: 16px 0 0; border-top: 1px solid #eee; margin-top: 12px;
+      animation: fadeIn 0.3s ease;
+    }
+    .checkout-final.show { display: flex; }
+    .checkout-final .checkout-total-price { color: #FF4D00; }
+
+    /* Auto-pay toggle */
+    .checkout-autopay {
+      margin-top: 24px; padding: 18px 20px; border-radius: 14px;
+      border: 1.5px solid #eee; background: #fafafa;
+      transition: all 0.3s;
+    }
+    .checkout-autopay.active {
+      border-color: #FF4D00; background: #FFF8F5;
+    }
+    .checkout-autopay-top {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .checkout-autopay-info h4 {
+      font-size: 14px; font-weight: 700; color: #1a1a1a; margin: 0 0 3px;
+    }
+    .checkout-autopay-info p {
+      font-size: 12px; color: #999; margin: 0;
+    }
+    .checkout-autopay-toggle {
+      position: relative; width: 48px; height: 28px;
+      background: #ddd; border-radius: 14px; border: none; cursor: pointer;
+      transition: background 0.3s; flex-shrink: 0;
+    }
+    .checkout-autopay-toggle.on { background: #FF4D00; }
+    .checkout-autopay-toggle::after {
+      content: ''; position: absolute; top: 3px; left: 3px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+      transition: transform 0.3s;
+    }
+    .checkout-autopay-toggle.on::after { transform: translateX(20px); }
+    .checkout-autopay-benefit {
+      margin-top: 12px; padding: 10px 14px; border-radius: 10px;
+      background: linear-gradient(135deg, #FFF0E6 0%, #FFECE0 100%);
+      display: none; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600; color: #E04400;
+      animation: fadeIn 0.3s ease;
+    }
+    .checkout-autopay.active .checkout-autopay-benefit { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+    .checkout-actions { padding: 0 24px 24px; }
+    .checkout-pay-btn {
+      display: block; width: 100%; padding: 17px; border-radius: 14px;
+      background: #FF4D00; color: #fff; font-size: 16px; font-weight: 700;
+      border: none; cursor: pointer; text-align: center; transition: all 0.2s;
+    }
+    .checkout-pay-btn:hover { background: #e04400; transform: translateY(-1px); }
+    .checkout-secure {
+      text-align: center; padding: 12px 0 4px; font-size: 12px; color: #bbb;
+    }
+    .checkout-secure svg { vertical-align: -2px; margin-right: 4px; }
+
+    /* ===== LEGAL MODAL ===== */
+    .legal-modal-bg {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.5); align-items: flex-start; justify-content: center;
+      padding: 40px 20px; overflow-y: auto;
+    }
+    .legal-modal-bg.active { display: flex; }
+    .legal-modal {
+      background: #fff; border-radius: 16px; width: 100%; max-width: 680px;
+      overflow: hidden; position: relative; animation: fadeUp 0.25s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .legal-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; border-bottom: 1px solid #f0f0f0;
+    }
+    .legal-modal-header h3 {
+      font-size: 16px; font-weight: 700; color: #1a1a1a;
+    }
+    .legal-modal-close {
+      width: 32px; height: 32px; border-radius: 50%; border: none;
+      background: #f5f5f5; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; font-size: 16px; color: #999;
+    }
+    .legal-modal-close:hover { background: #eee; }
+    .legal-modal-banner {
+      background: #FF4D00; color: #fff; padding: 24px 32px;
+      font-size: 18px; font-weight: 700;
+    }
+    .legal-modal-body {
+      padding: 32px; max-height: 60vh; overflow-y: auto;
+    }
+    .legal-modal-body h4 {
+      font-size: 15px; font-weight: 700; color: #1a1a1a;
+      margin: 28px 0 12px;
+    }
+    .legal-modal-body h4:first-child { margin-top: 0; }
+    .legal-modal-body p {
+      font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 8px;
+    }
+    .legal-modal-body ul {
+      padding-left: 20px; margin: 8px 0 16px;
+    }
+    .legal-modal-body li {
+      font-size: 14px; color: #555; line-height: 1.8;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 900px) {
+      .pricing { grid-template-columns: 1fr; max-width: 440px; }
+      .plan.featured { order: -1; }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; grid-template-columns: 1fr auto; }
+      .navbar-nav { display: none; }
+      .navbar-right { display: none; }
+      .navbar-hamburger { display: flex; grid-column: 2; }
+      .hero { padding: 60px 20px 36px; }
+      .showcase { padding: 60px 20px; }
+      .showcase-inner { flex-direction: column; gap: 32px; }
+      .showcase-slider { width: 100%; }
+      .showcase-slide { aspect-ratio: 4/3; }
+      .faq { padding: 60px 20px; flex-direction: column; gap: 32px; }
+      .faq-right { display: none; }
+      .faq-title { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">GGU</a>
+    <div class="navbar-nav">
+      <a href="plans.html" class="navbar-link active">구독하기 <span class="nav-dot"></span></a>
+      <a href="review.html" class="navbar-link">후기</a>
+      <a href="faq.html" class="navbar-link">자주 묻는 질문</a>
+    </div>
+    <div class="navbar-right" id="navbarRight"></div>
+    <button class="navbar-hamburger" onclick="openMobileMenu()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" onclick="if(event.target===this)closeMobileMenu()">
+    <div class="mobile-menu-panel">
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <nav class="mobile-menu-nav">
+        <a href="plans.html" class="mobile-menu-link active">구독하기 <span class="nav-dot"></span></a>
+        <a href="review.html" class="mobile-menu-link">후기</a>
+        <a href="faq.html" class="mobile-menu-link">자주 묻는 질문</a>
+      </nav>
+      <div class="mobile-menu-actions" id="mobileMenuActions">
+        <a href="plans.html" class="mobile-menu-cta">지금 시작하기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAN HEADER (Grok style) -->
+  <section class="plan-hero">
+    <img src="logo-black.svg" alt="머니랩" class="plan-hero-logo">
+    <p style="font-size:14px; color:#999; font-weight:500; margin:-8px 0 20px; letter-spacing:-0.2px;">머니랩에서 단단한 투자를 시작해보세요.</p>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab(this)">
+        주식
+      </button>
+      <button class="tab" onclick="switchTab(this)">
+        주식 + 코인
+      </button>
+    </div>
+  </section>
+
+  <!-- PRICING CARDS -->
+  <section class="pricing">
+    <!-- 베이직 -->
+    <div class="plan" id="planBasic">
+      <div class="plan-header">
+        <div class="plan-name">베이직</div>
+      </div>
+      <div class="plan-pricing">
+        <div class="plan-original" id="pBasic-original">&nbsp;</div>
+        <div class="plan-price-row">
+          <span class="plan-price-prefix">월</span>
+          <span class="plan-price" id="pBasic-price">59,000</span>
+          <span class="plan-price-suffix" id="pBasic-suffix">원/월</span>
+        </div>
+        <div class="plan-discount" id="pBasic-discount" style="visibility:hidden;">&nbsp;</div>
+        <div class="plan-daily" id="pBasic-daily">하루 약 1,967원</div>
+      </div>
+      <div class="plan-cta">
+        <button class="plan-btn" id="basicCta">구독하기</button>
+      </div>
+      <ul class="plan-features">
+        <div class="plan-features-hint"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672Zm-7.518-.267A8.25 8.25 0 1 1 20.25 10.5M8.288 14.212A5.25 5.25 0 1 1 17.25 10.5"/></svg>각 항목을 클릭해 자세히 보기</div>
+        <li id="fBasic-analysis" data-title="국내주식 + 미국주식 투자처 분석" data-desc="국내 주식과 미국 주식 시장에서 전문가가 매일 선별한 투자처를 분석하여 제공합니다.">국내주식 + 미국주식 투자처 분석</li>
+        <li id="fBasic-portfolio" data-title="꾸테크 주식 투자 포트폴리오 공유" data-desc="꾸테크 대표의 실제 주식 투자 포트폴리오를 투명하게 공유합니다.">꾸테크 주식 투자 포트폴리오 공유</li>
+        <li data-title="실시간 매매 현황 및 시그널 공유" data-desc="매수·매도 타이밍을 실시간 시그널로 공유합니다. 텔레그램 채널을 통해 즉시 알림을 받아보세요.">실시간 매매 현황 및 시그널 공유</li>
+        <li data-title="핵심 경제 지표 및 이슈 해석" data-desc="금리, 환율, CPI 등 핵심 경제 지표를 쉽게 해석해드립니다.">핵심 경제 지표 및 이슈 해석</li>
+        <li data-title="차트 기술적 분석 매매 타이밍 제공" data-desc="지지선, 저항선, 이동평균선 등 기술적 분석을 기반으로 최적의 매매 타이밍을 제공합니다.">차트 기술적 분석 매매 타이밍 제공</li>
+      </ul>
+    </div>
+
+    <!-- 프리미엄 -->
+    <div class="plan featured" id="planPremium">
+      <span class="plan-popular-tag" id="planPremiumTag">추천</span>
+      <div class="plan-header">
+        <div class="plan-name">프리미엄</div>
+      </div>
+      <div class="plan-pricing">
+        <div class="plan-original" id="pPremium-original">&nbsp;</div>
+        <div class="plan-price-row">
+          <span class="plan-price-prefix">월</span>
+          <span class="plan-price" id="pPremium-price">79,000</span>
+          <span class="plan-price-suffix" id="pPremium-suffix">원/월</span>
+        </div>
+        <div class="plan-discount" id="pPremium-discount" style="visibility:hidden;">&nbsp;</div>
+        <div class="plan-daily" id="pPremium-daily">하루 약 2,633원</div>
+      </div>
+      <div class="plan-cta">
+        <button class="plan-btn">구독하기</button>
+      </div>
+      <ul class="plan-features">
+        <div class="plan-features-hint"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672Zm-7.518-.267A8.25 8.25 0 1 1 20.25 10.5M8.288 14.212A5.25 5.25 0 1 1 17.25 10.5"/></svg>각 항목을 클릭해 자세히 보기</div>
+        <div class="plan-includes">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          베이직 혜택 모두 포함
+        </div>
+        <li data-title="꾸테크 Live 특강 무료 참여권" data-desc="매월 1회 진행되는 꾸테크 대표의 라이브 특강에 무료로 참여할 수 있습니다.">꾸테크 Live 특강 무료 참여권(월 1회)</li>
+        <li data-title="꾸테크 챌린지 무료 참여권" data-desc="3주 과정의 투자 챌린지에 무료로 참여하여 체계적인 투자 습관을 만들어보세요.">꾸테크 챌린지 무료 참여권(3주 과정)</li>
+        <li data-title="AI 투자 코치 이용권 (GPTs)" data-desc="AI 기반 투자 코치가 당신의 포트폴리오를 분석하고 맞춤형 투자 전략을 제안합니다.">AI 투자 코치 이용권 제공(GPTs)</li>
+        <li data-title="머니랩 분석 제안권" data-desc="원하는 종목이나 투자처에 대해 머니랩 전문가에게 분석을 요청할 수 있는 제안권입니다.">머니랩 분석 제안권 제공(월 1회)</li>
+        <li data-title="월간 TOP3 섹터 심층 리포트" data-desc="매월 가장 주목할 3개 섹터를 선정하여 심층 분석 리포트를 배포합니다.">월간 TOP3 섹터 심층 리포트 배포</li>
+        <li data-title="오프라인 커피챗 네트워킹" data-desc="프리미엄 구독자만을 위한 오프라인 네트워킹 모임에 참여할 수 있습니다.">오프라인 커피챗 네트워킹 참여권</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- BILLING TOGGLE (연/월) - below cards like Grok -->
+  <div class="billing-toggle-wrap">
+    <span class="billing-toggle-text">연간구독으로 절약하세요.</span>
+    <button class="billing-toggle" id="billingToggle" onclick="toggleBilling()">
+      <span class="billing-toggle-knob"></span>
+    </button>
+  </div>
+
+  <!-- SHOWCASE -->
+  <section class="showcase">
+    <div class="showcase-inner">
+      <div class="showcase-text">
+        <span class="showcase-badge" id="showcaseBadge">혜택 1</span>
+        <h2 class="showcase-title" id="showcaseTitle">주식 &amp; 암호화폐<br>투자처 분석</h2>
+        <p class="showcase-desc" id="showcaseDesc">국내주식·미국주식·암호화폐까지, 전문가가 선별한 핵심 투자처를 매일 분석해 드립니다.</p>
+      </div>
+      <div class="showcase-slider">
+        <div class="showcase-slide">
+          <span class="showcase-slide-placeholder">이미지 영역 (PNG)</span>
+        </div>
+        <div class="showcase-nav">
+          <button class="showcase-nav-btn" onclick="changeSlide(-1)">‹</button>
+          <span class="showcase-nav-count"><span id="slideNum">1</span> / 5</span>
+          <button class="showcase-nav-btn" onclick="changeSlide(1)">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ (Running Today style) -->
+  <section class="faq">
+    <div class="faq-left">
+      <div class="faq-label">FAQ</div>
+      <h2 class="faq-title">자주 묻는 질문</h2>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="faq-num">1</span>
+          <span class="faq-question-text">구독료가 얼마인가요?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">베이직과 프리미엄 플랜으로 구독 가능하며, 주식 또는 주식+코인 카테고리를 선택할 수 있습니다. 연 결제 시 2개월 무료 혜택이 적용됩니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="faq-num">2</span>
+          <span class="faq-question-text">어떤 결제 수단을 지원하나요?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">카카오페이, 신용카드, 계좌이체 등 다양한 결제 수단을 지원합니다. 결제 완료 후 즉시 서비스 이용이 가능합니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="faq-num">3</span>
+          <span class="faq-question-text">결제 후 바로 이용할 수 있나요?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">네, 결제 완료 즉시 마이페이지에서 텔레그램 입장하기 버튼을 통해 채널에 바로 입장하실 수 있습니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="faq-num">4</span>
+          <span class="faq-question-text">구독 후 환불이 가능한가요?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">구독 시작 후 7일 이내 요청 시 전액 환불이 가능합니다. 7일 이후에는 잔여 기간에 대한 부분 환불이 적용됩니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="faq-num">5</span>
+          <span class="faq-question-text">문의는 어디로 하면 되나요?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">카카오톡 채널 또는 이메일을 통해 문의해 주세요. 평일 기준 24시간 이내 답변드립니다.</div></div>
+      </div>
+    </div>
+    <div class="faq-right">
+      <span class="faq-right-placeholder">이미지 영역 (PNG)</span>
+    </div>
+  </section>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <p>* 머니랩은 투자 정보 제공 목적의 단방향 서비스이며, 개별 투자 자문 관련 1:1 대화는 엄격히 금지됩니다.</p>
+    <p>* 서비스 관련 개인의 투자 손익 및 손실에 대한 귀책은 신청자 본인에게 있음을 명시 드립니다.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div style="margin-bottom:12px">GGU</div>
+    <p style="font-size:12px; color:#888; line-height:1.8; margin-bottom:10px;">대표 : 김범준 ㅣ 사업자등록번호 : 703-12-02380<br>통신판매업신고번호 : 2024-서울서초-1718<br>개인정보처리책임자 : 김범준 ggu_official@naver.com ㅣ 010-7458-9925</p>
+    <p>&copy; 2025 GGU &middot; 머니랩 &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="openLegalModal('termsModal')">이용약관</a> &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="openLegalModal('privacyModal')"><strong>개인정보처리방침</strong></a></p>
+  </div>
+
+  <!-- Feature Tooltip -->
+  <div class="tooltip-overlay" id="tooltipOverlay"></div>
+  <div class="feature-tooltip" id="featureTooltip">
+    <div class="feature-tooltip-img"><span>이미지 영역</span></div>
+    <div class="feature-tooltip-body">
+      <div class="feature-tooltip-title" id="ttTitle"></div>
+      <div class="feature-tooltip-desc" id="ttDesc"></div>
+
+    </div>
+  </div>
+
+  <script>
+    // ===== CATEGORY & BILLING DATA =====
+    var currentCategory = '주식';
+    var isYearly = false;
+
+    const categoryData = {
+      '주식': {
+        basic:   { monthly: 59000, yearlyMonthly: 49100, tag: '' },
+        premium: { monthly: 79000, yearlyMonthly: 56900, tag: '가성비' },
+        features: {
+          analysis: { text: '국내주식 + 미국주식 투자처 분석', title: '국내주식 + 미국주식 투자처 분석', desc: '국내 주식과 미국 주식 시장에서 전문가가 매일 선별한 투자처를 분석하여 제공합니다.' },
+          portfolio: { text: '꾸테크 주식 투자 포트폴리오 공유', title: '꾸테크 주식 투자 포트폴리오 공유', desc: '꾸테크 대표의 실제 주식 투자 포트폴리오를 투명하게 공유합니다.' }
+        }
+      },
+      '주식 + 코인': {
+        basic:   { monthly: 79000, yearlyMonthly: 56900, tag: '가성비' },
+        premium: { monthly: 99000, yearlyMonthly: 81900, tag: '재구독 1위' },
+        features: {
+          analysis: { text: '주식 + 암호화폐 투자처 분석', title: '주식 + 암호화폐 투자처 분석', desc: '전문가가 매일 선별한 주식과 암호화폐 투자처를 분석하여 제공합니다.' },
+          portfolio: { text: '꾸테크 투자 포트폴리오 공유', title: '꾸테크 투자 포트폴리오 공유', desc: '꾸테크 대표의 실제 투자 포트폴리오를 투명하게 공유합니다.' }
+        }
+      }
+    };
+
+    function fmt(n) { return n.toLocaleString('ko-KR'); }
+
+    function updatePlans() {
+      var data = categoryData[currentCategory];
+      if (!data) return;
+
+      // Calculate prices
+      ['basic', 'premium'].forEach(function(tier) {
+        var plan = data[tier];
+        var monthlyPrice = plan.monthly;
+        var prefix = tier === 'basic' ? 'pBasic' : 'pPremium';
+        var priceEl = document.getElementById(prefix + '-price');
+        var origEl = document.getElementById(prefix + '-original');
+        var discEl = document.getElementById(prefix + '-discount');
+        var dailyEl = document.getElementById(prefix + '-daily');
+        var suffixEl = document.getElementById(prefix + '-suffix');
+
+        if (isYearly) {
+          // 연 결제: 지정된 연간 월 가격 사용
+          var effectiveMonthly = plan.yearlyMonthly;
+          var savingPerYear = (monthlyPrice - effectiveMonthly) * 12;
+          if (priceEl) priceEl.textContent = fmt(effectiveMonthly);
+          if (suffixEl) suffixEl.textContent = '원/월';
+          if (origEl) { origEl.innerHTML = '&nbsp;'; origEl.style.visibility = 'hidden'; }
+          if (discEl) { discEl.innerHTML = '&nbsp;'; discEl.style.visibility = 'hidden'; }
+          if (dailyEl) dailyEl.textContent = '연 ' + fmt(savingPerYear) + '원 절약';
+        } else {
+          // 월 결제
+          if (priceEl) priceEl.textContent = fmt(monthlyPrice);
+          if (suffixEl) suffixEl.textContent = '원/월';
+          if (origEl) { origEl.innerHTML = '&nbsp;'; origEl.style.visibility = 'hidden'; }
+          if (discEl) { discEl.innerHTML = '&nbsp;'; discEl.style.visibility = 'hidden'; }
+          if (dailyEl) dailyEl.textContent = '하루 약 ' + fmt(Math.floor(monthlyPrice / 30)) + '원';
+        }
+      });
+
+      // Update popular tag on premium
+      var tagEl = document.getElementById('planPremiumTag');
+      if (tagEl) tagEl.textContent = data.premium.tag || '추천';
+
+      // Update feature text
+      var analysisEl = document.getElementById('fBasic-analysis');
+      var portfolioEl = document.getElementById('fBasic-portfolio');
+      if (analysisEl) {
+        analysisEl.textContent = data.features.analysis.text;
+        analysisEl.dataset.title = data.features.analysis.title;
+        analysisEl.dataset.desc = data.features.analysis.desc;
+      }
+      if (portfolioEl) {
+        portfolioEl.textContent = data.features.portfolio.text;
+        portfolioEl.dataset.title = data.features.portfolio.title;
+        portfolioEl.dataset.desc = data.features.portfolio.desc;
+      }
+    }
+
+    // Billing toggle
+    function toggleBilling() {
+      isYearly = !isYearly;
+      var tog = document.getElementById('billingToggle');
+      tog.classList.toggle('on', isYearly);
+      updatePlans();
+    }
+
+    // 초기 로드
+    updatePlans();
+
+    // Tab switching
+    function switchTab(el) {
+      document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+      el.classList.add('active');
+      var tabText = el.childNodes[0].textContent.trim();
+      currentCategory = tabText;
+      updatePlans();
+    }
+
+    // Showcase benefit slider
+    const benefitSlides = [
+      { badge: '혜택 1', title: '주식 &amp; 암호화폐<br>투자처 분석', desc: '국내주식·미국주식·암호화폐까지, 전문가가 선별한 핵심 투자처를 매일 분석해 드립니다.' },
+      { badge: '혜택 2', title: '꾸테크 매매현황 및<br>포트폴리오 공유', desc: '실제 매매 현황과 포트폴리오를 실시간으로 공유하여 투자 판단에 도움을 드립니다.' },
+      { badge: '혜택 3', title: '핵심 경제 지표 및<br>이슈 해석', desc: '복잡한 경제 지표와 시장 이슈를 쉽고 명확하게 해석하여 전달해 드립니다.' },
+      { badge: '혜택 4', title: '차트 기술적 분석<br>매매 타이밍 제공', desc: '기술적 분석 기반의 정확한 매수·매도 타이밍을 실시간으로 제공합니다.' },
+      { badge: '혜택 5', title: '꾸테크 챌린지 &amp; LIVE<br>특강 참여권 제공', desc: '투자 습관을 만드는 챌린지와 전문가 LIVE 특강에 무료로 참여할 수 있습니다.' }
+    ];
+    let currentSlide = 1;
+    function changeSlide(dir) {
+      currentSlide += dir;
+      if (currentSlide < 1) currentSlide = benefitSlides.length;
+      if (currentSlide > benefitSlides.length) currentSlide = 1;
+      const s = benefitSlides[currentSlide - 1];
+      document.getElementById('showcaseBadge').textContent = s.badge;
+      document.getElementById('showcaseTitle').innerHTML = s.title;
+      document.getElementById('showcaseDesc').textContent = s.desc;
+      document.getElementById('slideNum').textContent = currentSlide;
+    }
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+
+    // Feature tooltip
+    const tooltip = document.getElementById('featureTooltip');
+    const overlay = document.getElementById('tooltipOverlay');
+    const ttTitle = document.getElementById('ttTitle');
+    const ttDesc = document.getElementById('ttDesc');
+
+    function closeTooltip() {
+      tooltip.classList.remove('active');
+      overlay.classList.remove('active');
+    }
+
+    overlay.addEventListener('click', closeTooltip);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTooltip(); });
+
+    // Add pulse hint to first item of each plan
+    document.querySelectorAll('.plan-features').forEach(ul => {
+      var first = ul.querySelector('li[data-title]');
+      if (first) first.classList.add('hint-pulse');
+    });
+
+    document.querySelectorAll('.plan-features li[data-title]').forEach(li => {
+      li.addEventListener('click', (e) => {
+        ttTitle.textContent = li.dataset.title;
+        ttDesc.textContent = li.dataset.desc;
+
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+          tooltip.style.top = 'auto';
+          tooltip.style.left = '0';
+        } else {
+          const rect = li.getBoundingClientRect();
+          let top = rect.top - 10;
+          let left = rect.right + 16;
+          if (left + 320 > window.innerWidth) left = rect.left - 336;
+          if (top + 300 > window.innerHeight) top = window.innerHeight - 310;
+          if (top < 10) top = 10;
+          tooltip.style.top = top + 'px';
+          tooltip.style.left = left + 'px';
+        }
+
+        tooltip.classList.add('active');
+        overlay.classList.add('active');
+      });
+    });
+
+    // ===== LOGIN STATE NAVBAR =====
+    function updateNavbar() {
+      var isLoggedIn = localStorage.getItem('moneylab_logged_in') === 'true';
+      var el = document.getElementById('navbarRight');
+      if (!el) return;
+      if (isLoggedIn) {
+        el.innerHTML = '<a href="profile.html" class="navbar-profile"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/></svg>내 구독정보</a><button class="navbar-logout" onclick="doLogout()">로그아웃</button>';
+      } else {
+        el.innerHTML = '<a href="plans.html" class="navbar-cta">지금 시작하기</a>';
+      }
+      var mobileActions = document.getElementById('mobileMenuActions');
+      if (mobileActions) {
+        if (isLoggedIn) {
+          mobileActions.innerHTML = '<a href="profile.html" style="background:#FF4D00;color:#fff;font-size:16px;font-weight:700;padding:16px;border-radius:14px;">내 구독정보</a><a href="#" onclick="event.preventDefault();doLogout();" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:14px;">로그아웃</a>';
+        } else {
+          mobileActions.innerHTML = '<a href="plans.html">지금 시작하기</a>';
+        }
+      }
+      updateSimToggle(isLoggedIn);
+    }
+    function doLogout() {
+      localStorage.removeItem('moneylab_logged_in');
+      location.href = 'index.html';
+    }
+    // ===== SIM TOGGLE =====
+    (function(){
+      var wrap = document.createElement('div');
+      wrap.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;';
+
+      var btn = document.createElement('button');
+      btn.id = 'simToggle';
+      btn.style.cssText = 'padding:8px 16px;border-radius:50px;border:none;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.15);transition:all 0.2s;';
+      btn.addEventListener('click', function(){
+        var isLoggedIn = localStorage.getItem('moneylab_logged_in') === 'true';
+        if (isLoggedIn) {
+          localStorage.removeItem('moneylab_logged_in');
+        } else {
+          localStorage.setItem('moneylab_logged_in', 'true');
+        }
+        location.reload();
+      });
+
+      // btn2: 구독상태 3단계 사이클 (체험중 → 구독만료 → 미구독자 → 체험중)
+      if (localStorage.getItem('moneylab_trial_used') === null && localStorage.getItem('moneylab_expired') === null) {
+        localStorage.setItem('moneylab_trial_used', 'true');
+      }
+      var btn2 = document.createElement('button');
+      btn2.style.cssText = 'padding:8px 16px;border-radius:50px;border:none;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.15);';
+      function getSubState() {
+        var expired = localStorage.getItem('moneylab_expired') === 'true';
+        var used = localStorage.getItem('moneylab_trial_used') === 'true';
+        if (expired) return 'expired';
+        if (used) return 'trial';
+        return 'none';
+      }
+      function updateSubBtn() {
+        var state = getSubState();
+        if (state === 'none') {
+          btn2.textContent = '⬜ 미구독자(현재)';
+          btn2.style.background = '#fff'; btn2.style.color = '#333';
+        } else if (state === 'trial') {
+          btn2.textContent = '✅ 체험중(현재)';
+          btn2.style.background = '#0288D1'; btn2.style.color = '#fff';
+        } else {
+          btn2.textContent = '🚫 구독만료(현재)';
+          btn2.style.background = '#D32F2F'; btn2.style.color = '#fff';
+        }
+      }
+      updateSubBtn();
+      btn2.addEventListener('click', function(){
+        var state = getSubState();
+        if (state === 'none') {
+          localStorage.setItem('moneylab_trial_used', 'true');
+          localStorage.removeItem('moneylab_expired');
+        } else if (state === 'trial') {
+          localStorage.setItem('moneylab_expired', 'true');
+        } else {
+          localStorage.removeItem('moneylab_trial_used');
+          localStorage.removeItem('moneylab_expired');
+        }
+        updateSubBtn();
+        updateBasicCta();
+      });
+
+      var isLoggedIn = localStorage.getItem('moneylab_logged_in') === 'true';
+      btn2.style.display = isLoggedIn ? '' : 'none';
+
+      wrap.appendChild(btn);
+      wrap.appendChild(btn2);
+      document.body.appendChild(wrap);
+
+      updateNavbar();
+      updateBasicCta();
+    })();
+    function updateBasicCta() {
+      var btn = document.getElementById('basicCta');
+      if (!btn) return;
+      var hadTrial = localStorage.getItem('moneylab_trial_used') === 'true';
+      if (!hadTrial) {
+        btn.textContent = '14일 무료 체험하기';
+        btn.onclick = function() {
+          window.location.href = 'profile.html?action=free_trial';
+        };
+      } else {
+        btn.textContent = '구독하기';
+        btn.onclick = null;
+      }
+    }
+    function updateSimToggle(isLoggedIn) {
+      var btn = document.getElementById('simToggle');
+      if (!btn) return;
+      if (isLoggedIn) {
+        btn.textContent = '🟢 로그인 상태 (클릭: 로그아웃)';
+        btn.style.background = '#111'; btn.style.color = '#fff';
+      } else {
+        btn.textContent = '⚪ 로그아웃 상태 (클릭: 로그인)';
+        btn.style.background = '#fff'; btn.style.color = '#333';
+      }
+    }
+
+    function openMobileMenu() {
+      document.getElementById('mobileMenu').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileMenu').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function openLegalModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLegalModal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.legal-modal-bg.active').forEach(m => {
+          m.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+    // ===== CHECKOUT MODAL =====
+    var currentPlanTotal = 0;
+    function openCheckout(planId) {
+      var data = categoryData[currentCategory];
+      if (!data) return;
+      var tier = planId === 'planBasic' ? 'basic' : 'premium';
+      var tierName = tier === 'basic' ? '베이직' : '프리미엄';
+      var plan = data[tier];
+      var monthlyPrice = plan.monthly;
+      var originalRow = document.getElementById('ckOriginalRow');
+      var yearlyDiscountRow = document.getElementById('ckYearlyDiscountRow');
+
+      if (isYearly) {
+        var originalTotal = monthlyPrice * 12;
+        var yearlyTotal = plan.yearlyMonthly * 12;
+        var yearlyDiscountAmt = originalTotal - yearlyTotal;
+
+        // 정상가 표시
+        document.getElementById('ckOriginal').textContent = fmt(originalTotal) + '원';
+        originalRow.style.display = 'flex';
+
+        // 연간 할인 표시
+        document.getElementById('ckYearlyDiscount').textContent = '-' + fmt(yearlyDiscountAmt) + '원';
+        yearlyDiscountRow.style.display = 'flex';
+
+        // 결제 금액 = 연간할인 적용된 금액
+        currentPlanTotal = yearlyTotal;
+        document.getElementById('ckPlan').textContent = tierName + ' · 연 결제 (12개월)';
+      } else {
+        originalRow.style.display = 'none';
+        yearlyDiscountRow.style.display = 'none';
+        currentPlanTotal = monthlyPrice;
+        document.getElementById('ckPlan').textContent = tierName + ' · 월 결제';
+      }
+
+      document.getElementById('ckService').textContent = currentCategory;
+      document.getElementById('ckTotal').innerHTML = fmt(currentPlanTotal) + '<span>원</span>';
+
+      // reset autopay
+      document.getElementById('autopayToggle').classList.remove('on');
+      document.getElementById('checkoutAutopay').classList.remove('active');
+      document.getElementById('ckAutopayDiscount').classList.remove('show');
+      document.getElementById('ckFinal').classList.remove('show');
+      document.getElementById('checkoutModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCheckout() {
+      document.getElementById('checkoutModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function toggleAutopay() {
+      var tog = document.getElementById('autopayToggle');
+      var wrap = document.getElementById('checkoutAutopay');
+      var discountRow = document.getElementById('ckAutopayDiscount');
+      var finalRow = document.getElementById('ckFinal');
+      tog.classList.toggle('on');
+      wrap.classList.toggle('active');
+      var isOn = tog.classList.contains('on');
+      if (isOn) {
+        var discountAmt = Math.floor(currentPlanTotal * 0.10);
+        var finalAmt = currentPlanTotal - discountAmt;
+        document.getElementById('ckAutopayAmount').textContent = '-' + fmt(discountAmt) + '원';
+        document.getElementById('ckFinalTotal').innerHTML = fmt(finalAmt) + '<span>원</span>';
+        discountRow.classList.add('show');
+        finalRow.classList.add('show');
+      } else {
+        discountRow.classList.remove('show');
+        finalRow.classList.remove('show');
+      }
+    }
+    // Attach click to plan buttons
+    document.querySelectorAll('.plan-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var planEl = btn.closest('.plan');
+        if (planEl) openCheckout(planEl.id);
+      });
+    });
+    // ESC close checkout
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.getElementById('checkoutModal').classList.contains('active')) {
+        closeCheckout();
+      }
+    });
+  </script>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="checkout-overlay" id="checkoutModal" onclick="if(event.target===this)closeCheckout()">
+    <div class="checkout-modal">
+      <div class="checkout-header">
+        <h3>결제 정보 확인</h3>
+        <button class="checkout-close" onclick="closeCheckout()">&times;</button>
+      </div>
+      <div class="checkout-body">
+        <div class="checkout-row">
+          <span class="checkout-label">서비스</span>
+          <span class="checkout-value" id="ckService">주식+코인</span>
+        </div>
+        <div class="checkout-row">
+          <span class="checkout-label">구독 기간</span>
+          <span class="checkout-value" id="ckPlan">프리미엄 · 월 결제</span>
+        </div>
+        <!-- 연간결제 시: 정상가 -->
+        <div class="checkout-row" id="ckOriginalRow" style="display:none;">
+          <span class="checkout-label">월결제시 정상가</span>
+          <span class="checkout-value" id="ckOriginal" style="text-decoration:line-through; color:#bbb;">948,000원</span>
+        </div>
+        <!-- 연간결제 시: 연간할인 -->
+        <div class="checkout-row" id="ckYearlyDiscountRow" style="display:none;">
+          <span class="checkout-label">연간 할인</span>
+          <span class="checkout-value discount" id="ckYearlyDiscount">-264,000원</span>
+        </div>
+        <div class="checkout-total">
+          <span class="checkout-total-label">결제 금액</span>
+          <span class="checkout-total-price" id="ckTotal">1,188,000<span>원</span></span>
+        </div>
+        <!-- 자동결제 할인 -->
+        <div class="checkout-autopay-discount" id="ckAutopayDiscount">
+          <span class="checkout-label">자동결제 할인 (10%)</span>
+          <span class="checkout-value discount" id="ckAutopayAmount">-59,400원</span>
+        </div>
+        <div class="checkout-final" id="ckFinal">
+          <span class="checkout-total-label">최종 결제 금액</span>
+          <span class="checkout-total-price" id="ckFinalTotal">1,128,600<span>원</span></span>
+        </div>
+      </div>
+      <div class="checkout-actions">
+        <!-- Auto-pay above pay button -->
+        <div class="checkout-autopay" id="checkoutAutopay">
+          <div class="checkout-autopay-top">
+            <div class="checkout-autopay-info">
+              <h4>자동 결제 <span style="display:inline-block;font-size:11px;font-weight:700;color:#FF4D00;background:#FFF0E6;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle;">10% 할인</span></h4>
+              <p>구독 기간 종료 시 자동 갱신</p>
+            </div>
+            <button class="checkout-autopay-toggle" id="autopayToggle" onclick="toggleAutopay()"></button>
+          </div>
+          <div class="checkout-autopay-benefit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E04400" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+            자동 갱신 시 결제 10% 추가 할인
+          </div>
+        </div>
+        <button class="checkout-pay-btn" style="margin-top:16px;" onclick="alert('결제 기능은 추후 연동됩니다.')">결제하기</button>
+        <div class="checkout-secure">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#bbb"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+          안전한 결제 시스템으로 보호됩니다
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIVACY POLICY MODAL -->
+  <div class="legal-modal-bg" id="privacyModal" onclick="if(event.target===this)closeLegalModal('privacyModal')">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <h3>개인정보 처리방침</h3>
+        <button class="legal-modal-close" onclick="closeLegalModal('privacyModal')">✕</button>
+      </div>
+      <div class="legal-modal-banner">개인정보 처리방침</div>
+      <div class="legal-modal-body">
+        <p>GGU(지지유)(이하 '회사'라 한다)는 개인정보 보호법 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리지침을 수립·공개합니다.</p>
+        <h4>제1조(개인정보의 처리목적)</h4>
+        <p>회사는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않습니다.</p>
+        <ul>
+          <li>서비스 회원가입 및 관리</li>
+          <li>서비스 제공 및 요금 결제</li>
+          <li>고충처리 및 민원 대응</li>
+        </ul>
+        <h4>제2조(처리하는 개인정보의 항목)</h4>
+        <p>회사는 서비스 제공을 위해 다음의 개인정보를 처리합니다.</p>
+        <ul>
+          <li>필수항목 : 이름, 이메일, 연락처, 결제정보</li>
+          <li>자동수집항목 : 접속 IP, 접속일시, 서비스 이용기록</li>
+        </ul>
+        <h4>제3조(개인정보의 처리 및 보유 기간)</h4>
+        <p>회원 탈퇴 시까지 보유하며, 관련 법령에 따라 일정 기간 보관이 필요한 경우 해당 기간 동안 보유합니다.</p>
+        <ul>
+          <li>계약 또는 청약철회 등에 관한 기록 : 5년</li>
+          <li>대금결제 및 재화 등의 공급에 관한 기록 : 5년</li>
+          <li>소비자의 불만 또는 분쟁처리에 관한 기록 : 3년</li>
+        </ul>
+        <h4>제4조(개인정보의 제3자 제공)</h4>
+        <p>회사는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령의 규정에 의하거나 수사 목적으로 법령에 정해진 절차에 따라 요청이 있는 경우에는 예외로 합니다.</p>
+        <h4>제5조(개인정보의 파기)</h4>
+        <p>회사는 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.</p>
+        <h4>제6조(이용자의 권리·의무)</h4>
+        <p>이용자는 언제든지 자신의 개인정보를 조회하거나 수정할 수 있으며, 회원 탈퇴를 통해 개인정보의 처리 정지를 요구할 수 있습니다.</p>
+        <h4>제7조(개인정보 보호책임자)</h4>
+        <p>개인정보 보호책임자</p>
+        <ul>
+          <li>성명 : 김범준</li>
+          <li>직책 : 대표자</li>
+          <li>연락처 : ggu_official@naver.com</li>
+        </ul>
+        <h4>제8조(개인정보의 안전성 확보 조치)</h4>
+        <p>회사는 개인정보의 안전성 확보를 위해 접근 통제, 암호화, 접속기록 보관 등 기술적·관리적 보호조치를 취하고 있습니다.</p>
+        <h4>제9조(개인정보 자동 수집 장치의 설치·운영)</h4>
+        <p>회사는 서비스 운영을 위해 쿠키(Cookie)를 사용할 수 있으며, 이용자는 브라우저 설정을 통해 쿠키 저장을 거부할 수 있습니다.</p>
+        <h4>제10조(개인정보 처리방침 변경)</h4>
+        <p>이 개인정보 처리방침은 2025. 03. 24부터 적용됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMS OF SERVICE MODAL -->
+  <div class="legal-modal-bg" id="termsModal" onclick="if(event.target===this)closeLegalModal('termsModal')">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <h3>이용약관</h3>
+        <button class="legal-modal-close" onclick="closeLegalModal('termsModal')">✕</button>
+      </div>
+      <div class="legal-modal-banner">이용약관</div>
+      <div class="legal-modal-body">
+        <h4>제 1 조 (목적)</h4>
+        <p>이 약관은 지지유(GGU)(이하 '회사' 라고 한다)가 영위하는 정보 제공 서비스 머니랩(이하 '서비스'라 하며, 접속 가능한 유, 무선 단말기의 종류와 상관없이 이용 가능한 사이트가 제공하는 모든 서비스를 의미합니다.)를 이용함에 있어 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+        <h4>제 2 조 (정의)</h4>
+        <p>'사이트' 란 '회사'가 서비스를 회원에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 '서비스 등'을 거래할 수 있도록 설정한 가상의 영업장을 말하며, 사이버몰을 운영하는 사업자의 의미로도 사용합니다.</p>
+        <h4>제 3 조 (약관의 효력)</h4>
+        <p>이 약관은 서비스를 이용하고자 하는 모든 회원에게 적용됩니다. 회원이 서비스에 가입함과 동시에 이 약관에 동의한 것으로 간주합니다.</p>
+        <h4>제 4 조 (서비스의 제공)</h4>
+        <p>회사는 다음과 같은 서비스를 제공합니다.</p>
+        <ul>
+          <li>투자 정보 분석 및 제공</li>
+          <li>실시간 매매 현황 공유</li>
+          <li>투자 교육 콘텐츠 제공</li>
+          <li>커뮤니티 및 챌린지 운영</li>
+        </ul>
+        <h4>제 5 조 (회원가입)</h4>
+        <p>이용자는 회사가 정한 가입 양식에 따라 회원정보를 기입한 후 약관에 동의하여 회원가입을 신청합니다. 회사는 신청에 대해 승낙함으로써 회원가입이 완료됩니다.</p>
+        <h4>제 6 조 (회원 탈퇴 및 자격 상실)</h4>
+        <p>회원은 언제든지 회사에 탈퇴를 요청할 수 있으며, 회사는 즉시 회원 탈퇴를 처리합니다. 회원이 약관을 위반한 경우 회사는 서비스 이용을 제한하거나 회원 자격을 상실시킬 수 있습니다.</p>
+        <h4>제 7 조 (서비스 이용료)</h4>
+        <p>서비스 이용료는 회사가 정한 요금 정책에 따르며, 결제 시점에 안내된 금액이 적용됩니다. 요금 변경 시 사전에 회원에게 공지합니다.</p>
+        <h4>제 18 조 (구독비 등의 환불)</h4>
+        <p>회사는 회원의 환불요청 등에 의거 온라인 서비스 환불에 관한 규정을 다음과 같이 준용합니다.</p>
+        <ul>
+          <li>당월 머니랩 시작 전 : 잔여 개월 수 만큼의 구독비용 100% 환불 가능</li>
+          <li>당월 머니랩 시작 후 : 환불 불가</li>
+        </ul>
+        <h4>제 19 조 (면책조항)</h4>
+        <p>회사는 투자 정보 제공 목적의 단방향 서비스이며, 개별 투자 자문 관련 1:1 대화는 엄격히 금지됩니다. 서비스를 통해 제공되는 정보는 참고용이며, 투자 판단 및 그에 따른 손익은 전적으로 이용자 본인의 책임입니다.</p>
+        <h4>부칙</h4>
+        <p>이 약관은 2025년 03월 24일부터 시행합니다.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
