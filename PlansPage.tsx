@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 
 // ============================================================================
@@ -221,6 +221,143 @@ function BillingToggle({
   );
 }
 
+// ============================================================================
+// ROLLING PRICE ANIMATION (Grok-style)
+// ============================================================================
+
+const ROLL_DURATION = 600; // ms - all digits finish simultaneously
+
+function buildDigitSequence(from: number, to: number): number[] {
+  const seq = [from];
+  let cur = from;
+  if (from === to) {
+    // Same digit: full 0-9 loop back to same
+    for (let k = 0; k < 10; k++) {
+      cur = (cur + 1) % 10;
+      seq.push(cur);
+    }
+  } else {
+    // Different digit: forward sequence from→to
+    while (cur !== to) {
+      cur = (cur + 1) % 10;
+      seq.push(cur);
+    }
+  }
+  return seq;
+}
+
+function easeOutCubic(t: number): number {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function RollingPrice({ value, className }: { value: number; className?: string }) {
+  const containerRef = useRef<HTMLSpanElement>(null);
+  const prevValueRef = useRef<number>(value);
+  const initializedRef = useRef(false);
+
+  const fmt = useCallback((n: number) => n.toLocaleString('ko-KR'), []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const newStr = fmt(value);
+    const oldStr = fmt(prevValueRef.current);
+    prevValueRef.current = value;
+
+    // First render: just display the number
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      el.textContent = newStr;
+      return;
+    }
+
+    if (oldStr === newStr) return;
+
+    const maxLen = Math.max(oldStr.length, newStr.length);
+    const oldPadded = oldStr.padStart(maxLen);
+    const newPadded = newStr.padStart(maxLen);
+
+    el.innerHTML = '';
+
+    for (let i = 0; i < maxLen; i++) {
+      const oldC = oldPadded[i];
+      const newC = newPadded[i];
+
+      if (oldC === ' ' && newC === ' ') continue;
+
+      // Comma: static
+      if (newC === ',') {
+        const comma = document.createElement('span');
+        comma.style.display = 'inline-block';
+        comma.style.width = '0.35em';
+        comma.style.textAlign = 'center';
+        comma.textContent = ',';
+        el.appendChild(comma);
+        continue;
+      }
+
+      const oldD = parseInt(oldC) || 0;
+      const newD = parseInt(newC) || 0;
+      const seq = buildDigitSequence(oldD, newD);
+      const steps = seq.length - 1;
+
+      const col = document.createElement('span');
+      col.style.display = 'inline-block';
+      col.style.position = 'relative';
+      col.style.overflow = 'hidden';
+      col.style.height = '1.2em';
+      col.style.lineHeight = '1.2em';
+      col.style.width = '0.65em';
+      col.style.textAlign = 'center';
+
+      const strip = document.createElement('span');
+      strip.style.display = 'flex';
+      strip.style.flexDirection = 'column';
+
+      for (const digit of seq) {
+        const s = document.createElement('span');
+        s.style.height = '1.2em';
+        s.style.display = 'flex';
+        s.style.alignItems = 'center';
+        s.style.justifyContent = 'center';
+        s.textContent = String(digit);
+        strip.appendChild(s);
+      }
+
+      col.appendChild(strip);
+      el.appendChild(col);
+
+      // Animate: all digits finish at ROLL_DURATION
+      let startTime: number | null = null;
+      const totalSteps = steps;
+
+      function tick(timestamp: number) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / ROLL_DURATION, 1);
+        const eased = easeOutCubic(progress);
+        const currentStep = eased * totalSteps;
+        strip.style.transform = `translateY(${-currentStep * 1.2}em)`;
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+  }, [value, fmt]);
+
+  return (
+    <span
+      ref={containerRef}
+      className={className}
+      style={{ display: 'inline-flex', overflow: 'hidden', position: 'relative' }}
+    />
+  );
+}
+
+// ============================================================================
+
 interface PricingCardsProps {
   category: Category;
   isYearly: boolean;
@@ -250,7 +387,7 @@ function PricingCards({
 
         <div className="mb-8">
           <div className="text-4xl font-bold text-gray-900">
-            {basicPrice.toLocaleString('ko-KR')}
+            <RollingPrice value={basicPrice} />
             <span className="text-lg text-gray-600 font-normal">원/월</span>
           </div>
           {isYearly && (
@@ -300,7 +437,7 @@ function PricingCards({
 
         <div className="mb-8">
           <div className="text-4xl font-bold text-gray-900">
-            {premiumPrice.toLocaleString('ko-KR')}
+            <RollingPrice value={premiumPrice} />
             <span className="text-lg text-gray-600 font-normal">원/월</span>
           </div>
           {isYearly && (

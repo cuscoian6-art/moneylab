@@ -214,7 +214,22 @@
     }
     .plan-price {
       font-size: clamp(32px, 5vw, 40px); font-weight: 600; color: #1a1a1a;
-      letter-spacing: -1px;
+      letter-spacing: -0.03em;
+      display: inline-flex; overflow: hidden; position: relative;
+    }
+    .plan-price .digit-col {
+      display: inline-block; position: relative; overflow: hidden;
+      height: 1.2em; line-height: 1.2em;
+      width: 0.65em; text-align: center;
+    }
+    .plan-price .digit-col .digit-strip {
+      display: flex; flex-direction: column;
+    }
+    .plan-price .digit-col .digit-strip span {
+      height: 1.2em; display: flex; align-items: center; justify-content: center;
+    }
+    .plan-price .comma {
+      display: inline-block; width: 0.35em; text-align: center;
     }
     .plan.featured .plan-price { color: #FF4D00; }
     .plan-price-suffix {
@@ -884,6 +899,111 @@
 
     function fmt(n) { return n.toLocaleString('ko-KR'); }
 
+    /* ── 가격 롤링 애니메이션 (Grok 스타일) ── */
+    var ROLL_DURATION = 600; // 모든 자릿수가 이 시간(ms)에 동시 완료
+
+    function buildDigitSequence(fromD, toD) {
+      // fromD에서 시작해서 1,2,3...순서로 toD까지 전체 순회
+      // 예: 5→1 = [5,6,7,8,9,0,1], 3→8 = [3,4,5,6,7,8]
+      var seq = [fromD];
+      var cur = fromD;
+      if (fromD === toD) {
+        // 같은 숫자: 0~9 한바퀴 전부 돌고 제자리
+        for (var k = 0; k < 10; k++) {
+          cur = (cur + 1) % 10;
+          seq.push(cur);
+        }
+      } else {
+        // 다른 숫자: fromD에서 toD까지 순방향으로 순회
+        while (cur !== toD) {
+          cur = (cur + 1) % 10;
+          seq.push(cur);
+        }
+      }
+      return seq;
+    }
+
+    function animatePrice(el, newValue) {
+      if (!el) return;
+      var newStr = fmt(newValue);
+      var oldStr = el.getAttribute('data-price') || el.textContent.trim();
+      if (oldStr === newStr) return;
+      el.setAttribute('data-price', newStr);
+
+      var maxLen = Math.max(oldStr.length, newStr.length);
+      oldStr = oldStr.padStart(maxLen);
+      newStr = newStr.padStart(maxLen);
+
+      el.innerHTML = '';
+      for (var i = 0; i < maxLen; i++) {
+        var oldC = oldStr[i];
+        var newC = newStr[i];
+
+        if (oldC === ' ' && newC === ' ') continue;
+
+        // 콤마는 정적 표시
+        if (newC === ',') {
+          var comma = document.createElement('span');
+          comma.className = 'comma';
+          comma.textContent = ',';
+          el.appendChild(comma);
+          continue;
+        }
+
+        var oldD = parseInt(oldC) || 0;
+        var newD = parseInt(newC) || 0;
+        var seq = buildDigitSequence(oldD, newD);
+        var steps = seq.length - 1; // 이동할 칸 수
+
+        var col = document.createElement('span');
+        col.className = 'digit-col';
+
+        var strip = document.createElement('span');
+        strip.className = 'digit-strip';
+        // 개별 transition 끄고 JS requestAnimationFrame으로 제어
+        strip.style.transition = 'none';
+
+        for (var j = 0; j < seq.length; j++) {
+          var s = document.createElement('span');
+          s.textContent = String(seq[j]);
+          strip.appendChild(s);
+        }
+
+        col.appendChild(strip);
+        el.appendChild(col);
+
+        // 모든 자릿수가 ROLL_DURATION에 동시 완료되도록 애니메이션
+        (function(stripEl, totalSteps) {
+          var startTime = null;
+          function tick(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var elapsed = timestamp - startTime;
+            var progress = Math.min(elapsed / ROLL_DURATION, 1);
+            // easeOutCubic for smooth deceleration
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var currentStep = eased * totalSteps;
+            stripEl.style.transform = 'translateY(' + (-currentStep * 1.2) + 'em)';
+            if (progress < 1) {
+              requestAnimationFrame(tick);
+            }
+          }
+          requestAnimationFrame(tick);
+        })(strip, steps);
+      }
+    }
+
+    /* 초기 로드시에는 애니메이션 없이 바로 표시 */
+    var priceInitialized = false;
+    function setPrice(el, value) {
+      if (!el) return;
+      if (priceInitialized) {
+        animatePrice(el, value);
+      } else {
+        el.textContent = fmt(value);
+        el.setAttribute('data-price', fmt(value));
+      }
+    }
+
     function updatePlans() {
       var data = categoryData[currentCategory];
       if (!data) return;
@@ -903,14 +1023,14 @@
           // 연 결제: 지정된 연간 월 가격 사용
           var effectiveMonthly = plan.yearlyMonthly;
           var savingPerYear = (monthlyPrice - effectiveMonthly) * 12;
-          if (priceEl) priceEl.textContent = fmt(effectiveMonthly);
+          setPrice(priceEl, effectiveMonthly);
           if (suffixEl) suffixEl.textContent = '원/월';
           if (origEl) { origEl.innerHTML = '&nbsp;'; origEl.style.visibility = 'hidden'; }
           if (discEl) { discEl.innerHTML = '&nbsp;'; discEl.style.visibility = 'hidden'; }
           if (dailyEl) dailyEl.textContent = '연 ' + fmt(savingPerYear) + '원 절약';
         } else {
           // 월 결제
-          if (priceEl) priceEl.textContent = fmt(monthlyPrice);
+          setPrice(priceEl, monthlyPrice);
           if (suffixEl) suffixEl.textContent = '원/월';
           if (origEl) { origEl.innerHTML = '&nbsp;'; origEl.style.visibility = 'hidden'; }
           if (discEl) { discEl.innerHTML = '&nbsp;'; discEl.style.visibility = 'hidden'; }
@@ -947,6 +1067,7 @@
 
     // 초기 로드
     updatePlans();
+    priceInitialized = true;
 
     // Tab switching
     function switchTab(el) {
