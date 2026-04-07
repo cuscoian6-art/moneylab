@@ -514,7 +514,7 @@
     .checkout-value.discount { color: #FF4D00; }
     .checkout-total {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 20px 0 0; border-top: 1px solid #eee; margin-top: 4px;
+      padding: 20px 0 0; margin-top: 4px;
     }
     .checkout-total-label { font-size: 15px; font-weight: 600; color: #1a1a1a; }
     .checkout-total-price { font-size: 28px; font-weight: 800; color: #1a1a1a; letter-spacing: -0.03em; }
@@ -653,8 +653,12 @@
       .showcase-slider { width: 100%; }
       .showcase-slide { aspect-ratio: 4/3; }
       .faq { padding: 60px 20px; flex-direction: column; gap: 32px; }
+      .faq-left { width: 100%; align-self: stretch; }
       .faq-right { display: none; }
       .faq-title { font-size: 24px; }
+    }
+    @media (min-width: 769px) {
+      br.mb { display: none; }
     }
   </style>
 </head>
@@ -694,7 +698,7 @@
   <!-- PLAN HEADER (Grok style) -->
   <section class="plan-hero">
     <img src="logo-black.svg" alt="머니랩" class="plan-hero-logo">
-    <p style="font-size:14px; color:#999; font-weight:500; margin:-8px 0 20px; letter-spacing:-0.2px;">머니랩에서 단단한 투자를 시작해보세요.</p>
+    <p style="font-size:14px; color:#999; font-weight:500; margin:-8px 0 20px; letter-spacing:-0.2px;">머니랩에서 기준 있는 투자를 시작하세요!</p>
     <div class="tabs">
       <button class="tab active" onclick="switchTab(this)">
         주식
@@ -784,7 +788,7 @@
       <div class="showcase-text">
         <span class="showcase-badge" id="showcaseBadge">혜택 1</span>
         <h2 class="showcase-title" id="showcaseTitle">주식 &amp; 암호화폐<br>투자처 분석</h2>
-        <p class="showcase-desc" id="showcaseDesc">국내주식·미국주식·암호화폐까지, 전문가가 선별한 핵심 투자처를 매일 분석해 드립니다.</p>
+        <p class="showcase-desc" id="showcaseDesc">국내주식·미국주식·암호화폐까지,<br>전문가가 선별한 핵심 투자처를 매일 분석해 드립니다.</p>
       </div>
       <div class="showcase-slider">
         <div class="showcase-slide">
@@ -810,7 +814,7 @@
           <span class="faq-question-text">구독료가 얼마인가요?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><div class="faq-answer-inner">베이직과 프리미엄 플랜으로 구독 가능하며, 주식 또는 주식+코인 카테고리를 선택할 수 있습니다. 연 결제 시 2개월 무료 혜택이 적용됩니다.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">베이직과 프리미엄 플랜으로 구독 가능하며,<br class="mb"> 주식 또는 주식+코인 카테고리를 선택할 수 있습니다.<br class="mb"> 연 결제 시 2개월 무료 혜택이 적용됩니다.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-question">
@@ -818,7 +822,7 @@
           <span class="faq-question-text">어떤 결제 수단을 지원하나요?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><div class="faq-answer-inner">카카오페이, 신용카드, 계좌이체 등 다양한 결제 수단을 지원합니다. 결제 완료 후 즉시 서비스 이용이 가능합니다.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">카카오페이, 신용카드, 계좌이체 등<br class="mb"> 다양한 결제 수단을 지원합니다.<br class="mb"> 결제 완료 후 즉시 서비스 이용이 가능합니다.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-question">
@@ -826,7 +830,7 @@
           <span class="faq-question-text">결제 후 바로 이용할 수 있나요?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><div class="faq-answer-inner">네, 결제 완료 즉시 마이페이지에서 텔레그램 입장하기 버튼을 통해 채널에 바로 입장하실 수 있습니다.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">네, 결제 완료 즉시 마이페이지에서<br class="mb"> 텔레그램 입장하기 버튼을 통해<br class="mb"> 채널에 바로 입장하실 수 있습니다.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-question">
@@ -834,7 +838,7 @@
           <span class="faq-question-text">구독 후 환불이 가능한가요?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><div class="faq-answer-inner">구독 시작 후 7일 이내 요청 시 전액 환불이 가능합니다. 7일 이후에는 잔여 기간에 대한 부분 환불이 적용됩니다.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">구독 시작 후 7일 이내 요청 시<br class="mb"> 전액 환불이 가능합니다.<br class="mb"> 7일 이후에는 잔여 기간에 대한<br class="mb"> 부분 환불이 적용됩니다.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-question">
@@ -842,7 +846,7 @@
           <span class="faq-question-text">문의는 어디로 하면 되나요?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><div class="faq-answer-inner">카카오톡 채널 또는 이메일을 통해 문의해 주세요. 평일 기준 24시간 이내 답변드립니다.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">카카오톡 채널 또는 이메일을 통해<br class="mb"> 문의해 주세요.<br class="mb"> 평일 기준 24시간 이내 답변드립니다.</div></div>
       </div>
     </div>
     <div class="faq-right">
@@ -1081,7 +1085,7 @@
 
     // Showcase benefit slider
     const benefitSlides = [
-      { badge: '혜택 1', title: '주식 &amp; 암호화폐<br>투자처 분석', desc: '국내주식·미국주식·암호화폐까지, 전문가가 선별한 핵심 투자처를 매일 분석해 드립니다.' },
+      { badge: '혜택 1', title: '주식 &amp; 암호화폐<br>투자처 분석', desc: '국내주식·미국주식·암호화폐까지,<br>전문가가 선별한 핵심 투자처를 매일 분석해 드립니다.' },
       { badge: '혜택 2', title: '꾸테크 매매현황 및<br>포트폴리오 공유', desc: '실제 매매 현황과 포트폴리오를 실시간으로 공유하여 투자 판단에 도움을 드립니다.' },
       { badge: '혜택 3', title: '핵심 경제 지표 및<br>이슈 해석', desc: '복잡한 경제 지표와 시장 이슈를 쉽고 명확하게 해석하여 전달해 드립니다.' },
       { badge: '혜택 4', title: '차트 기술적 분석<br>매매 타이밍 제공', desc: '기술적 분석 기반의 정확한 매수·매도 타이밍을 실시간으로 제공합니다.' },
@@ -1095,7 +1099,7 @@
       const s = benefitSlides[currentSlide - 1];
       document.getElementById('showcaseBadge').textContent = s.badge;
       document.getElementById('showcaseTitle').innerHTML = s.title;
-      document.getElementById('showcaseDesc').textContent = s.desc;
+      document.getElementById('showcaseDesc').innerHTML = s.desc;
       document.getElementById('slideNum').textContent = currentSlide;
     }
 
@@ -1169,7 +1173,7 @@
         if (isLoggedIn) {
           mobileActions.innerHTML = '<a href="profile.html" style="background:#FF4D00;color:#fff;font-size:16px;font-weight:700;padding:16px;border-radius:14px;">내 구독정보</a><a href="#" onclick="event.preventDefault();doLogout();" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:14px;">로그아웃</a>';
         } else {
-          mobileActions.innerHTML = '<a href="plans.html">지금 시작하기</a>';
+          mobileActions.innerHTML = '<a href="plans.html" class="mobile-menu-cta">지금 시작하기</a>';
         }
       }
       updateSimToggle(isLoggedIn);
@@ -1414,9 +1418,9 @@
           <span class="checkout-total-label">결제 금액</span>
           <span class="checkout-total-price" id="ckTotal">1,188,000<span>원</span></span>
         </div>
-        <!-- 자동결제 할인 -->
+        <!-- 자동 결제 할인 -->
         <div class="checkout-autopay-discount" id="ckAutopayDiscount">
-          <span class="checkout-label">자동결제 할인 (10%)</span>
+          <span class="checkout-label">자동 결제 할인 (10%)</span>
           <span class="checkout-value discount" id="ckAutopayAmount">-59,400원</span>
         </div>
         <div class="checkout-final" id="ckFinal">
@@ -1430,7 +1434,7 @@
           <div class="checkout-autopay-top">
             <div class="checkout-autopay-info">
               <h4>자동 결제 <span style="display:inline-block;font-size:11px;font-weight:700;color:#FF4D00;background:#FFF0E6;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle;">10% 할인</span></h4>
-              <p>구독 기간 종료 시 자동 갱신</p>
+              <p>자동 결제 지원 카드사 : 국민, 신한, 삼성, 농협</p>
             </div>
             <button class="checkout-autopay-toggle" id="autopayToggle" onclick="toggleAutopay()"></button>
           </div>

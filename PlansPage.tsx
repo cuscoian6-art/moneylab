@@ -96,7 +96,7 @@ const faqItems = [
   {
     question: '어떤 결제수단을 사용할 수 있나요?',
     answer:
-      '신용카드, 체크카드, 계좌이체, 모바일 결제 등 다양한 결제수단을 지원합니다. 자동결제 설정 시 10% 추가 할인을 받을 수 있습니다.',
+      '신용카드, 체크카드, 계좌이체, 모바일 결제 등 다양한 결제수단을 지원합니다. 자동 결제 설정 시 10% 추가 할인을 받을 수 있습니다.',
   },
   {
     question: '구독하면 바로 이용할 수 있나요?',
@@ -712,7 +712,7 @@ function CheckoutModal({ isOpen, data, onClose }: CheckoutModalProps) {
               className="w-4 h-4"
             />
             <span className="flex-1 text-gray-700">
-              자동결제 설정 (10% 할인)
+              자동 결제 설정 (10% 할인)
             </span>
           </label>
           {autopay && (

@@ -1045,7 +1045,7 @@
         if (isLoggedIn) {
           mobileActions.innerHTML = '<a href="profile.html" style="background:#FF4D00;color:#fff;font-size:16px;font-weight:700;padding:16px;border-radius:14px;">내 구독정보</a><a href="#" onclick="event.preventDefault();doLogout();" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:14px;">로그아웃</a>';
         } else {
-          mobileActions.innerHTML = '<a href="plans.html">지금 시작하기</a>';
+          mobileActions.innerHTML = '<a href="plans.html" class="mobile-menu-cta">지금 시작하기</a>';
         }
       }
       updateSimToggle(isLoggedIn);

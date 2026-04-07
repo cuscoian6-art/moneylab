@@ -192,8 +192,11 @@
       text-transform: uppercase;
     }
     .hero-scroll-arrow {
-      width: 12px; height: 12px; border-right: 2px solid rgba(255,255,255,0.4);
+      width: 12px; height: 12px;
+      border-right: 2px solid rgba(255,255,255,0.4);
       border-bottom: 2px solid rgba(255,255,255,0.4);
+      border-top: 2px solid transparent;
+      border-left: 2px solid transparent;
       transform: rotate(45deg);
       animation: scrollBounce 1.8s ease-in-out infinite;
     }
@@ -562,10 +565,12 @@
     .cta-title {
       font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: 1.3;
       margin-bottom: 40px; letter-spacing: -1px;
+      word-break: keep-all;
     }
     .cta-buttons {
-      display: flex; gap: 16px;
+      display: flex; gap: 16px; flex-wrap: wrap;
     }
+    .cta-btn-primary, .cta-btn-secondary { white-space: nowrap; }
     @media (max-width: 768px) {
       .cta { padding: 80px 24px; }
       .cta-inner { flex-direction: column; gap: 32px; }
@@ -739,13 +744,9 @@
 
   <!-- SECTION 1: HERO -->
   <section class="hero">
-    <div class="hero-badge">
-      <span class="pulse-dot"></span>
-      무료 체험 모집중
-    </div>
-    <p class="hero-subtitle">새로운 투자의 시작, 머니랩</p>
+    <p class="hero-subtitle">자산 성장의 시작, 머니랩</p>
     <h1 class="hero-title">Money Lab<br>That's Perfect<br>For You</h1>
-    <p class="hero-title-sub">2,400명이 선택한 투자 구독 서비스<br>전문가의 시선으로 매일 투자 인사이트를 제공합니다</p>
+    <p class="hero-title-sub">실시간 투자정보 구독형 서비스<br>매일 10분, 시장 흐름을 읽는 사람이 수익 기회를 잡습니다</p>
     <div class="hero-cta-wrap">
       <a href="plans.html" class="hero-btn-primary">무료로 시작하기 →</a>
       <a href="review.html" class="hero-btn-secondary">후기 보기</a>
@@ -911,14 +912,14 @@
   <section class="service">
     <div class="service-header">
       <p class="section-label">OUR SERVICE</p>
-      <h2 class="section-title">다짐해도 시작하기 어렵던<br>투자 공부가 자연로 습관화 됩니다.</h2>
+      <h2 class="section-title">길을 잃어버린 내 투자의<br>1등 가이드가 됩니다</h2>
     </div>
     <div class="service-grid">
       <!-- 큰 카드 1개 (ALF 태스크 스타일) -->
       <div class="service-card service-card-1 fade-in">
         <div class="service-card-content">
           <span class="service-card-tag">CONTENT</span>
-          <h3 class="service-card-title">아무것도 몰라도<br>투자 정보가<br>쏟아짐</h3>
+          <h3 class="service-card-title">실시간 꼭 알아야 할<br>투자 정보만<br>받게 됨</h3>
         </div>
         <div class="service-card-visual">
           <div class="service-visual-mockup">
@@ -934,7 +935,7 @@
       <div class="service-card-row">
         <div class="service-card-half service-card-3 fade-in">
           <span class="service-card-tag">KNOWLEDGE</span>
-          <h3 class="service-card-title">더욱 풍부하고<br>정확해진 지식</h3>
+          <h3 class="service-card-title">더 이상 두렵지 않은<br>나만의 포트폴리오 구축</h3>
           <div class="mockup-inner" style="margin-top:auto; background:#fff; border-radius:20px; padding:24px; box-shadow:0 8px 32px rgba(0,0,0,0.08);">
             <div style="font-size:13px; color:#999; margin-bottom:8px;">투자 지식 라이브러리</div>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -945,8 +946,8 @@
           </div>
         </div>
         <div class="service-card-half service-card-4 fade-in">
-          <span class="service-card-tag">AI STRATEGY</span>
-          <h3 class="service-card-title">5분만에 세팅하는<br>투자전략 AI</h3>
+          <span class="service-card-tag">STRATEGY</span>
+          <h3 class="service-card-title">하루 커피값,<br>10분만에 완성하는<br>투자 전략 올인원</h3>
           <div class="mockup-inner" style="margin-top:auto; background:#fff; border-radius:20px; padding:24px; box-shadow:0 8px 32px rgba(0,0,0,0.08);">
             <div style="font-size:13px; color:#999; margin-bottom:8px;">AI 전략 설정</div>
             <div style="display:flex; align-items:center; gap:8px;">
@@ -1124,7 +1125,7 @@
   <!-- SECTION 6: PARTNERS -->
   <section class="partners fade-in">
     <p class="partners-label">News Analysis</p>
-    <h2 class="partners-title">매일 실시간 경제 상황이<br>모니터링 되고 있습니다.</h2>
+    <h2 class="partners-title">무분별한 정보의 홍수속<br>숨은 진주를 찾아드립니다.</h2>
     <div class="partners-logos">
       <img class="partner-logo" src="logo-bloomberg.svg" alt="Bloomberg">
       <img class="partner-logo" src="logo-hankyung.svg" alt="한국경제">
@@ -1138,8 +1139,8 @@
   <section class="community fade-in">
     <div class="community-inner">
       <div class="community-header">
-        <span class="community-badge">자유롭게 모이는 모임</span>
-        <h2 class="community-title">동기부여가 필요하다면<br>모임도 오실 수 있어요.</h2>
+        <span class="community-badge">자율 참여형 오프라인 네트워킹</span>
+        <h2 class="community-title">동기부여가 필요하다면<br>투자자 모임도 오실 수 있어요!</h2>
       </div>
       <div class="community-grid">
         <!-- Row 1: large left (2/3), narrow right (1/3) -->
@@ -1155,20 +1156,20 @@
   <!-- SECTION 8: ABOUT / STATS -->
   <section class="about fade-in">
     <p class="about-label">About</p>
-    <h2 class="about-title">TEXT TEXT<br>시작할 준비가 됐나요?</h2>
+    <h2 class="about-title">머니랩과<br>함께 할 준비가 됐나요?</h2>
     <div class="about-stats">
       <div class="about-stat">
-        <p class="about-stat-label">머니랩과 함께한</p>
-        <p class="about-stat-sub">구독 시작 유저</p>
-        <p class="about-stat-value"><span class="count-up" data-target="8.2" data-decimal="true">0</span>천+</p>
+        <p class="about-stat-label">머니랩과 함께 시작한</p>
+        <p class="about-stat-sub">구독 가입자 수</p>
+        <p class="about-stat-value"><span class="count-up" data-target="8.6" data-decimal="true">0</span>천+</p>
       </div>
       <div class="about-stat">
-        <p class="about-stat-label">머니랩의</p>
-        <p class="about-stat-sub">누적 콘텐츠 조회수/팔로워수</p>
+        <p class="about-stat-label">머니랩</p>
+        <p class="about-stat-sub">누적 콘텐츠 조회수</p>
         <p class="about-stat-value"><span class="count-up" data-target="41284" data-suffix="">0</span>+</p>
       </div>
       <div class="about-stat">
-        <p class="about-stat-label">머니랩의</p>
+        <p class="about-stat-label">머니랩 구독자</p>
         <p class="about-stat-sub">후기 만족도</p>
         <p class="about-stat-value"><span class="count-up" data-target="4.9" data-suffix="" data-decimal="true">0</span>/5.0</p>
       </div>
@@ -1248,7 +1249,7 @@
         if (isLoggedIn) {
           mobileActions.innerHTML = '<a href="profile.html" style="background:#FF4D00;color:#fff;font-size:16px;font-weight:700;padding:16px;border-radius:14px;">내 구독정보</a><a href="#" onclick="event.preventDefault();doLogout();" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:14px;">로그아웃</a>';
         } else {
-          mobileActions.innerHTML = '<a href="plans.html">지금 시작하기</a>';
+          mobileActions.innerHTML = '<a href="plans.html" class="mobile-menu-cta">지금 시작하기</a>';
         }
       }
       updateSimToggle(isLoggedIn);

@@ -194,15 +194,9 @@ function HeroSection() {
       {/* 배경 패턴 */}
       <div className="absolute inset-0 opacity-[0.03] bg-[url('/patterns/cross.svg')] bg-repeat" />
 
-      {/* 배지 */}
-      <div className="relative z-10 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-white text-sm font-semibold mb-7 animate-fade-up">
-        <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-        무료 체험 모집중
-      </div>
-
       {/* 텍스트 */}
       <p className="relative z-10 text-white/80 text-[17px] mb-5 animate-fade-up animation-delay-100">
-        새로운 투자의 시작, 머니랩
+        자산 성장의 시작, 머니랩
       </p>
       <h1 className="relative z-10 text-white font-extrabold leading-[1.08] tracking-tighter mb-4 text-[clamp(44px,8vw,88px)] animate-fade-up animation-delay-200">
         Money Lab
@@ -212,9 +206,9 @@ function HeroSection() {
         For You
       </h1>
       <p className="relative z-10 text-white/70 font-medium leading-relaxed mb-10 text-[clamp(16px,2.5vw,22px)] animate-fade-up animation-delay-300">
-        2,400명이 선택한 투자 구독 서비스
+        실시간 투자정보 구독형 서비스
         <br />
-        전문가의 시선으로 매일 투자 인사이트를 제공합니다
+        매일 10분, 시장 흐름을 읽는 사람이 수익 기회를 잡습니다
       </p>
 
       {/* CTA */}
@@ -238,7 +232,7 @@ function HeroSection() {
         <span className="text-[11px] text-white/40 font-medium tracking-widest uppercase">
           Scroll
         </span>
-        <span className="w-3 h-3 border-r-2 border-b-2 border-white/40 rotate-45 animate-bounce" />
+        <span className="w-3 h-3 border-r-2 border-b-2 border-t-2 border-l-2 border-t-transparent border-l-transparent border-white/40 rotate-45 animate-bounce" />
       </div>
     </section>
   );
@@ -355,9 +349,9 @@ function ServiceSection() {
           OUR SERVICE
         </p>
         <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold leading-snug tracking-tight text-[#1a1a1a]">
-          다짐해도 시작하기 어렵던
+          길을 잃어버린 내 투자의
           <br />
-          투자 공부가 자연로 습관화 됩니다.
+          1등 가이드가 됩니다
         </h2>
       </div>
 
@@ -372,11 +366,11 @@ function ServiceSection() {
               CONTENT
             </span>
             <h3 className="text-4xl font-black leading-snug tracking-tight">
-              아무것도 몰라도
+              실시간 꼭 알아야 할
               <br />
-              투자 정보가
+              투자 정보만
               <br />
-              쏟아짐
+              받게 됨
             </h3>
           </div>
           <div className="flex-1 flex items-center justify-center">
@@ -406,9 +400,9 @@ function ServiceSection() {
               KNOWLEDGE
             </span>
             <h3 className="text-4xl font-black leading-snug tracking-tight">
-              더욱 풍부하고
+              더 이상 두렵지 않은
               <br />
-              정확해진 지식
+              나만의 포트폴리오 구축
             </h3>
             <div className="mt-auto bg-white rounded-2xl p-6 shadow-md">
               <p className="text-[13px] text-gray-400 mb-2">투자 지식 라이브러리</p>
@@ -425,12 +419,14 @@ function ServiceSection() {
             className="flex-1 rounded-3xl p-8 lg:p-12 min-h-[420px] flex flex-col text-left bg-gradient-to-b from-[#FFCCBC] via-[#FFAB91] to-[#FF8A65]"
           >
             <span className="inline-block self-start px-5 py-2 rounded-full bg-white/70 text-[13px] font-bold text-gray-700 mb-4">
-              AI STRATEGY
+              STRATEGY
             </span>
             <h3 className="text-4xl font-black leading-snug tracking-tight">
-              5분만에 세팅하는
+              하루 커피값,
               <br />
-              투자전략 AI
+              10분만에 완성하는
+              <br />
+              투자 전략 올인원
             </h3>
             <div className="mt-auto bg-white rounded-2xl p-6 shadow-md">
               <p className="text-[13px] text-gray-400 mb-2">AI 전략 설정</p>
@@ -696,7 +692,7 @@ function CommunitySection() {
    ────────────────────────────────────────────── */
 
 function AboutSection() {
-  const stat1 = useCountUp(8.2, true);
+  const stat1 = useCountUp(8.6, true);
   const stat2 = useCountUp(41284, false);
   const stat3 = useCountUp(4.9, true);
 
@@ -704,29 +700,29 @@ function AboutSection() {
     <section className="py-24 px-6 lg:px-12 bg-[#f8f8f8] text-center">
       <p className="text-xl font-bold text-[#FF4D00] mb-4">About</p>
       <h2 className="text-[clamp(36px,5vw,48px)] font-extrabold leading-tight tracking-tighter mb-14 text-[#1a1a1a]">
-        TEXT TEXT
+        머니랩과
         <br />
-        시작할 준비가 됐나요?
+        함께 할 준비가 됐나요?
       </h2>
       <div className="flex flex-col md:flex-row justify-center gap-5 max-w-[1100px] mx-auto">
         <div className="flex-1 p-9 bg-white rounded-2xl shadow-sm text-left">
-          <p className="text-base font-bold text-gray-500 mb-0.5">머니랩과 함께한</p>
-          <p className="text-base font-bold text-gray-500 mb-5">구독 시작 유저</p>
+          <p className="text-base font-bold text-gray-500 mb-0.5">머니랩과 함께 시작한</p>
+          <p className="text-base font-bold text-gray-500 mb-5">구독 가입자 수</p>
           <p className="text-[clamp(40px,5vw,52px)] font-semibold text-[#1a1a1a] tracking-tighter">
             <span ref={stat1.ref}>{stat1.value}</span>천+
           </p>
         </div>
         <div className="flex-1 p-9 bg-white rounded-2xl shadow-sm text-left">
-          <p className="text-base font-bold text-gray-500 mb-0.5">머니랩의</p>
+          <p className="text-base font-bold text-gray-500 mb-0.5">머니랩</p>
           <p className="text-base font-bold text-gray-500 mb-5">
-            누적 콘텐츠 조회수/팔로워수
+            누적 콘텐츠 조회수
           </p>
           <p className="text-[clamp(40px,5vw,52px)] font-semibold text-[#1a1a1a] tracking-tighter">
             <span ref={stat2.ref}>{stat2.value}</span>+
           </p>
         </div>
         <div className="flex-1 p-9 bg-white rounded-2xl shadow-sm text-left">
-          <p className="text-base font-bold text-gray-500 mb-0.5">머니랩의</p>
+          <p className="text-base font-bold text-gray-500 mb-0.5">머니랩 구독자</p>
           <p className="text-base font-bold text-gray-500 mb-5">후기 만족도</p>
           <p className="text-[clamp(40px,5vw,52px)] font-semibold text-[#1a1a1a] tracking-tighter">
             <span ref={stat3.ref}>{stat3.value}</span>/5.0
@@ -749,12 +745,12 @@ function CtaSection() {
           <p className="text-[15px] opacity-60 mb-3">
             지금부터 진짜 성장할 수 있어요.
           </p>
-          <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold leading-snug tracking-tight mb-10">
+          <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold leading-snug tracking-tight mb-10 [word-break:keep-all]">
             투자 시장의 변화를
             <br />
             쉽고 간편하게, 받아보세요
           </h2>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap [&>a]:whitespace-nowrap">
             <Link
               href="/plans"
               className="px-9 py-4 rounded-full bg-[#FF4D00] text-white text-base font-bold hover:scale-105 transition-transform"
