@@ -45,13 +45,13 @@ const reviewModalData = [
 const partners = ["TOSSPAYMENTS", "DB증권", "CLASS101", "한국경제", "아토세무회계"];
 
 const ceoCredentials = [
-  "증권 투자권유대행인",
+  "증권투자권유대행인",
   "금융컨설턴트",
   "경제심리학 전문가",
   "KBS1 더 보다 다큐멘터리 출연",
-  "직장인 출신 투자 교육 전문가 (7년차)",
+  "직장인 출신 7년차 투자 전문가",
   "클래스101 전문 강사 수강생 10,000+",
-  "투자 콘텐츠 조회수 120만+",
+  "SNS 투자 콘텐츠 조회수 500만+",
   "2026 포브스 코리아 사회공헌부문 대상",
   "2026 대한민국 비전 리더 대상",
   "2025 대한민국 혁신 기업 대상",
@@ -199,11 +199,7 @@ function HeroSection() {
         자산 성장의 시작, 머니랩
       </p>
       <h1 className="relative z-10 text-white font-extrabold leading-[1.08] tracking-tighter mb-4 text-[clamp(44px,8vw,88px)] animate-fade-up animation-delay-200">
-        Money Lab
-        <br />
-        That&apos;s Perfect
-        <br />
-        For You
+        GGU
       </h1>
       <p className="relative z-10 text-white/70 font-medium leading-relaxed mb-10 text-[clamp(16px,2.5vw,22px)] animate-fade-up animation-delay-300">
         실시간 투자정보 구독형 서비스
@@ -217,7 +213,7 @@ function HeroSection() {
           href="/plans"
           className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-11 py-[18px] rounded-full bg-white text-[#FF4D00] text-[17px] font-bold shadow-lg hover:-translate-y-0.5 hover:shadow-xl transition-all"
         >
-          무료로 시작하기 →
+          시작하기 →
         </Link>
         <Link
           href="/review"
@@ -399,7 +395,7 @@ function ServiceSection() {
             <span className="inline-block self-start px-5 py-2 rounded-full bg-white/70 text-[13px] font-bold text-gray-700 mb-4">
               KNOWLEDGE
             </span>
-            <h3 className="text-4xl font-black leading-snug tracking-tight">
+            <h3 className="text-4xl font-black leading-snug tracking-tight [word-break:keep-all]">
               더 이상 두렵지 않은
               <br />
               나만의 포트폴리오 구축
@@ -454,7 +450,7 @@ function CeoSection() {
     <FadeIn className="py-24 lg:py-28 px-6 lg:px-12 bg-[#1a1a1a] text-white">
       <div className="max-w-[1000px] mx-auto text-center">
         <span className="inline-block px-5 py-2 rounded-full bg-[#FF4D00]/15 text-[#FF4D00] text-[13px] font-semibold mb-5">
-          월 260 직장인 시작으로, 6억 투자 순익 실현
+          월 260 직장인 시작, 6억 투자 수익 실현
         </span>
         <h2 className="text-[clamp(28px,4vw,40px)] font-extrabold leading-snug mb-16">
           바쁜 현대인의
@@ -743,7 +739,7 @@ function CtaSection() {
       <div className="max-w-[1100px] mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
         <div className="flex-1 text-left">
           <p className="text-[15px] opacity-60 mb-3">
-            지금부터 진짜 성장할 수 있어요.
+            클릭 한 번으로 진짜 성장을 경험하세요.
           </p>
           <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold leading-snug tracking-tight mb-10 [word-break:keep-all]">
             투자 시장의 변화를
