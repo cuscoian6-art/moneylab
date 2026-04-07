@@ -45,8 +45,27 @@ export default function ProfilePage() {
 
   const [smsFeesExpanded, setSmsFeesExpanded] = useState(false);
 
+  const [autopayEnabled, setAutopayEnabled] = useState(true);
+  const [cardModalOpen, setCardModalOpen] = useState<ModalState>('closed');
+  const [cardConfirmOpen, setCardConfirmOpen] = useState(false);
+  const [cardAgreeChecked, setCardAgreeChecked] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(''), 2800);
+  };
+  const confirmUnlinkCard = () => {
+    localStorage.setItem('moneylab_autopay', 'false');
+    setAutopayEnabled(false);
+    setCardModalOpen('closed');
+    setCardConfirmOpen(false);
+    setCardAgreeChecked(false);
+    showToast('자동 결제 해지가 완료되었습니다.');
+  };
+
   // Initialize from localStorage
   useEffect(() => {
+    setAutopayEnabled(localStorage.getItem('moneylab_autopay') !== 'false');
     const joined = localStorage.getItem('moneylab_tg_joined') === 'true';
     setTelegramJoined(joined);
     setMounted(true);
@@ -136,6 +155,13 @@ export default function ProfilePage() {
         {/* Email Banner */}
         <EmailBanner onChangeClick={() => setEmailModalOpen('open')} />
 
+        {/* Autopay / Card Management Banner */}
+        {autopayEnabled && (
+          <AutopayBanner
+            onManageClick={() => { setCardConfirmOpen(false); setCardAgreeChecked(false); setCardModalOpen('open'); }}
+          />
+        )}
+
         {/* Account Section */}
         <AccountSection onWithdrawalClick={() => setWithdrawalModalOpen('open')} />
       </div>
@@ -194,6 +220,25 @@ export default function ProfilePage() {
           smsFeesExpanded={smsFeesExpanded}
           onSmsFeesToggle={() => setSmsFeesExpanded(!smsFeesExpanded)}
         />
+      )}
+
+      {cardModalOpen === 'open' && (
+        <CardModal
+          confirmOpen={cardConfirmOpen}
+          agreeChecked={cardAgreeChecked}
+          onAgreeChange={setCardAgreeChecked}
+          onOpenConfirm={() => setCardConfirmOpen(true)}
+          onCancelConfirm={() => { setCardConfirmOpen(false); setCardAgreeChecked(false); }}
+          onConfirmUnlink={confirmUnlinkCard}
+          onChangeCard={() => { setCardModalOpen('closed'); showToast('카드 정보 변경 페이지로 이동합니다.'); }}
+          onClose={() => { setCardModalOpen('closed'); setCardConfirmOpen(false); setCardAgreeChecked(false); }}
+        />
+      )}
+
+      {toastMsg && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-sm px-5 py-3 rounded-xl shadow-lg z-[60] animate-[fadeIn_0.2s_ease-out]">
+          {toastMsg}
+        </div>
       )}
     </main>
   );
@@ -408,6 +453,114 @@ function EmailBanner({ onChangeClick }: { onChangeClick: () => void }) {
         >
           이메일 변경
         </button>
+      </div>
+    </div>
+  );
+}
+
+function AutopayBanner({ onManageClick }: { onManageClick: () => void }) {
+  return (
+    <div className="bg-white rounded-2xl p-6 border-l-4 border-orange-600">
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div className="min-w-0">
+          <p className="text-sm text-gray-500 mb-1">자동 결제 등록됨</p>
+          <p className="text-sm font-semibold text-gray-900">신한카드 (****-1234)</p>
+        </div>
+        <button
+          onClick={onManageClick}
+          className="px-4 py-2 text-orange-600 hover:bg-orange-50 rounded-lg font-medium transition-colors"
+        >
+          카드 관리
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function CardModal({
+  confirmOpen,
+  agreeChecked,
+  onAgreeChange,
+  onOpenConfirm,
+  onCancelConfirm,
+  onConfirmUnlink,
+  onChangeCard,
+  onClose,
+}: {
+  confirmOpen: boolean;
+  agreeChecked: boolean;
+  onAgreeChange: (v: boolean) => void;
+  onOpenConfirm: () => void;
+  onCancelConfirm: () => void;
+  onConfirmUnlink: () => void;
+  onChangeCard: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-2xl max-w-md w-full p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-bold text-gray-900">자동 결제 카드 관리</h3>
+          <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-lg transition-colors">
+            <X className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
+
+        <div className="bg-gray-50 rounded-xl p-4 mb-5">
+          <p className="text-xs text-gray-500 mb-1">등록된 카드</p>
+          <p className="text-sm font-semibold text-gray-900">신한카드 (****-1234)</p>
+          <p className="text-xs text-gray-500 mt-2">다음 결제일: 2026.04.01</p>
+        </div>
+
+        {!confirmOpen && (
+          <div className="space-y-3">
+            <button
+              onClick={onChangeCard}
+              className="w-full px-4 py-3 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition-colors"
+            >
+              카드 정보 변경하기
+            </button>
+            <button
+              onClick={onOpenConfirm}
+              className="w-full text-center text-xs text-gray-400 hover:text-gray-600 underline py-1"
+            >
+              자동 결제 해지
+            </button>
+          </div>
+        )}
+
+        {confirmOpen && (
+          <div>
+            <div className="bg-red-50 border border-red-100 rounded-xl p-4 mb-4">
+              <p className="text-sm font-semibold text-red-700 mb-1">정말 해지하시겠어요?</p>
+              <p className="text-xs text-red-600 leading-relaxed">
+                해지 시 다음 결제일부터 서비스가 자동 연장되지 않으며, 구독이 만료되면 프리미엄 혜택이 중단됩니다.
+              </p>
+            </div>
+            <label className="flex items-start gap-2 mb-5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={agreeChecked}
+                onChange={(e) => onAgreeChange(e.target.checked)}
+                className="w-4 h-4 mt-0.5"
+              />
+              <span className="text-xs text-gray-600">위 내용을 확인했으며 자동 결제를 해지합니다.</span>
+            </label>
+            <button
+              onClick={onCancelConfirm}
+              className="w-full px-4 py-3 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition-colors mb-2"
+            >
+              계속 자동 결제 이용하기
+            </button>
+            <button
+              onClick={onConfirmUnlink}
+              disabled={!agreeChecked}
+              className="w-full text-center text-xs text-gray-400 hover:text-gray-600 underline py-1 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              그래도 해지할게요
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

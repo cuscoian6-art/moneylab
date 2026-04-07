@@ -427,6 +427,144 @@
       .email-banner-btn { width: 100%; text-align: center; }
     }
 
+    /* ===== AUTOPAY CARD BANNER ===== */
+    .autopay-banner {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #fff; border-radius: 16px; padding: 20px 28px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      border-left: 4px solid #1a73e8; gap: 16px; margin-top: 12px;
+    }
+    .autopay-banner.off { border-left-color: #ccc; }
+    .autopay-banner.off .autopay-banner-icon { background: #f0f0f0; }
+    .autopay-banner.off .autopay-banner-icon svg { stroke: #999; }
+    .autopay-banner.off .autopay-banner-status { color: #888; background: #eee; }
+    .autopay-banner-right {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0;
+    }
+    .autopay-switch {
+      position: relative; width: 44px; height: 24px; flex-shrink: 0;
+      background: #ddd; border-radius: 50px; cursor: pointer;
+      transition: background 0.2s; border: none; padding: 0;
+    }
+    .autopay-switch::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 20px; height: 20px; border-radius: 50%; background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .autopay-switch.on { background: #FF4D00; }
+    .autopay-switch.on::after { transform: translateX(20px); }
+    .autopay-switch-label { font-size: 11px; font-weight: 600; color: #999; }
+    .autopay-switch.on + .autopay-switch-label { color: #FF4D00; }
+    .autopay-banner-left {
+      display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0;
+    }
+    .autopay-banner-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: #E8F0FE; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .autopay-banner-icon svg { width: 20px; height: 20px; stroke: #1a73e8; }
+    .autopay-banner-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .autopay-banner-title {
+      font-size: 15px; font-weight: 700; color: #1a1a1a;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .autopay-banner-status {
+      font-size: 11px; font-weight: 700; color: #2E7D32;
+      background: #E8F5E9; padding: 2px 8px; border-radius: 50px;
+    }
+    .autopay-banner-desc { font-size: 13px; color: #999; line-height: 1.4; }
+    .autopay-banner-btn {
+      flex-shrink: 0; padding: 10px 20px; border-radius: 10px;
+      background: #1a1a1a; color: #fff; font-size: 13px; font-weight: 600;
+      text-decoration: none; transition: background 0.2s; white-space: nowrap;
+      border: none; cursor: pointer;
+    }
+    .autopay-banner-btn:hover { background: #333; }
+    @media (max-width: 768px) {
+      .autopay-banner { flex-direction: column; align-items: flex-start; padding: 18px 20px; }
+      .autopay-banner-btn { width: 100%; text-align: center; }
+    }
+
+    /* ===== AUTOPAY MODAL ===== */
+    .card-modal-bg {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 10000; align-items: center; justify-content: center; padding: 20px;
+    }
+    .card-modal-bg.active { display: flex; }
+    .card-modal {
+      background: #fff; border-radius: 20px; padding: 28px;
+      max-width: 440px; width: 100%; position: relative;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto;
+    }
+    .card-modal-close {
+      position: absolute; top: 20px; right: 20px; width: 32px; height: 32px;
+      border-radius: 50%; background: none; border: none; font-size: 22px;
+      color: #999; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .card-modal-close:hover { background: #f5f5f5; }
+    .card-modal-title {
+      font-size: 18px; font-weight: 800; color: #1a1a1a; margin: 0 0 6px;
+    }
+    .card-modal-desc {
+      font-size: 13px; color: #888; line-height: 1.5; margin: 0 0 20px;
+    }
+    .card-modal-info {
+      background: #f8f9fa; border-radius: 12px; padding: 16px 18px; margin-bottom: 18px;
+    }
+    .card-modal-info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 13px; padding: 6px 0;
+    }
+    .card-modal-info-row .label { color: #888; }
+    .card-modal-info-row .value { color: #1a1a1a; font-weight: 600; }
+    .card-modal-info-row .value.ok { color: #2E7D32; }
+    .card-modal-primary {
+      width: 100%; padding: 16px; border-radius: 12px; background: #FF4D00;
+      color: #fff; font-size: 15px; font-weight: 700; border: none; cursor: pointer;
+      transition: background 0.2s; margin-bottom: 12px;
+    }
+    .card-modal-primary:hover { background: #E63E00; }
+    .card-modal-unlink {
+      display: block; width: 100%; text-align: center;
+      background: none; border: none; padding: 10px;
+      color: #bbb; font-size: 12px; font-weight: 500; cursor: pointer;
+      text-decoration: underline; text-underline-offset: 3px;
+    }
+    .card-modal-unlink:hover { color: #888; }
+    .card-modal-confirm { display: none; }
+    .card-modal-confirm.show { display: block; }
+    .card-modal-warning {
+      background: #FFF8E1; border: 1px solid #FFE082; border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 14px;
+      font-size: 13px; color: #6D4C00; line-height: 1.6;
+    }
+    .card-modal-agree {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 14px; border-radius: 10px; margin-bottom: 14px;
+      background: #f8f8f8; cursor: pointer; user-select: none;
+    }
+    .card-modal-agree input[type="checkbox"] {
+      width: 18px; height: 18px; accent-color: #888;
+      cursor: pointer; flex-shrink: 0; margin-top: 1px;
+    }
+    .card-modal-agree span { font-size: 13px; color: #555; line-height: 1.5; }
+    .card-modal-keep {
+      width: 100%; padding: 16px; border-radius: 12px; background: #FF4D00;
+      color: #fff; font-size: 15px; font-weight: 700; border: none; cursor: pointer;
+      margin-bottom: 8px;
+    }
+    .card-modal-keep:hover { background: #E63E00; }
+    .card-modal-final-unlink {
+      display: block; width: 100%; text-align: center;
+      background: none; border: none; padding: 10px;
+      color: #ccc; font-size: 12px; font-weight: 400; cursor: pointer;
+      text-decoration: underline; text-underline-offset: 3px;
+    }
+    .card-modal-final-unlink:not(:disabled):hover { color: #999; }
+    .card-modal-final-unlink:disabled { color: #e0e0e0; cursor: not-allowed; text-decoration: none; }
+
     /* ===== WITHDRAW ===== */
     .withdraw-link {
       font-size: 12px; color: #ccc; text-decoration: none;
@@ -1194,6 +1332,23 @@
       </div>
       <a href="#" class="email-banner-btn" onclick="event.preventDefault(); openEmailModal();">이메일 변경</a>
     </div>
+
+    <!-- Autopay Card Banner -->
+    <div class="autopay-banner" id="autopayBanner">
+      <div class="autopay-banner-left">
+        <div class="autopay-banner-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+        </div>
+        <div class="autopay-banner-text">
+          <div class="autopay-banner-title">자동 결제 <span class="autopay-banner-status" id="autopayStatusLabel">등록됨</span></div>
+          <span class="autopay-banner-desc" id="autopayDesc">등록된 카드로 구독 기간 종료 시 자동 갱신됩니다.</span>
+        </div>
+      </div>
+      <div class="autopay-banner-right">
+        <button class="autopay-banner-btn" onclick="openCardModal();">카드 관리</button>
+      </div>
+    </div>
+
   <!-- Subscription Extend -->
   <div class="extend-banner">
     <div class="extend-banner-text">
@@ -1437,6 +1592,46 @@
     </div>
   </div>
 
+  <!-- Autopay / Card Management Modal -->
+  <div class="card-modal-bg" id="cardModal">
+    <div class="card-modal">
+      <button class="card-modal-close" onclick="closeCardModal()">&times;</button>
+      <h3 class="card-modal-title">자동 결제 / 카드 관리</h3>
+      <p class="card-modal-desc">구독 해지와 별개로, 다음 자동 결제를 중단하거나<br>카드 정보를 변경할 수 있습니다.</p>
+      <div class="card-modal-info">
+        <div class="card-modal-info-row">
+          <span class="label">카드 등록 상태</span>
+          <span class="value ok">등록됨</span>
+        </div>
+        <div class="card-modal-info-row">
+          <span class="label">마지막 업데이트</span>
+          <span class="value" id="cardLastUpdate">2026년 2월 6일 오전 1:57</span>
+        </div>
+      </div>
+      <div id="cardPrimaryActions">
+        <button class="card-modal-primary" onclick="alert('카드 정보 변경 페이지로 이동합니다.');">카드 정보 변경하기</button>
+        <button class="card-modal-unlink" onclick="toggleCardConfirm(true)">자동 결제 해지</button>
+      </div>
+
+      <div class="card-modal-confirm" id="cardConfirm">
+        <div class="card-modal-warning">
+          자동 결제를 해지하시면 <b>등록된 카드 정보가 삭제</b>되며, 이후 자동 결제가 진행되지 않습니다. 현재 이용 중인 구독은 종료일까지 유지됩니다.
+        </div>
+        <label class="card-modal-agree">
+          <input type="checkbox" id="cardAgreeChk" onchange="document.getElementById('cardFinalUnlink').disabled = !this.checked;">
+          <span>위 내용을 확인했으며, 자동 갱신 혜택을 포기합니다.</span>
+        </label>
+        <button class="card-modal-keep" onclick="toggleCardConfirm(false)">계속 자동 결제 이용하기</button>
+        <button class="card-modal-final-unlink" id="cardFinalUnlink" disabled onclick="confirmUnlinkCard()">그래도 해지할게요</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" style="position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(26,26,26,0.95);color:#fff;padding:14px 24px;border-radius:50px;font-size:14px;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:all 0.3s ease;z-index:10001;white-space:nowrap;">
+    <span id="toastMsg">자동 결제 해지가 완료되었습니다.</span>
+  </div>
+
   <!-- Telegram Guide Modal -->
   <div class="tg-modal-bg" id="tgGuideModal">
     <div class="tg-modal" style="position:relative;">
@@ -1614,6 +1809,70 @@
     document.getElementById('emailModal').addEventListener('click', function(e) {
       if (e.target === this) closeEmailModal();
     });
+
+    // ===== Autopay / Card Management =====
+    function updateAutopayBanner() {
+      var enabled = localStorage.getItem('moneylab_autopay') !== 'false';
+      var banner = document.getElementById('autopayBanner');
+      if (banner) banner.style.display = enabled ? '' : 'none';
+    }
+    function handleAutopaySwitch() {
+      var enabled = localStorage.getItem('moneylab_autopay') !== 'false';
+      if (enabled) {
+        // 켜져있으면 → 해지 확인 모달 열고 해지 확인 단계로 바로 이동
+        openCardModal();
+        toggleCardConfirm(true);
+      } else {
+        // 꺼져있으면 → 다시 등록
+        localStorage.setItem('moneylab_autopay', 'true');
+        updateAutopayBanner();
+        showToast('자동 결제가 다시 등록되었습니다.');
+      }
+    }
+    function openCardModal() {
+      document.getElementById('cardModal').classList.add('active');
+      toggleCardConfirm(false);
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCardModal() {
+      document.getElementById('cardModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function toggleCardConfirm(show) {
+      var c = document.getElementById('cardConfirm');
+      if (!c) return;
+      c.classList.toggle('show', !!show);
+      var prim = document.getElementById('cardPrimaryActions');
+      if (prim) prim.style.display = show ? 'none' : '';
+      if (!show) {
+        var chk = document.getElementById('cardAgreeChk');
+        if (chk) chk.checked = false;
+        var btn = document.getElementById('cardFinalUnlink');
+        if (btn) btn.disabled = true;
+      }
+    }
+    function confirmUnlinkCard() {
+      localStorage.setItem('moneylab_autopay', 'false');
+      closeCardModal();
+      updateAutopayBanner();
+      showToast('자동 결제 해지가 완료되었습니다.');
+    }
+    function showToast(msg) {
+      var t = document.getElementById('toast');
+      if (!t) return;
+      document.getElementById('toastMsg').textContent = msg;
+      t.style.opacity = '1';
+      t.style.transform = 'translateX(-50%) translateY(0)';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(function() {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(-50%) translateY(20px)';
+      }, 2800);
+    }
+    document.getElementById('cardModal').addEventListener('click', function(e) {
+      if (e.target === this) closeCardModal();
+    });
+    updateAutopayBanner();
 
     // Update UI based on trial state
     // 통합 visibility 관리: joinedActions / onboardingHero
@@ -1977,11 +2236,33 @@
         updateExpiredState();
       });
 
+      var btn5 = document.createElement('button');
+      btn5.style.cssText = 'padding:8px 16px;border-radius:50px;border:none;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.15);';
+      function updateAutopayBtn() {
+        var on = localStorage.getItem('moneylab_autopay') !== 'false';
+        if (on) {
+          btn5.textContent = '💳 자동결제 등록(현재)';
+          btn5.style.background = '#FF4D00'; btn5.style.color = '#fff';
+        } else {
+          btn5.textContent = '⬜ 자동결제 해지(현재)';
+          btn5.style.background = '#fff'; btn5.style.color = '#333';
+        }
+      }
+      updateAutopayBtn();
+      btn5.addEventListener('click', function(){
+        var on = localStorage.getItem('moneylab_autopay') !== 'false';
+        localStorage.setItem('moneylab_autopay', on ? 'false' : 'true');
+        updateAutopayBtn();
+        updateAutopayBanner();
+      });
+
       wrap.appendChild(btn1);
       wrap.appendChild(btn4);
       wrap.appendChild(btn2);
       wrap.appendChild(btn3);
+      wrap.appendChild(btn5);
       document.body.appendChild(wrap);
+      updateAutopayBanner();
 
       // Initial states (순서 중요: premium → trial → expired → visibility)
       updatePremiumState();
