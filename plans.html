@@ -476,7 +476,7 @@
 
     /* ===== FOOTER ===== */
     .footer {
-      text-align: center; padding: 40px 24px;
+      text-align: left; padding: 40px 24px;
       border-top: 1px solid #f0f0f0; color: #bbb; font-size: 13px;
     }
     .footer a { color: #999; text-decoration: none; }
@@ -857,16 +857,48 @@
   <!-- DISCLAIMER -->
 
   <!-- FOOTER -->
-  <div class="footer">
-    <div style="margin-bottom:12px">GGU</div>
-    <div class="footer-biz" style="font-size:12px;color:#888;line-height:1.7;margin-bottom:10px;display:flex;flex-wrap:wrap;justify-content:center;gap:2px 6px;word-break:keep-all;"><span>대표 : 김범준</span><span aria-hidden="true" style="color:#bbb">ㅣ</span><span>주소 : 경기도 화성시 꽃내음1길 11</span><span aria-hidden="true" style="color:#bbb">ㅣ</span><span>사업자등록번호 : 703-12-02380</span><span aria-hidden="true" style="color:#bbb">ㅣ</span><span>통신판매업신고번호 : 2024-서울서초-1718</span><span aria-hidden="true" style="color:#bbb">ㅣ</span><span>개인정보처리책임자 : 김범준 ggu_official@naver.com</span><span aria-hidden="true" style="color:#bbb">ㅣ</span><span>010-7458-9925</span></div>
-    <div style="margin:16px auto 10px; padding-top:16px; border-top:1px solid #eee; max-width:800px;">
-      <p style="font-size:12px; color:#aaa; line-height:1.8; margin:0 0 6px; word-break:keep-all;">*꾸테크 머니랩은 자본시장법상 유사투자자문업 규정을 따르는 투자 정보 제공 목적의 단방향 서비스이며, 개별 투자자문 관련 1:1 대화는 엄격히 금지됩니다.</p>
-      <p style="font-size:12px; color:#aaa; line-height:1.8; margin:0; word-break:keep-all;">*서비스 관련 개인의 투자 손익 및 손실에 대한 귀책은<br>신청자 본인에게 있음을 사전안내 드립니다.</p>
+  <!-- FOOTER -->
+  <style>
+    .footer { padding: 60px 48px 40px; background: #fff; border-top: 1px solid #eee; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-logo { font-size: 28px; font-weight: 900; margin-bottom: 20px; letter-spacing: 1px; color: #888; }
+    .footer-info { font-size: 13px; color: #aaa; line-height: 2; margin-bottom: 20px; word-break: keep-all; text-align: left; }
+    .footer-links { display: flex; gap: 16px; margin-bottom: 20px; }
+    .footer-link { font-size: 13px; color: #888; text-decoration: none; }
+    .footer-link.bold { font-weight: 700; }
+    .footer-social { display: flex; gap: 12px; margin-top: 16px; }
+    .footer-social-icon { width: 36px; height: 36px; border-radius: 50%; background: #333; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; transition: background 0.2s; text-decoration: none; }
+    .footer-social-icon svg { width: 18px; height: 18px; fill: #fff; }
+    .footer-social-icon:hover { background: #FF4D00; }
+    .footer-disclaimer { margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee; }
+    .footer-disclaimer p { font-size: 12px; color: #aaa; line-height: 1.8; margin: 0; word-break: keep-all; }
+    @media (max-width: 768px) { .footer { padding: 40px 20px; } }
+  </style>
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">GGU</div>
+      <div class="footer-info">
+        <span style="white-space:nowrap">대표 : 김범준</span> <span style="color:#555">ㅣ</span> <span style="white-space:nowrap">주소 : 경기도 화성시 꽃내음1길 11</span><br>
+        <span style="white-space:nowrap">사업자등록번호 : 703-12-02380</span> <span style="color:#555">ㅣ</span> <span style="white-space:nowrap">통신판매업신고번호 : 2024-서울서초-1718</span><br>
+        <span style="white-space:nowrap">개인정보처리책임자 : 김범준 ggu_official@naver.com</span> <span style="color:#555">ㅣ</span> <span style="white-space:nowrap">010-7458-9925</span>
+      </div>
+      <div class="footer-links">
+        <a href="javascript:void(0)" class="footer-link" onclick="openLegalModal('termsModal')">이용약관</a>
+        <a href="javascript:void(0)" class="footer-link bold" onclick="openLegalModal('privacyModal')">개인정보처리방침</a>
+        <a href="#" class="footer-link">사업자 정보 확인</a>
+      </div>
+      <div class="footer-social">
+        <a href="#" class="footer-social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.97.24 2.43.403a4.088 4.088 0 011.47.957c.453.453.787.91.957 1.47.163.46.35 1.26.403 2.43.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.97-.403 2.43a4.088 4.088 0 01-.957 1.47 4.088 4.088 0 01-1.47.957c-.46.163-1.26.35-2.43.403-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.97-.24-2.43-.403a4.088 4.088 0 01-1.47-.957 4.088 4.088 0 01-.957-1.47c-.163-.46-.35-1.26-.403-2.43C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.054-1.17.24-1.97.403-2.43a4.088 4.088 0 01.957-1.47A4.088 4.088 0 015.063 2.293c.46-.163 1.26-.35 2.43-.403C8.759 1.832 9.139 1.82 12 1.82V2.163zM12 0C8.741 0 8.333.014 7.053.072 5.775.131 4.902.333 4.14.63a5.882 5.882 0 00-2.126 1.384A5.882 5.882 0 00.63 4.14C.333 4.902.131 5.775.072 7.053.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.059 1.278.261 2.15.558 2.913a5.882 5.882 0 001.384 2.126 5.882 5.882 0 002.126 1.384c.763.297 1.635.5 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.278-.059 2.15-.261 2.913-.558a5.882 5.882 0 002.126-1.384 5.882 5.882 0 001.384-2.126c.297-.763.5-1.635.558-2.913.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.059-1.278-.261-2.15-.558-2.913a5.882 5.882 0 00-1.384-2.126A5.882 5.882 0 0019.86.63C19.097.333 18.225.131 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        <a href="#" class="footer-social-icon" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.546 12 3.546 12 3.546s-7.505 0-9.377.504A3.016 3.016 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.504 9.376.504 9.376.504s7.505 0 9.377-.504a3.016 3.016 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        <a href="#" class="footer-social-icon" aria-label="Threads"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.186 24h-.007C5.965 24 2.615 20.114 2.615 14.592V9.408C2.615 3.886 5.965 0 12.186 0h.007c3.724 0 6.563 1.376 8.436 4.092l-2.87 2.006C16.502 4.252 14.61 3.29 12.193 3.29c-4.012 0-6.157 2.764-6.157 6.118v5.184c0 3.354 2.145 6.118 6.157 6.118 2.418 0 4.31-.962 5.567-2.808l2.87 2.006C18.756 22.624 15.917 24 12.186 24zm3.44-8.655c-.554-.258-1.176-.43-1.853-.508-.16-.018-.325-.03-.495-.035a3.052 3.052 0 00-.548.003c-.964.082-1.79.477-2.318 1.108-.478.571-.7 1.29-.625 2.02.14 1.355 1.258 2.382 2.6 2.382h.03c1.072-.012 2.002-.588 2.558-1.583.46-.822.614-1.847.396-2.814a.856.856 0 00-.03-.1l.285-.473zm-1.228-4.87c-1.677-.777-3.705-.517-5.1.658-1.175 1.99-1.3 2.452-1.243 3.37l2.63-4.028z"/></svg></a>
+        <a href="#" class="footer-social-icon" aria-label="Blog"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.273 12.845c0 3.632-2.268 5.655-6.182 5.655H4.727V5.5h4.91c3.459 0 5.636 1.818 5.636 4.773v.004c0 1.546-.773 2.727-2.046 3.364 1.637.545 3.046 1.863 3.046 3.204zm-3.682-2.477c0-1.41-1-2.318-2.636-2.318H7.818v4.727h2.091c1.682 0 2.682-.954 2.682-2.409zm.591 5.132c0-1.5-1.045-2.454-2.818-2.454H7.818V18h2.636c1.727 0 2.728-.955 2.728-2.5zM19.273 5.5h-1.091v13h1.09c.603 0 1.092-.489 1.092-1.091V6.59c0-.602-.49-1.091-1.091-1.091z"/></svg></a>
+      </div>
+      <div class="footer-disclaimer">
+        <p>*꾸테크 머니랩은 자본시장법상 유사투자자문업 규정을 따르는 투자 정보 제공 목적의 단방향 서비스이며, 개별 투자자문 관련 1:1 대화는 엄격히 금지됩니다.</p>
+        <p>*서비스 관련 개인의 투자 손익 및 손실에 대한 귀책은<br>신청자 본인에게 있음을 사전안내 드립니다.</p>
+      </div>
     </div>
-    <style>.footer-biz .seg{display:inline-block}.footer-biz .sep{display:inline-block;margin:0 8px;color:#666}@media(max-width:600px){.footer-biz .sep{display:none}.footer-biz .seg{display:block}}</style>
-    <p>&copy; 2025 GGU &middot; 머니랩 &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="openLegalModal('termsModal')">이용약관</a> &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="openLegalModal('privacyModal')"><strong>개인정보처리방침</strong></a></p>
-  </div>
+  </footer>
 
   <!-- Feature Tooltip -->
   <div class="tooltip-overlay" id="tooltipOverlay"></div>
