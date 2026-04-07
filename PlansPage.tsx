@@ -9,8 +9,8 @@ import Link from 'next/link';
 
 const categoryData = {
   '주식': {
-    basic: { monthly: 59000, yearlyMonthly: 49100, tag: '' },
-    premium: { monthly: 79000, yearlyMonthly: 56900, tag: '가성비' },
+    basic: { monthly: 59000, yearlyMonthly: 48970, tag: '' },
+    premium: { monthly: 79000, yearlyMonthly: 65570, tag: '가성비' },
     features: {
       analysis: {
         text: '국내주식 + 미국주식 투자처 분석',
@@ -25,8 +25,8 @@ const categoryData = {
     },
   },
   '주식 + 코인': {
-    basic: { monthly: 79000, yearlyMonthly: 56900, tag: '가성비' },
-    premium: { monthly: 99000, yearlyMonthly: 81900, tag: '재구독 1위' },
+    basic: { monthly: 79000, yearlyMonthly: 65570, tag: '가성비' },
+    premium: { monthly: 99000, yearlyMonthly: 82170, tag: '재구독 1위' },
     features: {
       analysis: {
         text: '주식 + 암호화폐 투자처 분석',
@@ -128,6 +128,8 @@ interface CheckoutData {
   billing: 'monthly' | 'yearly';
   price: number;
   autopay: boolean;
+  monthlyPrice: number;
+  yearlyMonthlyPrice: number;
 }
 
 interface TooltipData {
@@ -406,6 +408,8 @@ function PricingCards({
               billing: isYearly ? 'yearly' : 'monthly',
               price: basicPrice,
               autopay: false,
+              monthlyPrice: data.basic.monthly,
+              yearlyMonthlyPrice: data.basic.yearlyMonthly,
             })
           }
           className="w-full bg-gray-700 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors mb-8"
@@ -456,6 +460,8 @@ function PricingCards({
               billing: isYearly ? 'yearly' : 'monthly',
               price: premiumPrice,
               autopay: false,
+              monthlyPrice: data.premium.monthly,
+              yearlyMonthlyPrice: data.premium.yearlyMonthly,
             })
           }
           className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors mb-8"
@@ -651,16 +657,28 @@ interface CheckoutModalProps {
 
 function CheckoutModal({ isOpen, data, onClose }: CheckoutModalProps) {
   const [autopay, setAutopay] = useState(false);
+  const [yearlySwitch, setYearlySwitch] = useState(false);
 
   if (!isOpen || !data) return null;
 
-  const discountedPrice = autopay
-    ? Math.floor(data.price * 0.9)
-    : data.price;
-  const discountAmount = data.price - discountedPrice;
+  const isYearly = data.billing === 'yearly' || yearlySwitch;
+  const tierName = data.plan === 'basic' ? '베이직' : '프리미엄';
+  const fmt = (n: number) => n.toLocaleString('ko-KR');
+
+  const monthlyTotal12 = data.monthlyPrice * 12;
+  const yearlyTotal = data.yearlyMonthlyPrice * 12;
+  const yearlyDiscountAmt = monthlyTotal12 - yearlyTotal;
+  const yearlyPct = Math.round((yearlyDiscountAmt / monthlyTotal12) * 100);
+
+  const baseTotal = isYearly ? yearlyTotal : data.monthlyPrice;
+  const autopayDiscount = autopay ? Math.floor(baseTotal * 0.1) : 0;
+  const finalTotal = baseTotal - autopayDiscount;
+
+  const showTotalPerMonth = isYearly && !autopay;
+  const showFinalPerMonth = isYearly && autopay;
 
   const handleCheckout = () => {
-    alert(`${data.service} ${data.plan === 'basic' ? 'Basic' : 'Premium'} 구독을 시작합니다.`);
+    alert(`${data.service} ${tierName} 구독을 시작합니다.`);
     onClose();
   };
 
@@ -673,37 +691,89 @@ function CheckoutModal({ isOpen, data, onClose }: CheckoutModalProps) {
         className="bg-white rounded-lg shadow-xl max-w-md w-full p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">결제 확인</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">결제 정보 확인</h2>
 
-        <div className="space-y-4 mb-8">
+        <div className="space-y-4 mb-6">
           <div className="flex justify-between text-gray-700">
             <span>서비스</span>
             <span className="font-semibold">{data.service}</span>
           </div>
           <div className="flex justify-between text-gray-700">
-            <span>플랜</span>
+            <span>구독 기간</span>
             <span className="font-semibold">
-              {data.plan === 'basic' ? 'Basic' : 'Premium'}
+              {isYearly ? `${tierName} · 연 결제 (12개월)` : `${tierName} · 월 결제`}
             </span>
           </div>
-          <div className="flex justify-between text-gray-700">
-            <span>청구 주기</span>
-            <span className="font-semibold">
-              {data.billing === 'monthly' ? '월간' : '연간'}
-            </span>
-          </div>
-          <div className="border-t border-gray-200 pt-4 flex justify-between text-gray-900 font-bold text-lg">
-            <span>총 금액</span>
-            <span>
-              {(data.price * (data.billing === 'yearly' ? 12 : 1)).toLocaleString(
-                'ko-KR'
+
+          {data.billing === 'yearly' && (
+            <>
+              <div className="flex justify-between text-gray-700">
+                <span>월결제시 정상가</span>
+                <span className="line-through text-gray-400">{fmt(monthlyTotal12)}원</span>
+              </div>
+              <div className="flex justify-between text-gray-700">
+                <span>연간 할인</span>
+                <span className="text-orange-600 font-semibold">-{fmt(yearlyDiscountAmt)}원</span>
+              </div>
+            </>
+          )}
+
+          {data.billing === 'monthly' && (
+            <>
+              <div className="flex justify-between items-center text-gray-700">
+                <span className="flex items-center gap-2">
+                  연간 구독 전환
+                  <span className="text-[11px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full">BEST</span>
+                </span>
+                <button
+                  onClick={() => setYearlySwitch(!yearlySwitch)}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${yearlySwitch ? 'bg-orange-500' : 'bg-gray-300'}`}
+                >
+                  <span
+                    className={`absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform ${yearlySwitch ? 'translate-x-5' : 'translate-x-0.5'}`}
+                  />
+                </button>
+              </div>
+              {yearlySwitch && (
+                <div className="flex justify-between text-gray-700">
+                  <span>연간 구독 할인 ({yearlyPct}%)</span>
+                  <span className="text-orange-600 font-semibold">-{fmt(yearlyDiscountAmt)}원 절약</span>
+                </div>
               )}
-              원
-            </span>
+            </>
+          )}
+
+          <div className="border-t border-gray-200 pt-4 flex justify-between items-start">
+            <span className="text-gray-900 font-bold text-lg">결제 금액</span>
+            <div className="flex flex-col items-end">
+              <span className="text-gray-900 font-bold text-2xl">{fmt(baseTotal)}원</span>
+              {showTotalPerMonth && (
+                <span className="text-xs font-semibold text-orange-600 mt-1">월 {fmt(Math.round(baseTotal / 12))}원</span>
+              )}
+            </div>
           </div>
+
+          {autopay && (
+            <div className="flex justify-between text-gray-700">
+              <span>자동 결제 할인 (10%)</span>
+              <span className="text-orange-600 font-semibold">-{fmt(autopayDiscount)}원</span>
+            </div>
+          )}
+
+          {autopay && (
+            <div className="border-t border-gray-200 pt-4 flex justify-between items-start">
+              <span className="text-gray-900 font-bold text-lg">최종 결제 금액</span>
+              <div className="flex flex-col items-end">
+                <span className="text-orange-600 font-bold text-2xl">{fmt(finalTotal)}원</span>
+                {showFinalPerMonth && (
+                  <span className="text-xs font-semibold text-orange-600 mt-1">월 {fmt(Math.round(finalTotal / 12))}원</span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="mb-8 bg-gray-50 rounded-lg p-4">
+        <div className="mb-6 bg-gray-50 rounded-lg p-4">
           <label className="flex items-center gap-3 cursor-pointer">
             <input
               type="checkbox"
@@ -712,16 +782,10 @@ function CheckoutModal({ isOpen, data, onClose }: CheckoutModalProps) {
               className="w-4 h-4"
             />
             <span className="flex-1 text-gray-700">
-              자동 결제 설정 (10% 할인)
+              자동 결제 <span className="text-[11px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full ml-1">10% 할인</span>
             </span>
           </label>
-          {autopay && (
-            <p className="text-sm text-green-600 mt-2">
-              할인 금액: {discountAmount.toLocaleString('ko-KR')}원
-              <br />
-              결제 금액: {discountedPrice.toLocaleString('ko-KR')}원
-            </p>
-          )}
+          <p className="text-xs text-gray-500 mt-2">자동 결제 지원 카드사 : 국민, 신한, 삼성, 농협</p>
         </div>
 
         <button
@@ -855,6 +919,8 @@ export default function PlansPage() {
                 billing: 'monthly',
                 price: categoryData[currentCategory].premium.monthly,
                 autopay: false,
+                monthlyPrice: categoryData[currentCategory].premium.monthly,
+                yearlyMonthlyPrice: categoryData[currentCategory].premium.yearlyMonthly,
               })
             }
             className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors"

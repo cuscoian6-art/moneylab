@@ -148,7 +148,7 @@
       margin: 0 auto 48px; padding: 0 24px;
     }
     .billing-toggle-text {
-      font-size: 15px; font-weight: 500; color: #888;
+      font-size: 15px; font-weight: 600; color: #FF4D00;
     }
     .billing-toggle {
       position: relative; width: 52px; height: 28px; border-radius: 14px;
@@ -376,7 +376,10 @@
       max-width: 1100px; margin: 0 auto; display: flex;
       align-items: center; gap: 60px;
     }
-    .showcase-text { flex: 1; }
+    .showcase-text { flex: 1; min-width: 0; padding: 0; margin: 0; }
+    .showcase-text .showcase-badge { margin: 0 0 16px; }
+    .showcase-text .showcase-title { margin: 0 0 20px; }
+    .showcase-text .showcase-desc { margin: 0 0 32px; }
     .showcase-title {
       font-size: clamp(28px, 4vw, 40px); font-weight: 800;
       line-height: 1.3; letter-spacing: -1px; margin-bottom: 20px;
@@ -785,10 +788,10 @@
   <!-- SHOWCASE -->
   <section class="showcase">
     <div class="showcase-inner">
-      <div class="showcase-text">
+      <div class="showcase-text" style="padding:0;margin:0;text-align:left;">
         <span class="showcase-badge" id="showcaseBadge">혜택 1</span>
-        <h2 class="showcase-title" id="showcaseTitle">주식 &amp; 암호화폐<br>투자처 분석</h2>
-        <p class="showcase-desc" id="showcaseDesc">국내주식·미국주식·암호화폐까지,<br>전문가가 선별한 핵심 투자처를 매일 분석해 드립니다.</p>
+        <h2 class="showcase-title" id="showcaseTitle" style="margin:0 0 20px;">주식 &amp; 암호화폐<br>투자처 분석</h2>
+        <p class="showcase-desc" id="showcaseDesc" style="margin:0 0 32px;">국내주식·미국주식·암호화폐까지,<br>전문가가 선별한 핵심 투자처를 매일 분석해 드립니다.</p>
       </div>
       <div class="showcase-slider">
         <div class="showcase-slide">
@@ -814,7 +817,7 @@
           <span class="faq-question-text">구독료가 얼마인가요?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><div class="faq-answer-inner">베이직과 프리미엄 플랜으로 구독 가능하며,<br class="mb"> 주식 또는 주식+코인 카테고리를 선택할 수 있습니다.<br class="mb"> 연 결제 시 2개월 무료 혜택이 적용됩니다.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">[베이직 / 프리미엄] 플랜으로 구독 선택이 가능하며, [월 / 년] 구독신청 기간에 따라 할인율 및 혜택 차이가 발생합니다. 프리미엄/년 구독 플랜의 경우, 가장 큰 할인율 및 혜택을 받으실 수 있습니다. 자세한 요금은 하단 [구독하기] 페이지에서 확인하실 수 있습니다.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-question">
@@ -830,7 +833,7 @@
           <span class="faq-question-text">결제 후 바로 이용할 수 있나요?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><div class="faq-answer-inner">네, 결제 완료 즉시 마이페이지에서<br class="mb"> 텔레그램 입장하기 버튼을 통해<br class="mb"> 채널에 바로 입장하실 수 있습니다.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">네, 구독 결제 완료 즉시 [내 구독 정보]에서 [텔레그램 입장하기 →] 버튼을 통해 미니랩 채널에 바로 입장하실 수 있습니다.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-question">
@@ -838,7 +841,7 @@
           <span class="faq-question-text">구독 후 환불이 가능한가요?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><div class="faq-answer-inner">구독 시작 후 7일 이내 요청 시<br class="mb"> 전액 환불이 가능합니다.<br class="mb"> 7일 이후에는 잔여 기간에 대한<br class="mb"> 부분 환불이 적용됩니다.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">구독 시작일 기준 3일 이내 요청 시 전액 환불이 가능합니다. 단, 3일 이후에는 잔여 기간에 대한 일할 계산 부분 환불만 가능합니다. 환불 요청 시 사이트 우측 하단 문의 채널을 이용해 주세요.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-question">
@@ -846,7 +849,7 @@
           <span class="faq-question-text">문의는 어디로 하면 되나요?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><div class="faq-answer-inner">카카오톡 채널 또는 이메일을 통해<br class="mb"> 문의해 주세요.<br class="mb"> 평일 기준 24시간 이내 답변드립니다.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">사이트 우측 하단 문의 채널을 이용해 주세요. 카카오톡 및 채널톡 답변으로, 평일 기준 24시간 이내 답변드립니다.</div></div>
       </div>
     </div>
     <div class="faq-right">
@@ -918,16 +921,16 @@
 
     const categoryData = {
       '주식': {
-        basic:   { monthly: 59000, yearlyMonthly: 49100, tag: '' },
-        premium: { monthly: 79000, yearlyMonthly: 56900, tag: '가성비' },
+        basic:   { monthly: 59000, yearlyMonthly: 48970, tag: '' },
+        premium: { monthly: 79000, yearlyMonthly: 65570, tag: '가성비' },
         features: {
           analysis: { text: '국내주식 + 미국주식 투자처 분석', title: '국내주식 + 미국주식 투자처 분석', desc: '국내 주식과 미국 주식 시장에서 전문가가 매일 선별한 투자처를 분석하여 제공합니다.' },
           portfolio: { text: '꾸테크 주식 투자 포트폴리오 공유', title: '꾸테크 주식 투자 포트폴리오 공유', desc: '꾸테크 대표의 실제 주식 투자 포트폴리오를 투명하게 공유합니다.' }
         }
       },
       '주식 + 코인': {
-        basic:   { monthly: 79000, yearlyMonthly: 56900, tag: '가성비' },
-        premium: { monthly: 99000, yearlyMonthly: 81900, tag: '재구독 1위' },
+        basic:   { monthly: 79000, yearlyMonthly: 65570, tag: '가성비' },
+        premium: { monthly: 99000, yearlyMonthly: 82170, tag: '재구독 1위' },
         features: {
           analysis: { text: '주식 + 암호화폐 투자처 분석', title: '주식 + 암호화폐 투자처 분석', desc: '전문가가 매일 선별한 주식과 암호화폐 투자처를 분석하여 제공합니다.' },
           portfolio: { text: '꾸테크 투자 포트폴리오 공유', title: '꾸테크 투자 포트폴리오 공유', desc: '꾸테크 대표의 실제 투자 포트폴리오를 투명하게 공유합니다.' }
@@ -1119,10 +1122,10 @@
     // Showcase benefit slider
     const benefitSlides = [
       { badge: '혜택 1', title: '주식 &amp; 암호화폐<br>투자처 분석', desc: '국내주식·미국주식·암호화폐까지,<br>전문가가 선별한 핵심 투자처를 매일 분석해 드립니다.' },
-      { badge: '혜택 2', title: '꾸테크 매매현황 및<br>포트폴리오 공유', desc: '실제 매매 현황과 포트폴리오를 실시간으로 공유하여 투자 판단에 도움을 드립니다.' },
-      { badge: '혜택 3', title: '핵심 경제 지표 및<br>이슈 해석', desc: '복잡한 경제 지표와 시장 이슈를 쉽고 명확하게 해석하여 전달해 드립니다.' },
-      { badge: '혜택 4', title: '차트 기술적 분석<br>매매 타이밍 제공', desc: '기술적 분석 기반의 정확한 매수·매도 타이밍을 실시간으로 제공합니다.' },
-      { badge: '혜택 5', title: '꾸테크 챌린지 &amp; LIVE<br>특강 참여권 제공', desc: '투자 습관을 만드는 챌린지와 전문가 LIVE 특강에 무료로 참여할 수 있습니다.' }
+      { badge: '혜택 2', title: '꾸테크 매매현황 및<br>포트폴리오 공유', desc: '실제 매매 현황과 포트폴리오를 실시간으로 공유<br>하여 투자 판단에 도움을 드립니다.' },
+      { badge: '혜택 3', title: '핵심 경제 지표 및<br>이슈 해석', desc: '복잡한 경제 지표와 시장 이슈를 쉽고<br>명확하게 해석하여 전달해 드립니다.' },
+      { badge: '혜택 4', title: '차트 기술적 분석<br>매매 타이밍 제공', desc: '기술적 분석 기반의 정확한 매수·매도 타이밍을<br>실시간으로 제공합니다.' },
+      { badge: '혜택 5', title: '꾸테크 챌린지 &amp; LIVE<br>특강 참여권 제공', desc: '투자 습관을 만드는 챌린지와 전문가 LIVE 특강에<br>무료로 참여할 수 있습니다.' }
     ];
     let currentSlide = 1;
     function changeSlide(dir) {
@@ -1338,7 +1341,9 @@
     });
     // ===== CHECKOUT MODAL =====
     var currentPlanTotal = 0;
+    var currentCheckoutPlanId = null;
     function openCheckout(planId) {
+      currentCheckoutPlanId = planId;
       var data = categoryData[currentCategory];
       if (!data) return;
       var tier = planId === 'planBasic' ? 'basic' : 'premium';
@@ -1347,28 +1352,40 @@
       var monthlyPrice = plan.monthly;
       var originalRow = document.getElementById('ckOriginalRow');
       var yearlyDiscountRow = document.getElementById('ckYearlyDiscountRow');
+      var switchRow = document.getElementById('ckYearlySwitchRow');
+      var switchDiscRow = document.getElementById('ckYearlySwitchDiscountRow');
+
+      // reset yearly switch toggle
+      document.getElementById('yearlySwitchToggle').classList.remove('on');
+      switchDiscRow.style.display = 'none';
+      document.getElementById('ckTotalPerMonth').style.display = 'none';
+      document.getElementById('ckFinalPerMonth').style.display = 'none';
 
       if (isYearly) {
         var originalTotal = monthlyPrice * 12;
         var yearlyTotal = plan.yearlyMonthly * 12;
         var yearlyDiscountAmt = originalTotal - yearlyTotal;
-
-        // 정상가 표시
         document.getElementById('ckOriginal').textContent = fmt(originalTotal) + '원';
         originalRow.style.display = 'flex';
-
-        // 연간 할인 표시
         document.getElementById('ckYearlyDiscount').textContent = '-' + fmt(yearlyDiscountAmt) + '원';
         yearlyDiscountRow.style.display = 'flex';
-
-        // 결제 금액 = 연간할인 적용된 금액
         currentPlanTotal = yearlyTotal;
         document.getElementById('ckPlan').textContent = tierName + ' · 연 결제 (12개월)';
+        switchRow.style.display = 'none';
+        var tpm = document.getElementById('ckTotalPerMonth');
+        tpm.textContent = '월 ' + fmt(Math.round(yearlyTotal / 12)) + '원';
+        tpm.style.display = 'inline';
       } else {
         originalRow.style.display = 'none';
         yearlyDiscountRow.style.display = 'none';
         currentPlanTotal = monthlyPrice;
         document.getElementById('ckPlan').textContent = tierName + ' · 월 결제';
+        // 연간 전환 토글 표시 + 절약액 미리 계산
+        var saveAmt = (monthlyPrice * 12) - (plan.yearlyMonthly * 12);
+        var savePct = Math.round((saveAmt / (monthlyPrice * 12)) * 100);
+        document.getElementById('ckYearlySwitchAmount').textContent = '-' + fmt(saveAmt) + '원 절약';
+        document.getElementById('ckYearlySwitchPct').textContent = savePct;
+        switchRow.style.display = 'flex';
       }
 
       document.getElementById('ckService').textContent = currentCategory;
@@ -1386,6 +1403,46 @@
       document.getElementById('checkoutModal').classList.remove('active');
       document.body.style.overflow = '';
     }
+    function toggleYearlyInCheckout() {
+      if (!currentCheckoutPlanId) return;
+      var data = categoryData[currentCategory];
+      var tier = currentCheckoutPlanId === 'planBasic' ? 'basic' : 'premium';
+      var tierName = tier === 'basic' ? '베이직' : '프리미엄';
+      var plan = data[tier];
+      var tog = document.getElementById('yearlySwitchToggle');
+      tog.classList.toggle('on');
+      var isOn = tog.classList.contains('on');
+      var switchDiscRow = document.getElementById('ckYearlySwitchDiscountRow');
+      var totalPM = document.getElementById('ckTotalPerMonth');
+      var finalPM = document.getElementById('ckFinalPerMonth');
+      if (isOn) {
+        var yearlyTotal = plan.yearlyMonthly * 12;
+        currentPlanTotal = yearlyTotal;
+        switchDiscRow.style.display = 'flex';
+        document.getElementById('ckPlan').textContent = tierName + ' · 연 결제 (12개월)';
+        totalPM.textContent = '월 ' + fmt(Math.round(yearlyTotal / 12)) + '원';
+        totalPM.style.display = 'inline';
+      } else {
+        currentPlanTotal = plan.monthly;
+        switchDiscRow.style.display = 'none';
+        document.getElementById('ckPlan').textContent = tierName + ' · 월 결제';
+        totalPM.style.display = 'none';
+        finalPM.style.display = 'none';
+      }
+      document.getElementById('ckTotal').innerHTML = fmt(currentPlanTotal) + '<span>원</span>';
+      // 자동결제 토글이 켜져 있으면 재계산
+      if (document.getElementById('autopayToggle').classList.contains('on')) {
+        var discountAmt = Math.floor(currentPlanTotal * 0.10);
+        var finalAmt = currentPlanTotal - discountAmt;
+        document.getElementById('ckAutopayAmount').textContent = '-' + fmt(discountAmt) + '원';
+        document.getElementById('ckFinalTotal').innerHTML = fmt(finalAmt) + '<span>원</span>';
+        if (isOn) {
+          finalPM.textContent = '월 ' + fmt(Math.round(finalAmt / 12)) + '원';
+          finalPM.style.display = 'inline';
+          totalPM.style.display = 'none';
+        }
+      }
+    }
     function toggleAutopay() {
       var tog = document.getElementById('autopayToggle');
       var wrap = document.getElementById('checkoutAutopay');
@@ -1394,6 +1451,7 @@
       tog.classList.toggle('on');
       wrap.classList.toggle('active');
       var isOn = tog.classList.contains('on');
+      var finalPM2 = document.getElementById('ckFinalPerMonth');
       if (isOn) {
         var discountAmt = Math.floor(currentPlanTotal * 0.10);
         var finalAmt = currentPlanTotal - discountAmt;
@@ -1401,9 +1459,23 @@
         document.getElementById('ckFinalTotal').innerHTML = fmt(finalAmt) + '<span>원</span>';
         discountRow.classList.add('show');
         finalRow.classList.add('show');
+        if (document.getElementById('yearlySwitchToggle').classList.contains('on') || isYearly) {
+          finalPM2.textContent = '월 ' + fmt(Math.round(finalAmt / 12)) + '원';
+          finalPM2.style.display = 'inline';
+          document.getElementById('ckTotalPerMonth').style.display = 'none';
+        } else {
+          finalPM2.style.display = 'none';
+        }
       } else {
         discountRow.classList.remove('show');
         finalRow.classList.remove('show');
+        finalPM2.style.display = 'none';
+        // 연간 활성 시 결제금액 월 표시 복구
+        if (document.getElementById('yearlySwitchToggle').classList.contains('on') || isYearly) {
+          var tpm2 = document.getElementById('ckTotalPerMonth');
+          tpm2.textContent = '월 ' + fmt(Math.round(currentPlanTotal / 12)) + '원';
+          tpm2.style.display = 'inline';
+        }
       }
     }
     // Attach click to plan buttons
@@ -1447,9 +1519,24 @@
           <span class="checkout-label">연간 할인</span>
           <span class="checkout-value discount" id="ckYearlyDiscount">-264,000원</span>
         </div>
+        <!-- 월결제 시: 연간구독 전환 토글 -->
+        <div id="ckYearlySwitchRow" class="checkout-row" style="display:none; align-items:center;">
+          <span class="checkout-label" style="display:flex; align-items:center; gap:6px;">
+            연간 구독 전환
+            <span style="display:inline-block;font-size:11px;font-weight:700;color:#FF4D00;background:#FFF0E6;padding:2px 8px;border-radius:10px;">BEST</span>
+          </span>
+          <button class="checkout-autopay-toggle" id="yearlySwitchToggle" onclick="toggleYearlyInCheckout()"></button>
+        </div>
+        <div class="checkout-row" id="ckYearlySwitchDiscountRow" style="display:none;">
+          <span class="checkout-label">연간 구독 할인 (<span id="ckYearlySwitchPct">0</span>%)</span>
+          <span class="checkout-value discount" id="ckYearlySwitchAmount">-0원</span>
+        </div>
         <div class="checkout-total">
           <span class="checkout-total-label">결제 금액</span>
-          <span class="checkout-total-price" id="ckTotal">1,188,000<span>원</span></span>
+          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+            <span class="checkout-total-price" id="ckTotal">1,188,000<span>원</span></span>
+            <span id="ckTotalPerMonth" style="display:none; font-size:12px; font-weight:600; color:#FF4D00; margin-top:4px;">월 0원</span>
+          </div>
         </div>
         <!-- 자동 결제 할인 -->
         <div class="checkout-autopay-discount" id="ckAutopayDiscount">
@@ -1458,7 +1545,10 @@
         </div>
         <div class="checkout-final" id="ckFinal">
           <span class="checkout-total-label">최종 결제 금액</span>
-          <span class="checkout-total-price" id="ckFinalTotal">1,128,600<span>원</span></span>
+          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+            <span class="checkout-total-price" id="ckFinalTotal">1,128,600<span>원</span></span>
+            <span id="ckFinalPerMonth" style="display:none; font-size:12px; font-weight:600; color:#FF4D00; margin-top:4px;">월 0원</span>
+          </div>
         </div>
       </div>
       <div class="checkout-actions">
