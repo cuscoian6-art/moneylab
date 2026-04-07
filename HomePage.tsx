@@ -223,13 +223,6 @@ function HeroSection() {
         </Link>
       </div>
 
-      {/* 스크롤 힌트 */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-fade-up animation-delay-700 max-md:hidden">
-        <span className="text-[11px] text-white/40 font-medium tracking-widest uppercase">
-          Scroll
-        </span>
-        <span className="w-3 h-3 border-r-2 border-b-2 border-t-2 border-l-2 border-t-transparent border-l-transparent border-white/40 rotate-45 animate-bounce" />
-      </div>
     </section>
   );
 }

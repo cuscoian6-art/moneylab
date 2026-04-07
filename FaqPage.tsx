@@ -100,18 +100,6 @@ export default function FaqPage() {
         </div>
       </div>
 
-      {/* Disclaimer Section */}
-      <div className="max-w-3xl mx-auto mt-24 space-y-4">
-        <p className="text-xs text-gray-300 leading-relaxed">
-          * 머니랩은 투자 정보 제공 목적의 단방향 서비스이며, 투자 권유 또는 투자 조언을 제공하지 않습니다. 모든
-          투자 결정은 투자자 본인의 판단과 책임하에 이루어져야 하며, 서비스에서 제공하는 정보만을 근거로 투자 결정을
-          하여서는 안 됩니다.
-        </p>
-        <p className="text-xs text-gray-300 leading-relaxed">
-          * 서비스 관련 개인의 투자 손익에 대해 머니랩 및 운영진은 어떠한 책임도 지지 않습니다. 투자 상품의 특성,
-          시장 상황, 개인의 투자 목표 등을 충분히 고려하여 신중하게 판단하시기 바랍니다.
-        </p>
-      </div>
     </div>
   );
 }
