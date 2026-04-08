@@ -705,7 +705,24 @@ function CheckoutModal({ isOpen, data, onClose }: CheckoutModalProps) {
             </span>
           </div>
 
-          {data.billing === 'yearly' && (
+          {data.billing === 'monthly' && (
+            <div className="flex justify-between items-center text-gray-700">
+              <span className="flex items-center gap-2">
+                연간 구독 전환
+                <span className="text-[11px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full">BEST</span>
+              </span>
+              <button
+                onClick={() => setYearlySwitch(!yearlySwitch)}
+                className={`relative w-11 h-6 rounded-full transition-colors ${yearlySwitch ? 'bg-orange-500' : 'bg-gray-300'}`}
+              >
+                <span
+                  className={`absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform ${yearlySwitch ? 'translate-x-5' : 'translate-x-0.5'}`}
+                />
+              </button>
+            </div>
+          )}
+
+          {isYearly && (
             <>
               <div className="flex justify-between text-gray-700">
                 <span>월결제시 정상가</span>
@@ -715,31 +732,6 @@ function CheckoutModal({ isOpen, data, onClose }: CheckoutModalProps) {
                 <span>연간 할인</span>
                 <span className="text-orange-600 font-semibold">-{fmt(yearlyDiscountAmt)}원</span>
               </div>
-            </>
-          )}
-
-          {data.billing === 'monthly' && (
-            <>
-              <div className="flex justify-between items-center text-gray-700">
-                <span className="flex items-center gap-2">
-                  연간 구독 전환
-                  <span className="text-[11px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full">BEST</span>
-                </span>
-                <button
-                  onClick={() => setYearlySwitch(!yearlySwitch)}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${yearlySwitch ? 'bg-orange-500' : 'bg-gray-300'}`}
-                >
-                  <span
-                    className={`absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform ${yearlySwitch ? 'translate-x-5' : 'translate-x-0.5'}`}
-                  />
-                </button>
-              </div>
-              {yearlySwitch && (
-                <div className="flex justify-between text-gray-700">
-                  <span>연간 구독 할인 ({yearlyPct}%)</span>
-                  <span className="text-orange-600 font-semibold">-{fmt(yearlyDiscountAmt)}원 절약</span>
-                </div>
-              )}
             </>
           )}
 
