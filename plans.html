@@ -1415,16 +1415,27 @@
       var switchDiscRow = document.getElementById('ckYearlySwitchDiscountRow');
       var totalPM = document.getElementById('ckTotalPerMonth');
       var finalPM = document.getElementById('ckFinalPerMonth');
+      var originalRow = document.getElementById('ckOriginalRow');
+      var yearlyDiscountRow = document.getElementById('ckYearlyDiscountRow');
       if (isOn) {
+        var monthlyTotal12 = plan.monthly * 12;
         var yearlyTotal = plan.yearlyMonthly * 12;
+        var yearlyDiscountAmt = monthlyTotal12 - yearlyTotal;
         currentPlanTotal = yearlyTotal;
-        switchDiscRow.style.display = 'flex';
+        switchDiscRow.style.display = 'none';
+        // 연결제 팝업과 동일하게 정상가 + 연간 할인 표시
+        document.getElementById('ckOriginal').textContent = fmt(monthlyTotal12) + '원';
+        originalRow.style.display = 'flex';
+        document.getElementById('ckYearlyDiscount').textContent = '-' + fmt(yearlyDiscountAmt) + '원';
+        yearlyDiscountRow.style.display = 'flex';
         document.getElementById('ckPlan').textContent = tierName + ' · 연 결제 (12개월)';
         totalPM.textContent = '월 ' + fmt(Math.round(yearlyTotal / 12)) + '원';
         totalPM.style.display = 'inline';
       } else {
         currentPlanTotal = plan.monthly;
         switchDiscRow.style.display = 'none';
+        originalRow.style.display = 'none';
+        yearlyDiscountRow.style.display = 'none';
         document.getElementById('ckPlan').textContent = tierName + ' · 월 결제';
         totalPM.style.display = 'none';
         finalPM.style.display = 'none';
