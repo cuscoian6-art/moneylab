@@ -750,9 +750,8 @@ function CtaSection() {
             </Link>
           </div>
         </div>
-        <div className="shrink-0 w-full lg:w-[360px] aspect-square rounded-3xl bg-white/15 backdrop-blur-sm flex items-center justify-center overflow-hidden">
-          {/* public/images/cta.png 가 있으면 Image 컴포넌트로 교체 */}
-          <span className="text-sm text-white/60">이미지 영역 (PNG)</span>
+        <div className="shrink-0 w-full lg:w-[480px] flex items-center justify-center">
+          <img src="img/etc/cta.png" alt="투자 시장의 변화" className="w-full h-auto object-contain" />
         </div>
       </div>
     </section>
