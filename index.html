@@ -16,15 +16,14 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       display: grid; grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      padding: 0 48px; height: 72px;
-      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 48px; height: 64px;
+      background: #111;
     }
-    .navbar-logo { font-size: 24px; font-weight: 800; color: #1a1a1a; letter-spacing: -0.5px; justify-self: start; }
+    .navbar-logo { font-size: 24px; font-weight: 900; color: #fff; letter-spacing: 1px; justify-self: start; }
     .navbar-logo span { color: #FF4D00; }
     .navbar-menu { display: flex; gap: 36px; justify-self: center; }
-    .navbar-menu a { font-size: 15px; font-weight: 500; color: #555; transition: color 0.2s; }
-    .navbar-menu a:hover { color: #1a1a1a; }
+    .navbar-menu a { font-size: 15px; font-weight: 500; color: rgba(255,255,255,0.7); transition: color 0.2s; }
+    .navbar-menu a:hover { color: #fff; }
     .nav-dot {
       display: inline-block; width: 6px; height: 6px; border-radius: 50%;
       background: #FF4D00; vertical-align: top; margin-left: 2px;
@@ -41,16 +40,16 @@
     }
     .navbar-sub:hover { background: #E64500; }
     .navbar-logout {
-      padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: 500;
-      color: #999; background: none; border: 1px solid #ddd; cursor: pointer; transition: all 0.2s;
+      padding: 8px 20px; border-radius: 50px; background: #fff; color: #111;
+      font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s;
     }
-    .navbar-logout:hover { background: #f5f5f5; }
+    .navbar-logout:hover { background: rgba(255,255,255,0.9); }
     .navbar-hamburger {
       display: none; background: none; border: none; cursor: pointer;
       width: 36px; height: 36px; align-items: center; justify-content: center;
       grid-column: 3; justify-self: end;
     }
-    .navbar-hamburger svg { stroke: #333; }
+    .navbar-hamburger svg { stroke: #fff; }
     .mobile-menu {
       display: none; position: fixed; inset: 0; z-index: 1100;
       background: rgba(0,0,0,0.5);
@@ -229,11 +228,12 @@
     }
     .card-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 24px; }
     .card-logo {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: linear-gradient(135deg, #FF8C00, #FF4D00);
+      width: 38px; height: 38px; border-radius: 50%;
+      overflow: hidden;
       display: flex; align-items: center; justify-content: center;
+      background: #f5f5f5;
     }
-    .card-logo svg { width: 18px; height: 18px; }
+    .card-logo img { width: 100%; height: 100%; object-fit: cover; }
     .card-company { font-size: 16px; font-weight: 700; }
     .card-prices { margin-bottom: 8px; }
     .card-price-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px; }
@@ -496,27 +496,23 @@
     .community-photo {
       border-radius: 16px; background: #eee; overflow: hidden;
     }
-    .community-photo-placeholder {
-      width: 100%; height: 100%; display: flex; align-items: center;
-      justify-content: center; font-size: 32px;
-      background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+    .community-photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
     }
-    /* Top: wide left (4), narrow right (2) */
-    .community-photo:nth-child(1) { grid-column: 1 / 5; grid-row: 1; }
-    .community-photo:nth-child(2) { grid-column: 5 / 7; grid-row: 1; }
-    /* Bottom: narrow left (2), wide right (4) */
-    .community-photo:nth-child(3) { grid-column: 1 / 3; grid-row: 2; }
-    .community-photo:nth-child(4) { grid-column: 3 / 7; grid-row: 2; }
+    .community-photo:nth-child(1) { grid-column: 1 / 4; grid-row: 1; }
+    .community-photo:nth-child(2) { grid-column: 4 / 7; grid-row: 1; }
+    .community-photo:nth-child(3) { grid-column: 1 / 4; grid-row: 2; }
+    .community-photo:nth-child(4) { grid-column: 4 / 7; grid-row: 2; }
     @media (max-width: 768px) {
       .community-grid {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 180px 180px;
         gap: 8px;
       }
-      .community-photo:nth-child(1) { grid-column: 1 / 2; grid-row: 1; }
-      .community-photo:nth-child(2) { grid-column: 2 / 3; grid-row: 1; }
-      .community-photo:nth-child(3) { grid-column: 1 / 2; grid-row: 2; }
-      .community-photo:nth-child(4) { grid-column: 2 / 3; grid-row: 2; }
+      .community-photo:nth-child(1) { grid-column: auto; grid-row: auto; }
+      .community-photo:nth-child(2) { grid-column: auto; grid-row: auto; }
+      .community-photo:nth-child(3) { grid-column: auto; grid-row: auto; }
+      .community-photo:nth-child(4) { grid-column: auto; grid-row: auto; }
     }
 
     /* ===== SECTION 8: ABOUT / STATS ===== */
@@ -719,7 +715,7 @@
 
   <!-- NAVBAR -->
   <nav class="navbar">
-    <a href="index.html" class="navbar-logo" style="text-decoration:none">G<span>G</span>U</a>
+    <a href="index.html" class="navbar-logo" style="text-decoration:none"><img src="img/logo/white.png" alt="GGU" style="height:28px;"></a>
     <div class="navbar-menu">
       <a href="plans.html">구독하기 <span class="nav-dot"></span></a>
       <a href="review.html">후기</a>
@@ -751,7 +747,7 @@
   <!-- SECTION 1: HERO -->
   <section class="hero">
     <p class="hero-subtitle">자산 성장의 시작, 머니랩</p>
-    <h1 class="hero-title">GGU</h1>
+    <img src="img/logo/white.png" alt="GGU" style="height: 80px; margin: 0 auto 8px; display: block;">
     <p class="hero-title-sub">실시간 투자정보 구독형 서비스<br>매일 10분, 시장 흐름을 읽는 사람이 수익 기회를 잡습니다</p>
     <div class="hero-cta-wrap">
       <a href="plans.html" class="hero-btn-primary">시작하기 →</a>
@@ -769,7 +765,7 @@
         <div class="portfolio-card">
           <div class="card-header">
             <div class="card-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+              <img src="img/portfolio 38x38/doosan.png" alt="두산에너빌리티">
             </div>
             <span class="card-company">두산에너빌리티</span>
           </div>
@@ -796,7 +792,7 @@
         <div class="portfolio-card">
           <div class="card-header">
             <div class="card-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+              <img src="img/portfolio 38x38/micron.png" alt="마이크론">
             </div>
             <span class="card-company">마이크론 테크놀로지(MU)</span>
           </div>
@@ -823,7 +819,7 @@
         <div class="portfolio-card">
           <div class="card-header">
             <div class="card-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+              <img src="img/portfolio 38x38/sk-hynix.png" alt="SK하이닉스">
             </div>
             <span class="card-company">SK하이닉스</span>
           </div>
@@ -850,7 +846,7 @@
         <div class="portfolio-card">
           <div class="card-header">
             <div class="card-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+              <img src="img/portfolio 38x38/boeing.png" alt="보잉">
             </div>
             <span class="card-company">보잉(BA)</span>
           </div>
@@ -877,7 +873,7 @@
         <div class="portfolio-card">
           <div class="card-header">
             <div class="card-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+              <img src="img/portfolio 38x38/LIG-next1.png" alt="LIG넥스원">
             </div>
             <span class="card-company">LIG넥스원</span>
           </div>
@@ -904,7 +900,7 @@
         <div class="portfolio-card">
           <div class="card-header">
             <div class="card-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+              <img src="img/portfolio 38x38/vertiv.png" alt="버티브홀딩스">
             </div>
             <span class="card-company">버티브홀딩스(VRT)</span>
           </div>
@@ -931,7 +927,7 @@
         <div class="portfolio-card">
           <div class="card-header">
             <div class="card-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+              <img src="img/portfolio 38x38/hyosung.png" alt="효성중공업">
             </div>
             <span class="card-company">효성중공업</span>
           </div>
@@ -957,9 +953,7 @@
         </div>
         <div class="portfolio-card">
           <div class="card-header">
-            <div class="card-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
-            </div>
+            <div class="card-logo" style="background:linear-gradient(135deg,#1B1B1B,#333); color:#fff; font-size:12px; font-weight:800;">P</div>
             <span class="card-company">팔란티어(PLTR)</span>
           </div>
           <div class="card-prices">
@@ -985,7 +979,7 @@
         <div class="portfolio-card">
           <div class="card-header">
             <div class="card-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+              <img src="img/portfolio 38x38/hyundai-totem.png" alt="현대로템">
             </div>
             <span class="card-company">현대로템</span>
           </div>
@@ -1012,7 +1006,7 @@
         <div class="portfolio-card">
           <div class="card-header">
             <div class="card-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+              <img src="img/portfolio 38x38/rtx.png" alt="RTX">
             </div>
             <span class="card-company">RTX Corp.(RTX)</span>
           </div>
@@ -1107,7 +1101,7 @@
       <h2 class="ceo-title">바쁜 현대인의<br>성장의 동반자로 함께합니다.</h2>
       <div class="ceo-profile">
         <div class="ceo-photo">
-          <img src="img/investor/beomjun.png" alt="김범준 대표이사" style="width:100%;height:100%;object-fit:cover;">
+          <img src="img/investor/beomjun.jpg" alt="김범준 대표이사" style="width:100%;height:100%;object-fit:cover;">
         </div>
         <div class="ceo-info">
           <h3 class="ceo-name">꾸테크 (김범준 GGU 대표)</h3>
@@ -1265,11 +1259,11 @@
     <p class="partners-label">News Analysis</p>
     <h2 class="partners-title">무분별한 정보의 홍수 속<br>숨은 진주를 찾아드립니다.</h2>
     <div class="partners-logos">
-      <img class="partner-logo" src="logo-bloomberg.svg" alt="Bloomberg">
-      <img class="partner-logo" src="logo-hankyung.svg" alt="한국경제">
-      <img class="partner-logo" src="logo-investing.svg" alt="Investing.com">
-      <img class="partner-logo" src="logo-finviz.svg" alt="Finviz">
-      <img class="partner-logo" src="logo-coinmarketcap.svg" alt="CoinMarketCap">
+      <img class="partner-logo" src="img/news 120x32/bloogberg.svg" alt="Bloomberg">
+      <img class="partner-logo" src="img/news 120x32/hankyung.svg" alt="한국경제">
+      <img class="partner-logo" src="img/news 120x32/investing.svg" alt="Investing.com">
+      <img class="partner-logo" src="img/news 120x32/finviz.svg" alt="Finviz">
+      <img class="partner-logo" src="img/news 120x32/CoinMarketCap.svg" alt="CoinMarketCap">
     </div>
   </section>
 
@@ -1282,11 +1276,10 @@
       </div>
       <div class="community-grid">
         <!-- Row 1: large left (2/3), narrow right (1/3) -->
-        <div class="community-photo"><div class="community-photo-placeholder">📸</div></div>
-        <div class="community-photo"><div class="community-photo-placeholder">📸</div></div>
-        <!-- Row 2: narrow left (1/3), large right (2/3) -->
-        <div class="community-photo"><div class="community-photo-placeholder">📸</div></div>
-        <div class="community-photo"><div class="community-photo-placeholder">📸</div></div>
+        <div class="community-photo"><img src="img/group/111.png" alt="투자자 모임"></div>
+        <div class="community-photo"><img src="img/group/2222.png" alt="투자자 모임"></div>
+        <div class="community-photo"><img src="img/group/3333.png" alt="투자자 모임"></div>
+        <div class="community-photo"><img src="img/group/4444.jpg" alt="투자자 모임"></div>
       </div>
     </div>
   </section>
@@ -1334,7 +1327,7 @@
   <!-- SECTION 10: FOOTER -->
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-logo">GGU</div>
+      <div class="footer-logo"><img src="img/logo/black.png" alt="GGU" style="height:28px; opacity:0.7;"></div>
       <div class="footer-info">
         <span style="white-space:nowrap">대표 : 김범준</span> <span style="color:#555">ㅣ</span> <span style="white-space:nowrap">주소 : 경기도 화성시 꽃내음1길 11</span><br>
         <span style="white-space:nowrap">사업자등록번호 : 703-12-02380</span> <span style="color:#555">ㅣ</span> <span style="white-space:nowrap">통신판매업신고번호 : 2024-서울서초-1718</span><br>

@@ -47,7 +47,13 @@ const reviewModalData = [
   { name: "구독자 J", date: "2026.01.20", emoji: "👨‍✈️", text: "여러 투자 서비스를 써봤지만 머니랩이 가성비 최고입니다. 콘텐츠 질이 다릅니다." },
 ];
 
-const partners = ["TOSSPAYMENTS", "DB증권", "CLASS101", "한국경제", "아토세무회계"];
+const newsLogos = [
+  { src: "img/news 120x32/bloogberg.svg", alt: "Bloomberg" },
+  { src: "img/news 120x32/hankyung.svg", alt: "한국경제" },
+  { src: "img/news 120x32/investing.svg", alt: "Investing.com" },
+  { src: "img/news 120x32/finviz.svg", alt: "Finviz" },
+  { src: "img/news 120x32/CoinMarketCap.svg", alt: "CoinMarketCap" },
+];
 
 const ceoCredentials = [
   "증권투자권유대행인",
@@ -204,9 +210,7 @@ function HeroSection() {
       <p className="relative z-10 text-white/80 text-[17px] mb-5 animate-fade-up animation-delay-100">
         자산 성장의 시작, 머니랩
       </p>
-      <h1 className="relative z-10 text-white font-extrabold leading-[1.08] tracking-tighter mb-4 text-[clamp(44px,8vw,88px)] animate-fade-up animation-delay-200">
-        GGU
-      </h1>
+      <img src="img/logo/white.png" alt="GGU" className="relative z-10 h-[80px] mx-auto mb-4 animate-fade-up animation-delay-200" />
       <p className="relative z-10 text-white/70 font-medium leading-relaxed mb-10 text-[clamp(16px,2.5vw,22px)] animate-fade-up animation-delay-300">
         실시간 투자정보 구독형 서비스
         <br />
@@ -457,9 +461,8 @@ function CeoSection() {
 
         {/* 프로필 */}
         <div className="text-center">
-          <div className="w-40 h-40 rounded-full bg-[#333] mx-auto mb-8 flex items-center justify-center text-6xl overflow-hidden">
-            {/* public/images/ceo.jpg 가 있으면 Image 컴포넌트로 교체 */}
-            <span>👤</span>
+          <div className="w-40 h-40 rounded-full bg-[#333] mx-auto mb-8 overflow-hidden">
+            <img src="img/investor/beomjun.jpg" alt="김범준 대표" className="w-full h-full object-cover" />
           </div>
           <h3 className="text-2xl font-extrabold mb-9">꾸테크 (김범준 GGU 대표)</h3>
           <div className="flex flex-wrap justify-center gap-2.5">
@@ -613,20 +616,20 @@ function ReviewsSection() {
 function PartnersSection() {
   return (
     <FadeIn className="py-20 px-6 lg:px-12 bg-[#f8f8f8] text-center">
-      <p className="text-sm text-[#FF4D00] font-semibold mb-2">Our Partners</p>
+      <p className="text-sm text-[#FF4D00] font-semibold mb-2">News Analysis</p>
       <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold tracking-tight mb-12">
-        여러분의 성장을 위해
+        무분별한 정보의 홍수 속
         <br />
-        파트너십까지 진행하고 있습니다.
+        숨은 진주를 찾아드립니다.
       </h2>
       <div className="flex items-center justify-center flex-wrap gap-14 max-w-[1000px] mx-auto">
-        {partners.map((p) => (
-          <span
-            key={p}
-            className="text-2xl font-bold text-gray-400 grayscale opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap"
-          >
-            {p}
-          </span>
+        {newsLogos.map((logo) => (
+          <img
+            key={logo.alt}
+            src={logo.src}
+            alt={logo.alt}
+            className="h-7 grayscale opacity-45 hover:opacity-100 hover:grayscale-0 transition-all"
+          />
         ))}
       </div>
     </FadeIn>
@@ -652,27 +655,19 @@ function CommunitySection() {
           </h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-3">
-          {/* Row 1: 4+2 */}
-          <div className="md:col-span-4 h-[180px] md:h-60 rounded-2xl bg-gray-100 overflow-hidden">
-            <div className="w-full h-full flex items-center justify-center text-3xl bg-gradient-to-br from-gray-50 to-gray-200">
-              📸
-            </div>
+          {/* Row 1: 3+3 */}
+          <div className="md:col-span-3 h-[180px] md:h-60 rounded-2xl bg-gray-100 overflow-hidden">
+            <img src="img/group/111.png" alt="투자자 모임" className="w-full h-full object-cover" />
           </div>
-          <div className="md:col-span-2 h-[180px] md:h-60 rounded-2xl bg-gray-100 overflow-hidden">
-            <div className="w-full h-full flex items-center justify-center text-3xl bg-gradient-to-br from-gray-50 to-gray-200">
-              📸
-            </div>
+          <div className="md:col-span-3 h-[180px] md:h-60 rounded-2xl bg-gray-100 overflow-hidden">
+            <img src="img/group/2222.png" alt="투자자 모임" className="w-full h-full object-cover" />
           </div>
-          {/* Row 2: 2+4 */}
-          <div className="md:col-span-2 h-[180px] md:h-60 rounded-2xl bg-gray-100 overflow-hidden">
-            <div className="w-full h-full flex items-center justify-center text-3xl bg-gradient-to-br from-gray-50 to-gray-200">
-              📸
-            </div>
+          {/* Row 2: 3+3 */}
+          <div className="md:col-span-3 h-[180px] md:h-60 rounded-2xl bg-gray-100 overflow-hidden">
+            <img src="img/group/3333.png" alt="투자자 모임" className="w-full h-full object-cover" />
           </div>
-          <div className="md:col-span-4 h-[180px] md:h-60 rounded-2xl bg-gray-100 overflow-hidden">
-            <div className="w-full h-full flex items-center justify-center text-3xl bg-gradient-to-br from-gray-50 to-gray-200">
-              📸
-            </div>
+          <div className="md:col-span-3 h-[180px] md:h-60 rounded-2xl bg-gray-100 overflow-hidden">
+            <img src="img/group/4444.jpg" alt="투자자 모임" className="w-full h-full object-cover" />
           </div>
         </div>
       </div>
