@@ -9,16 +9,16 @@ import Image from "next/image";
    ────────────────────────────────────────────── */
 
 const portfolioData = [
-  { company: "두산에너빌리티",        entry: "17,830원",   current: "96,600원",    date: "26.04.03", result: "+441%", period: "약 16개월 경과" },
-  { company: "마이크론 테크놀로지(MU)", entry: "$91",        current: "$366",        date: "26.04.03", result: "+302%", period: "약 10개월 경과" },
-  { company: "SK하이닉스",            entry: "179,400원",  current: "876,000원",   date: "26.04.03", result: "+388%", period: "약 11개월 경과" },
-  { company: "보잉(BA)",              entry: "$139",       current: "$208",        date: "26.04.03", result: "+49%",  period: "약 12개월 경과" },
-  { company: "LIG넥스원",             entry: "202,500원",  current: "860,000원",   date: "26.04.03", result: "+324%", period: "약 16개월 경과" },
-  { company: "버티브홀딩스(VRT)",     entry: "$82",        current: "$261",        date: "26.04.03", result: "+218%", period: "약 11개월 경과" },
-  { company: "효성중공업",            entry: "427,500원",  current: "2,560,000원", date: "26.04.03", result: "+498%", period: "약 13개월 경과" },
-  { company: "팔란티어(PLTR)",        entry: "$72",        current: "$148",        date: "26.04.03", result: "+105%", period: "약 15개월 경과" },
-  { company: "현대로템",              entry: "48,000원",   current: "210,000원",   date: "26.04.03", result: "+337%", period: "약 16개월 경과" },
-  { company: "RTX Corp.(RTX)",        entry: "$127",       current: "$196",        date: "26.04.03", result: "+54%",  period: "약 11개월 경과" },
+  { company: "두산에너빌리티",        entry: "17,830원",   current: "96,600원",    date: "26.04.03", result: "+441%", period: "약 16개월 경과", logo: "img/portfolio 38x38/doosan.png" },
+  { company: "마이크론 테크놀로지(MU)", entry: "$91",        current: "$366",        date: "26.04.03", result: "+302%", period: "약 10개월 경과", logo: "img/portfolio 38x38/micron.png" },
+  { company: "SK하이닉스",            entry: "179,400원",  current: "876,000원",   date: "26.04.03", result: "+388%", period: "약 11개월 경과", logo: "img/portfolio 38x38/sk-hynix.png" },
+  { company: "보잉(BA)",              entry: "$139",       current: "$208",        date: "26.04.03", result: "+49%",  period: "약 12개월 경과", logo: "img/portfolio 38x38/boeing.png" },
+  { company: "LIG넥스원",             entry: "202,500원",  current: "860,000원",   date: "26.04.03", result: "+324%", period: "약 16개월 경과", logo: "img/portfolio 38x38/LIG-next1.png" },
+  { company: "버티브홀딩스(VRT)",     entry: "$82",        current: "$261",        date: "26.04.03", result: "+218%", period: "약 11개월 경과", logo: "img/portfolio 38x38/vertiv.png" },
+  { company: "효성중공업",            entry: "427,500원",  current: "2,560,000원", date: "26.04.03", result: "+498%", period: "약 13개월 경과", logo: "img/portfolio 38x38/hyosung.png" },
+  { company: "팔란티어(PLTR)",        entry: "$72",        current: "$148",        date: "26.04.03", result: "+105%", period: "약 15개월 경과", logo: "img/portfolio 38x38/palantir.png" },
+  { company: "현대로템",              entry: "48,000원",   current: "210,000원",   date: "26.04.03", result: "+337%", period: "약 16개월 경과", logo: "img/portfolio 38x38/hyundai-totem.png" },
+  { company: "RTX Corp.(RTX)",        entry: "$127",       current: "$196",        date: "26.04.03", result: "+54%",  period: "약 11개월 경과", logo: "img/portfolio 38x38/rtx.png" },
 ];
 
 const reviewCards = [
@@ -276,11 +276,8 @@ function PortfolioSection() {
             >
               {/* 헤더 */}
               <div className="flex items-center justify-center gap-2.5 mb-6">
-                <span className="w-9 h-9 rounded-full bg-gradient-to-br from-[#FF8C00] to-[#FF4D00] flex items-center justify-center">
-                  <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                    <circle cx="12" cy="12" r="8" />
-                    <path d="M12 8v8M8 12h8" />
-                  </svg>
+                <span className="w-[38px] h-[38px] rounded-full bg-gray-100 overflow-hidden flex-shrink-0">
+                  <img src={card.logo} alt={card.company} className="w-full h-full object-cover" />
                 </span>
                 <span className="text-base font-bold">{card.company}</span>
               </div>
